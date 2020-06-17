@@ -5,10 +5,14 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -30,29 +34,200 @@ public class GetGitInfo {
 	
 	public static int halfRelease= MainControl.halfRelease;
 	public static List <Release> releases= MainControl.releases;
+	public static Repository repository= MainControl.repository;
+	public static List <String> classesList= MainControl.classesList;
+	public static List<Data> entries2;
 	
 	public static void main(String[] args) throws IOException, JSONException, NoHeadException, GitAPIException {
 		
-		 /*
-		
-        String path= new String();
-    	path="D:\\Cecilia\\Desktop\\bookkeeper";
-		
-    	GetJiraInfo getInfo = new GetJiraInfo();
-    	
-    	List<Ticket> ticketlist= getInfo.getTicketInfo();
-    	
-    	getCommitsID(ticketlist,path);
-    	getInfo.printTicketList(ticketlist);
-    	
-    	//populateLists(path);
-		 */
-    	
-    	
+
 
     }
 	
-    
+	// PER RECUPERARE FILES PER RELEASE !!!!!
+	
+	//faccio confronto tra date commit e releases - associo commit e release
+public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOException, NoHeadException, GitAPIException {
+
+    	LinkedHashMap <RevCommit, Integer> map = new LinkedHashMap <RevCommit, Integer>();
+    	int i;
+    	int release;
+    	int count=0;
+
+    	//get Commits
+    	Iterable<RevCommit> log = git.log().all().call();
+    	
+    	for (RevCommit commit : log) {
+   
+    		release=compareCommitsDate(commit);
+    		map.put(commit, release);
+    		//System.out.println("commit id : "+commit.getId()+"   release: "+release+"    commit date:"+commit.getAuthorIdent().getWhen());
+
+    		count++;
+    	}
+    	
+		//System.out.println("count : "+count+"      map size: "+map.size());
+    	
+		LinkedHashMap <RevCommit, Integer> lastCommits = new LinkedHashMap <RevCommit, Integer>();
+		
+		for (i=0;i<releases.size();i++) {
+		
+			getLastCommit(map, releases.get(i).getIndex(), lastCommits);
+
+		}
+		
+		//dbEntries=new ArrayList<Data>();
+		
+		retrieveFiles(lastCommits, dbEntries);
+		
+		System.out.println("\n\n\n");
+
+		for (int j=0;j<dbEntries.size();j++) {
+			
+			//System.out.println("release: "+dbEntries.get(j).getRelease()+"       file: "+dbEntries.get(j).getFilename());
+
+			
+		}
+       
+	}
+    	
+
+	//prendo ultimo commit per release
+	public static LinkedHashMap <RevCommit, Integer> getLastCommit(LinkedHashMap <RevCommit, Integer> map, int release, LinkedHashMap <RevCommit, Integer> lastCommits)	{
+		
+		LocalDateTime dateCommit;
+		LinkedHashMap <RevCommit, LocalDateTime> sameRelease = new LinkedHashMap <RevCommit, LocalDateTime>();
+		
+		for (HashMap.Entry<RevCommit, Integer> entry : map.entrySet()) {
+			
+			//se commit ha release == releaseInput
+    		if (entry.getValue()==release) {
+    			
+    			//System.out.println("commit : "+entry.getKey()+"    date:"+entry.getKey().getAuthorIdent().getWhen()+"      release:"+entry.getValue());
+    			
+    			dateCommit = Instant.ofEpochSecond(entry.getKey().getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDateTime();	
+    			
+    			//aggiungo commit id e data del suo commit
+    			sameRelease.put(entry.getKey(), dateCommit);
+    			
+    		}	
+		}
+		
+		
+		HashMap.Entry<RevCommit, LocalDateTime> maxEntry= null;
+		
+		for (HashMap.Entry<RevCommit, LocalDateTime> entry : sameRelease.entrySet()) {
+
+			if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue())>0) {
+    			
+    			maxEntry= entry;
+    		
+    		}			
+		}
+		
+		if (sameRelease.size()==0) {
+			//copio same Release della release precedente
+				return null;
+
+		}
+		
+		System.out.println("release: "+release+"    maxCommit id : "+maxEntry.getKey().getId()+"    maxRelease :"+maxEntry.getValue());
+		lastCommits.put(maxEntry.getKey(), release);
+		return lastCommits;
+		
+	}
+    		
+
+
+	public static int compareCommitsDate(RevCommit commit) {
+		
+		int i, res;
+		//LocalDate dateCommit, dateRelease;
+		LocalDateTime commitDate;
+		LocalDateTime d2, dateRelease;
+		commitDate = Instant.ofEpochSecond(commit.getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDateTime();
+		
+		
+		res=0;
+		
+		for (i=0;i<releases.size();i++) {
+			
+			dateRelease = releases.get(i).getDate();
+			if (commitDate.compareTo(dateRelease)<0) {
+				
+				res=releases.get(i).getIndex();
+				break;
+				
+			}
+		}
+
+		
+		return res;
+		
+		
+	}
+
+	//prendo TUTTI i file in una release
+	public static void retrieveFiles(LinkedHashMap <RevCommit, Integer> lastCommits, List<Data> dbEntries) throws IOException {
+		
+		int count;
+        Ref head = repository.exactRef("HEAD");
+        List<String> allFiles = new ArrayList<String>();	//lista in cui metto tutti i file della repository
+        List<String> files;
+        
+        for (HashMap.Entry<RevCommit, Integer> entry : lastCommits.entrySet()) {
+            
+        	files = new ArrayList<String>();
+        	count=0;
+        	RevWalk walk = new RevWalk(repository);
+
+            RevCommit commit = walk.parseCommit(head.getObjectId());
+            RevTree tree = entry.getKey().getTree();
+            //System.out.println("Having tree: " + tree);
+
+            TreeWalk treeWalk = new TreeWalk(repository);
+            treeWalk.addTree(tree);
+            treeWalk.setRecursive(true);
+            while (treeWalk.next()) {
+            	count++;
+            	files.add(treeWalk.getPathString());
+            	//allFiles.add(treeWalk.getPathString());
+                //System.out.println("found: " + treeWalk.getPathString());
+            }
+            
+            System.out.println("count release "+entry.getValue()+": "+count);
+
+        	retrieveJavaFiles(entry.getValue(),files,dbEntries);
+            System.out.println("================================================================");
+
+        }
+	}
+	
+	
+	
+	//prendo TUTTE classe in una release
+	public static List<Data> retrieveJavaFiles(int release, List<String> files, List<Data> dbEntries) {
+
+        int i;
+        int count=0;
+        
+        for(i=0;i<files.size();i++) {
+        	
+        	if (files.get(i).contains(".java")) {
+        		
+        		dbEntries.add(new Data(release, files.get(i)));
+        		classesList.add(files.get(i));
+        		count++;
+        	}
+        	
+        }
+        
+        System.out.println("count: "+count);
+        return dbEntries;
+
+		
+
+	}
     
     public static List<RevCommit> getCommitsID(Git git, List<Ticket> ticketlist, String pathName) throws IOException, NoHeadException, GitAPIException {
     	
@@ -69,10 +244,10 @@ public class GetGitInfo {
     	
     	for (RevCommit commit : log) {
             
-    		checkCommitDate=compareDates(commit);
-    		if (checkCommitDate==true) {
+    		//checkCommitDate=compareDates(commit);
+    		//if (checkCommitDate==true) {
                 logCommitList.add(commit);
-    		}
+    		//}
             
       
    
@@ -103,13 +278,14 @@ public class GetGitInfo {
 		//System.out.println("numero commit id +: "+count+"   num tot commit logCommitList: "+logCommitList.size()+"    numero tickets id:"+ticketlist.size());
     	
     }
- 
+    
+   
     public static Boolean compareDates(RevCommit commit) {
     	
     	int i;
     	
-    	LocalDate dateCommit = Instant.ofEpochSecond(commit.getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDate();
-		LocalDate dateHalfRelease = releases.get(halfRelease-1).getDate();
+    	LocalDateTime dateCommit = Instant.ofEpochSecond(commit.getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDateTime();
+		LocalDateTime dateHalfRelease = releases.get(halfRelease-1).getDate();
 		
 		//System.out.println("date commit: "+dateCommit+"   dateHalfRelease "+dateHalfRelease);
 
@@ -159,6 +335,8 @@ public class GetGitInfo {
     	for(i=0;i<len;i++) {
             System.out.println("found: " +list.get(i));
     	}
+        System.out.println("dim classesList: " +classesList.size());
+
     }
     	
  

@@ -2,19 +2,20 @@ package bookkeeperISW2_D2M1;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
+//import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+//import java.util.Date;
+//import java.util.HashMap;
+//import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+//import java.util.Map;
+//import java.util.TreeMap;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -25,17 +26,12 @@ import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.internal.storage.file.PackBitmapIndexRemapper.Entry;
-import org.eclipse.jgit.lib.IndexDiff;
+//import org.eclipse.jgit.internal.storage.file.PackBitmapIndexRemapper.Entry;
+//import org.eclipse.jgit.lib.IndexDiff;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectReader;
+//import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.WorkingTreeIterator;
-import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.json.JSONException;
 
@@ -51,6 +47,7 @@ public class MainControl {
 	public static String path="D:\\Cecilia\\Desktop\\bookkeeper";
 	
 	public static int halfRelease;
+	public static Repository repository;
 	
 	public static void main(String[] args) throws IOException, JSONException, NoHeadException, GitAPIException {
 		
@@ -58,9 +55,11 @@ public class MainControl {
 
 		List <Ticket> good = new ArrayList<Ticket>();		//tickets con AV regolare che utilizzo per calcolare proportion
 		List <Ticket> wrong = new ArrayList<Ticket>();		//tickets senza IV (AV), e quindi di cui calcolo predictedIV
+		classesList = new ArrayList<String>();
+		entries= new ArrayList<Data>();
 		
 		Git git= Git.open(new File(path));
-    	Repository repository=git.getRepository();
+    	repository=git.getRepository();
     	
     	releases=GetJiraInfo.getReleaseInfo();
     	halfRelease=setHalfRelease();
@@ -70,21 +69,22 @@ public class MainControl {
     	
 
     	setOvFvIv();
-
+    	GetGitInfo.getFilesPerRelease(git, entries);
+    	//printData(entries);
+    	
     	//mi salvo tutti i commits del log di bookkeeper in commitsIDlist e intanto li aggiungo ai relativi ticket
     	myCommitsList=GetGitInfo.getCommitsID(git, ticketlist, path);	//va dopo getTicketInfo perché senno non conosco ticketID
     	
     	//GetJiraInfo.printTicketList(ticketlist);
  	
-    	classesList=GetGitInfo.listAllFiles(repository);	//listAllFiles prende tutti i file Java della repo
+    	//classesList=GetGitInfo.listAllFiles(repository);	//listAllFiles prende tutti i file Java della repo
 	    	
     	renames = new ArrayList<RenamedFile>();
     	addJavaFiles (repository);	//questo li mette nei vari ticket (prende quelli toccati dai commit di un ticket)
     	
-    	entries= cartesiano();
+    	
+    	//entries= cartesiano();
     	//GetGitInfo.printList(classesList);
-
-    	//setOvFvIv();
     	
     	
     	ProportionMethod proportionMethod = new ProportionMethod();
@@ -92,6 +92,8 @@ public class MainControl {
     	proportionMethod.proportion(good, wrong, numDefects);
     	proportionMethod.defineAV(halfRelease);
     	finalPrintTickets();
+    	System.out.println("ticketlist size: "+ticketlist.size());
+
     	
     
 
@@ -100,10 +102,25 @@ public class MainControl {
     	//GetJiraInfo.printTicketList(ticketlist);
 
     	CsvWriter.write(entries);
+    	
+    	//ComputeMetrics.NR();
 
 	
 	}
 	
+	public static void printData(List<Data> dbEntry) {
+		
+		int i;
+    	System.out.println("DataList");
+    	
+    	System.out.println("entries size: "+entries.size());
+
+		for(i=0;i<entries.size();i++) {
+	    	System.out.println("release: "+entries.get(i).getRelease()+"       file: "+entries.get(i).getFilename());
+
+		}
+		
+	}
 
 
     public static int setHalfRelease() {
@@ -176,13 +193,13 @@ public class MainControl {
 
 	public static void checkRenames(RevCommit commit, DiffEntry entry) {
 		
-		LocalDate commitDate;
+		LocalDateTime commitDate;
 		String oldpath, newpath;
 		int i, j, release;		
 		
     	//System.out.println("--------- in checkRenames: ");
     	
-    	commitDate= commit.getAuthorIdent().getWhen().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    	commitDate= commit.getAuthorIdent().getWhen().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 		oldpath=entry.getOldPath();
 		newpath=entry.getNewPath();
 		
@@ -207,7 +224,6 @@ public class MainControl {
 			
 			}
 		}
-		
 		
 		
 		RenamedFile file= new RenamedFile(oldpath);
@@ -321,13 +337,16 @@ public class MainControl {
 		int i, j;
 		
 		
+		
 		for (i=0;i<ticketlist.size();i++) {
+			
+			
 			
 			//OV
 			for (j=0;j<releases.size();j++) {
 				
 				//se created < releaseDate (viene prima), assegno OV = releaseDate
-				if (ticketlist.get(i).getCreatedDate().compareTo(releases.get(j).getDate())<0) {
+				if (ticketlist.get(i).getCreatedDate().compareTo(releases.get(j).getDate().toLocalDate())<0) {
 					
 					ticketlist.get(i).setOV(releases.get(j).getIndex());
 					
@@ -341,7 +360,7 @@ public class MainControl {
 			for (j=0;j<releases.size();j++) {
 				
 				//se resolution < releaseDate (viene prima), assegno FV = releaseDate
-				if (ticketlist.get(i).getResolutionDate().compareTo(releases.get(j).getDate())<0) {
+				if (ticketlist.get(i).getResolutionDate().compareTo(releases.get(j).getDate().toLocalDate())<0) {
 					
 					ticketlist.get(i).setFV(releases.get(j).getIndex());
 					
@@ -365,6 +384,7 @@ public class MainControl {
 
 			
 		}
+		/*
 		System.out.println("\nRIMUOVO:\n");
 
 		for (i=0;i<ticketlist.size();i++) {
@@ -379,7 +399,7 @@ public class MainControl {
 		
 		System.out.println("ticket totali dopo rimozione IV>7: "+ticketlist.size());
 		System.out.println("\n\n");
-
+		*/
 		
 	}
 	
@@ -439,8 +459,9 @@ public class MainControl {
 		
 		int i;
 		
-		for (i=0;i<halfRelease;i++) {
-			
+		//for (i=0;i<halfRelease;i++) {
+		for (i=0;i<releases.size();i++) {
+	
 			isBuggyOrNot2(releases.get(i).getIndex());
 			
 		}
@@ -476,7 +497,6 @@ public class MainControl {
 		 */
 		
 		int i, j, k;
-		int countAV=0;
 		//System.out.println("releaseIndex: "+releaseIndex);
 
 		for (i=0;i<ticketlist.size();i++) {	//prendo un ticket
@@ -484,7 +504,6 @@ public class MainControl {
 			//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+"      AV size: "+ticketlist.get(i).getAV().size());
 
 			if (ticketlist.get(i).getAV().size()>0) {	//se quel ticket ha AV
-				countAV++;
 				for (j=0;j<ticketlist.get(i).getAV().size();j++) {	//scorro la lista delle AV di quel ticket
 					
 					if (ticketlist.get(i).getAV().get(j)==releaseIndex) {	//se tra le AV trovo la release x
@@ -496,8 +515,9 @@ public class MainControl {
 						for (k=0;k<ticketlist.get(i).getRelatedJavaFiles().size();k++) {	//quindi prendo le classi di quel ticket
 							
 							//set buggyness (release, filename)
-							computeBuggyness(releaseIndex, ticketlist.get(i).getRelatedJavaFiles().get(k));
 							//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+"      release: "+releaseIndex+"       nome file: "+ticketlist.get(i).getRelatedJavaFiles().get(k));
+
+							computeBuggyness(releaseIndex, ticketlist.get(i).getRelatedJavaFiles().get(k));
 
 						
 							

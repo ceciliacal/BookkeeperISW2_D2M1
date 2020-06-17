@@ -26,14 +26,17 @@ public class CsvWriter {
 		      sb.append('\n');
 
 		      for (int i=0;i<list.size();i++) {	  
+		    	  
+		    	  if(list.get(i).getRelease()<8) {
 		      
-			      sb.append(list.get(i).getRelease());	//release index
-			      sb.append(';');
-			      sb.append(list.get(i).getFilename());	//filename
-			      sb.append(';');
-			      sb.append(list.get(i).getBuggy());	//buggyness
-			      sb.append('\n');
-		      
+				      sb.append(list.get(i).getRelease());	//release index
+				      sb.append(';');
+				      sb.append(list.get(i).getFilename());	//filename
+				      sb.append(';');
+				      sb.append(list.get(i).getBuggy());	//buggyness
+				      sb.append('\n');
+		    	 
+		    	  }
 		      }
 
 		      writer.write(sb.toString());

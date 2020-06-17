@@ -8,7 +8,7 @@ public class Release {
 	private int index;
 	private String versionID;
 	private String versionName;
-	private LocalDate date;
+	private LocalDateTime date;
 
 	
 	
@@ -21,7 +21,7 @@ public class Release {
 		
 		this.index=i;
 		this.versionName=name;
-		this.date=d.toLocalDate();
+		this.date=d;
 	}
 
 
@@ -62,14 +62,15 @@ public class Release {
 
 
 
-	public LocalDate getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
 
-
+/*
 	public void LocalDateTime(LocalDateTime date) {
 		this.date = date.toLocalDate();
 	}
+	*/
 
 }

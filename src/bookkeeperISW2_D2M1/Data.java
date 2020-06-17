@@ -1,12 +1,16 @@
 package bookkeeperISW2_D2M1;
 
+import java.util.List;
 
+import org.eclipse.jgit.revwalk.RevCommit;
 
 public class Data {
 	
 	private int release;	//release dopo rename
 	private String filename;
 	private String buggy;
+	private List<RevCommit> relatedCommits;
+	
 	private String path;
 	
 	public Data(int rel, String name) {
@@ -48,6 +52,14 @@ public class Data {
 
 	public void setBuggy(String buggy) {
 		this.buggy = buggy;
+	}
+
+	public List<RevCommit> getRelatedCommits() {
+		return relatedCommits;
+	}
+
+	public void setRelatedCommits(List<RevCommit> relatedCommits) {
+		this.relatedCommits = relatedCommits;
 	}
 	
 
