@@ -13,8 +13,10 @@ public class Release {
 	private String versionID;
 	private String versionName;
 	private LocalDateTime date;
+	
 	private List<RevCommit> commitsOfRelease;
-
+	private List<String> filesOfRelease;
+	private RevCommit lastCommit;
 	
 	
 	public static void main(String[] args) {
@@ -29,11 +31,17 @@ public class Release {
 		this.date=d;
 		
 		this.initCommits();
+		this.initFiles();
 	}
 
 	public void initCommits() {
 		
 		this.commitsOfRelease= new ArrayList<RevCommit>();
+	}
+	
+	public void initFiles() {
+		
+		this.filesOfRelease= new ArrayList<String>();
 	}
 
 	public int getIndex() {
@@ -82,6 +90,22 @@ public class Release {
 
 	public void setCommitsOfRelease(List<RevCommit> commitsOfRelease) {
 		this.commitsOfRelease = commitsOfRelease;
+	}
+
+	public List<String> getFilesOfRelease() {
+		return filesOfRelease;
+	}
+
+	public void setFilesOfRelease(List<String> filesOfRelease) {
+		this.filesOfRelease = filesOfRelease;
+	}
+
+	public RevCommit getLastCommit() {
+		return lastCommit;
+	}
+
+	public void setLastCommit(RevCommit lastCommit) {
+		this.lastCommit = lastCommit;
 	}
 
 
