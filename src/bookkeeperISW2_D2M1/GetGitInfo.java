@@ -1,6 +1,7 @@
 package bookkeeperISW2_D2M1;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
@@ -13,6 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -38,6 +40,10 @@ public class GetGitInfo {
 	public static List <String> classesList= MainControl.classesList;
 	public static List<Data> entries2;
 	
+	public static LinkedHashMap <RevCommit, LocalDateTime> sameRelease;
+	
+	public static LinkedHashMap <RevCommit, Integer> lastCommits;
+	
 	public static void main(String[] args) throws IOException, JSONException, NoHeadException, GitAPIException {
 		
 
@@ -60,6 +66,8 @@ public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOEx
     	for (RevCommit commit : log) {
    
     		release=compareCommitsDate(commit);
+    		//releases.get(release-1).getCommitsOfRelease().add(commit);
+    		
     		map.put(commit, release);
     		//System.out.println("commit id : "+commit.getId()+"   release: "+release+"    commit date:"+commit.getAuthorIdent().getWhen());
 
@@ -68,16 +76,16 @@ public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOEx
     	
 		//System.out.println("count : "+count+"      map size: "+map.size());
     	
-		LinkedHashMap <RevCommit, Integer> lastCommits = new LinkedHashMap <RevCommit, Integer>();
+		//LinkedHashMap <RevCommit, Integer> lastCommits = new LinkedHashMap <RevCommit, Integer>();
+		lastCommits = new LinkedHashMap <RevCommit, Integer>();
+
 		
 		for (i=0;i<releases.size();i++) {
 		
 			getLastCommit(map, releases.get(i).getIndex(), lastCommits);
 
 		}
-		
-		//dbEntries=new ArrayList<Data>();
-		
+				
 		retrieveFiles(lastCommits, dbEntries);
 		
 		System.out.println("\n\n\n");
@@ -96,11 +104,12 @@ public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOEx
 	public static LinkedHashMap <RevCommit, Integer> getLastCommit(LinkedHashMap <RevCommit, Integer> map, int release, LinkedHashMap <RevCommit, Integer> lastCommits)	{
 		
 		LocalDateTime dateCommit;
-		LinkedHashMap <RevCommit, LocalDateTime> sameRelease = new LinkedHashMap <RevCommit, LocalDateTime>();
-		
+		//LinkedHashMap <RevCommit, LocalDateTime> sameRelease = new LinkedHashMap <RevCommit, LocalDateTime>();
+		sameRelease = new LinkedHashMap <RevCommit, LocalDateTime>();
+
 		for (HashMap.Entry<RevCommit, Integer> entry : map.entrySet()) {
 			
-			//se commit ha release == releaseInput
+			//prendo tutti i commit di una stessa release
     		if (entry.getValue()==release) {
     			
     			//System.out.println("commit : "+entry.getKey()+"    date:"+entry.getKey().getAuthorIdent().getWhen()+"      release:"+entry.getValue());
@@ -108,13 +117,21 @@ public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOEx
     			dateCommit = Instant.ofEpochSecond(entry.getKey().getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDateTime();	
     			
     			//aggiungo commit id e data del suo commit
+    			
+    			
     			sameRelease.put(entry.getKey(), dateCommit);
+    			
+    			//releases.get(release-1).getCommitsOfRelease().add(entry.getKey());
+    			
     			
     		}	
 		}
 		
+		//chiama LOC TOUCHED
 		
 		HashMap.Entry<RevCommit, LocalDateTime> maxEntry= null;
+		
+		
 		
 		for (HashMap.Entry<RevCommit, LocalDateTime> entry : sameRelease.entrySet()) {
 
@@ -171,6 +188,8 @@ public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOEx
 	public static void retrieveFiles(LinkedHashMap <RevCommit, Integer> lastCommits, List<Data> dbEntries) throws IOException {
 		
 		int count;
+		int fileLoc=0;
+		int fileLocTouched=0;
         Ref head = repository.exactRef("HEAD");
         List<String> allFiles = new ArrayList<String>();	//lista in cui metto tutti i file della repository
         List<String> files;
@@ -189,22 +208,38 @@ public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOEx
             treeWalk.addTree(tree);
             treeWalk.setRecursive(true);
             while (treeWalk.next()) {
-            	count++;
-            	files.add(treeWalk.getPathString());
-            	//allFiles.add(treeWalk.getPathString());
-                //System.out.println("found: " + treeWalk.getPathString());
-            }
-            
-            System.out.println("count release "+entry.getValue()+": "+count);
+            	
+            	if (treeWalk.getPathString().contains(".java")) {
+            		            		
+            		classesList.add(treeWalk.getPathString());
+            		
+            		Data dbEntry=new Data(entry.getValue(),treeWalk.getPathString());
+            		fileLoc= Metrics.loc(treeWalk);
+            		dbEntry.setLoc(fileLoc);
+            		dbEntries.add(dbEntry);
+            		
+            		//chiama qua LOC TOUCHED e gli passi il commit da lastCommits e la release da value(Integer)
+            		//io gli sto passand ogni LastCommit
+            		fileLocTouched= Metrics.locTouched(entry.getKey());
+            		count++;
+            		
+            		 //System.out.println("count release "+entry.getValue()+": "+count);
+                     System.out.println("release: "+entry.getValue()+"     fileLocTouched: "+fileLocTouched+"       file: "+treeWalk.getPathString());
+            		 //System.out.println("count: "+count);
+	
+            		
+            	}
+            	
 
-        	retrieveJavaFiles(entry.getValue(),files,dbEntries);
-            System.out.println("================================================================");
+            }
+ 
+            //System.out.println("================================================================");
+   		 //System.out.println("count: "+count);
 
         }
 	}
 	
-	
-	
+
 	//prendo TUTTE classe in una release
 	public static List<Data> retrieveJavaFiles(int release, List<String> files, List<Data> dbEntries) {
 

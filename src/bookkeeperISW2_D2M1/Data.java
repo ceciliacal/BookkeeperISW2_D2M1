@@ -9,6 +9,8 @@ public class Data {
 	private int release;	//release dopo rename
 	private String filename;
 	private String buggy;
+	
+	private int loc;
 	private List<RevCommit> relatedCommits;
 	
 	private String path;
@@ -60,6 +62,14 @@ public class Data {
 
 	public void setRelatedCommits(List<RevCommit> relatedCommits) {
 		this.relatedCommits = relatedCommits;
+	}
+
+	public int getLoc() {
+		return loc;
+	}
+
+	public void setLoc(int loc) {
+		this.loc = loc;
 	}
 	
 

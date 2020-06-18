@@ -91,7 +91,7 @@ public class MainControl {
     	proportionMethod.checkDates2(good, wrong, halfRelease);
     	proportionMethod.proportion(good, wrong, numDefects);
     	proportionMethod.defineAV(halfRelease);
-    	finalPrintTickets();
+    	//finalPrintTickets();
     	System.out.println("ticketlist size: "+ticketlist.size());
 
     	

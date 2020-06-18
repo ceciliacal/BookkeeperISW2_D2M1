@@ -120,7 +120,7 @@ public class ProportionMethod {
 		//System.out.println("dim ticketlist: "+ticketlist.size());	
 		
 		int persi=0;
-		
+		/*
 		System.out.println("\n\n");
 		System.out.println("ovIs1: "+ovIs1);
 		for (i=0;i<ovIs1_list.size();i++){
@@ -143,7 +143,7 @@ public class ProportionMethod {
 			
 		}
 		
-		
+		*/
 		System.out.println("\n\n");
 			
 			/*
@@ -203,7 +203,7 @@ public class ProportionMethod {
 		
 		
 
-		
+		/*
 		System.out.println("smistoTraIv_e_Good: "+smistoTraIv_e_Good);
 		System.out.println("\n\n");
 		System.out.println("good: "+good+"         dim listaGood: "+goodProp.size());
@@ -221,7 +221,7 @@ public class ProportionMethod {
 		System.out.println("persi: "+persi);
 		
 		
-		
+		*/
 		
 		return;	
 

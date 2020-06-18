@@ -22,6 +22,9 @@ public class CsvWriter {
 		      sb.append("Filename");
 		      sb.append(';');
 		      
+		      sb.append("LOC");
+		      sb.append(';');
+		      
 		      sb.append("Buggy");
 		      sb.append('\n');
 
@@ -32,6 +35,8 @@ public class CsvWriter {
 				      sb.append(list.get(i).getRelease());	//release index
 				      sb.append(';');
 				      sb.append(list.get(i).getFilename());	//filename
+				      sb.append(';');
+				      sb.append(list.get(i).getLoc());	//buggyness
 				      sb.append(';');
 				      sb.append(list.get(i).getBuggy());	//buggyness
 				      sb.append('\n');
