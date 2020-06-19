@@ -6,27 +6,33 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class Data {
 	
-	private int release;	//release dopo rename
+	private Release release;	//release dopo rename
 	private String filename;
 	private String buggy;
 	
 	private int loc;
+	private int nr;
+	private int nAuth;
+	private int locTouched;
+	private int locAdded;
+	private int churn;
+	
 	private List<RevCommit> relatedCommits;
 	
 	private String path;
 	
-	public Data(int rel, String name) {
+	public Data(Release rel, String name) {
 		
 		this.release=rel;
 		this.filename=name;
 		this.setBuggy("N");
 	}
 	
-	public int getRelease() {
+	public Release getRelease() {
 		return release;
 	}
 	
-	public void setRelease(int release) {
+	public void setRelease(Release release) {
 		this.release = release;
 	}
 	
@@ -70,6 +76,46 @@ public class Data {
 
 	public void setLoc(int loc) {
 		this.loc = loc;
+	}
+
+	public int getNr() {
+		return nr;
+	}
+
+	public void setNr(int nr) {
+		this.nr = nr;
+	}
+
+	public int getnAuth() {
+		return nAuth;
+	}
+
+	public void setnAuth(int nAuth) {
+		this.nAuth = nAuth;
+	}
+
+	public int getLocTouched() {
+		return locTouched;
+	}
+
+	public void setLocTouched(int locTouched) {
+		this.locTouched = locTouched;
+	}
+
+	public int getLocAdded() {
+		return locAdded;
+	}
+
+	public void setLocAdded(int locAdded) {
+		this.locAdded = locAdded;
+	}
+
+	public int getChurn() {
+		return churn;
+	}
+
+	public void setChurn(int churn) {
+		this.churn = churn;
 	}
 	
 

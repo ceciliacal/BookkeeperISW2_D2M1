@@ -184,7 +184,7 @@ public class GetGitInfo {
 		
 		int count;
 		int fileLoc=0;
-		int fileLocTouched=0;
+		int fileLocTouched;
        
 		Ref head = repository.exactRef("HEAD");
 
@@ -192,7 +192,7 @@ public class GetGitInfo {
         	
         	RevCommit lastCommit= releases.get(i).getLastCommit();
         
-        //for (HashMap.Entry<RevCommit, Integer> entry : lastCommitRelease.entrySet()) {
+        	//for (HashMap.Entry<RevCommit, Integer> entry : lastCommitRelease.entrySet()) {
             count=0;
         	RevWalk walk = new RevWalk(repository);
 
@@ -211,18 +211,21 @@ public class GetGitInfo {
             		releases.get(i).getFilesOfRelease().add(treeWalk.getPathString());
             		
             		count++;
-            		Data dbEntry=new Data(releases.get(i).getIndex(), treeWalk.getPathString());
+            		Data dbEntry=new Data(releases.get(i), treeWalk.getPathString());
             		fileLoc= Metrics.loc(treeWalk);
             		dbEntry.setLoc(fileLoc);
             		dbEntries.add(dbEntry);
+            		//Metrics.locTouched2(Release release, releases.get(i).getCommitsOfRelease());
             		
             		//chiama qua LOC TOUCHED e gli passi il commit da lastCommits e la release da value(Integer)
             		//io gli sto passand ogni LastCommit
-            		fileLocTouched= Metrics.locTouched(lastCommit);
+           		 	//System.out.println("release: "+releases.get(i).getIndex()+"     commits: "+releases.get(i).getCommitsOfRelease().size());
+
+            		//fileLocTouched= Metrics.locTouched(releases.get(i).getCommitsOfRelease());
             		
             		
             		 //System.out.println("count release "+entry.getValue()+": "+count);
-                     //System.out.println("release: "+entry.getValue()+"     fileLocTouched: "+fileLocTouched+"       file: "+treeWalk.getPathString());
+                     //System.out.println("release: "+releases.get(i).getIndex()+"     fileLocTouched: "+fileLocTouched+"       file: "+treeWalk.getPathString());
             		 //System.out.println("count: "+count);
 	
             		

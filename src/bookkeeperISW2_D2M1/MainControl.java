@@ -99,11 +99,15 @@ public class MainControl {
 
     	bugsPerRelease();
     	
+    	
     	//GetJiraInfo.printTicketList(ticketlist);
 
-    	CsvWriter.write(entries);
+    	//CsvWriter.write(entries);
     	
     	//ComputeMetrics.NR();
+    	System.out.println("commitList size: "+myCommitsList.size());
+    	Metrics.calculate(releases);
+    	CsvWriter.write(entries);
 
 	
 	}
@@ -434,14 +438,14 @@ public class MainControl {
 					
 					if (releases.get(i).getIndex()<renames.get(k).getRelease() && classesList.get(j).equals(renames.get(k).getOldPath())) {
 						
-						dbEntry.add(new Data(releases.get(i).getIndex(), renames.get(k).getNewPath()));
+						dbEntry.add(new Data(releases.get(i), renames.get(k).getNewPath()));
 						
 					}
 				
 					
 				}
 				
-				dbEntry.add(new Data(releases.get(i).getIndex(), classesList.get(j)));
+				dbEntry.add(new Data(releases.get(i), classesList.get(j)));
 				
 			}
 
@@ -474,7 +478,7 @@ public class MainControl {
 		int i;
 		for(i=0;i<entries.size();i++) {
 			
-			if (entries.get(i).getRelease()==myRelease && entries.get(i).getFilename().contains(myFileName) ) { //ci dovrei mettere contais per RENAME
+			if (entries.get(i).getRelease().getIndex()==myRelease && entries.get(i).getFilename().contains(myFileName) ) { //ci dovrei mettere contais per RENAME
 				
 				entries.get(i).setBuggy("Y");
 				

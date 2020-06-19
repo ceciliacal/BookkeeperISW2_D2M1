@@ -25,18 +25,23 @@ public class CsvWriter {
 		      sb.append("LOC");
 		      sb.append(';');
 		      
+		      sb.append("NR");
+		      sb.append(';');
+		      
 		      sb.append("Buggy");
 		      sb.append('\n');
 
 		      for (int i=0;i<list.size();i++) {	  
 		    	  
-		    	  if(list.get(i).getRelease()<8) {
+		    	  if(list.get(i).getRelease().getIndex()<8) {
 		      
-				      sb.append(list.get(i).getRelease());	//release index
+				      sb.append(list.get(i).getRelease().getIndex());	//release index
 				      sb.append(';');
 				      sb.append(list.get(i).getFilename());	//filename
 				      sb.append(';');
 				      sb.append(list.get(i).getLoc());	//buggyness
+				      sb.append(';');
+				      sb.append(list.get(i).getNr());	//buggyness
 				      sb.append(';');
 				      sb.append(list.get(i).getBuggy());	//buggyness
 				      sb.append('\n');
