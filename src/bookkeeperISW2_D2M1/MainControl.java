@@ -105,7 +105,8 @@ public class MainControl {
     	//CsvWriter.write(entries);
     	
     	//ComputeMetrics.NR();
-    	System.out.println("commitList size: "+myCommitsList.size());
+    	//System.out.println("commitList size: "+myCommitsList.size());
+    	
     	Metrics.calculate(releases);
     	CsvWriter.write(entries);
 

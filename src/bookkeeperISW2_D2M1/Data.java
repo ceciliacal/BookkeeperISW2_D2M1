@@ -12,10 +12,18 @@ public class Data {
 	
 	private int loc;
 	private int nr;
+	private int nFix;
 	private int nAuth;
 	private int locTouched;
 	private int locAdded;
+	private int max_locAdded;
+	private double avg_locAdded;
 	private int churn;
+	private int max_churn;
+	private double avg_churn;
+	private int chgSetSize;	//n files committed together with C
+	private int max_chgSetSize;
+	private double avg_chgSetSize;
 	
 	private List<RevCommit> relatedCommits;
 	
@@ -116,6 +124,70 @@ public class Data {
 
 	public void setChurn(int churn) {
 		this.churn = churn;
+	}
+
+	public int getMax_locAdded() {
+		return max_locAdded;
+	}
+
+	public void setMax_locAdded(int max_locAdded) {
+		this.max_locAdded = max_locAdded;
+	}
+
+	public double getAvg_locAdded() {
+		return avg_locAdded;
+	}
+
+	public void setAvg_locAdded(double avg_locAdded) {
+		this.avg_locAdded = avg_locAdded;
+	}
+
+	public int getMax_churn() {
+		return max_churn;
+	}
+
+	public void setMax_churn(int max_churn) {
+		this.max_churn = max_churn;
+	}
+
+	public double getAvg_churn() {
+		return avg_churn;
+	}
+
+	public void setAvg_churn(double avg_churn) {
+		this.avg_churn = avg_churn;
+	}
+
+	public int getChgSetSize() {
+		return chgSetSize;
+	}
+
+	public void setChgSetSize(int chgSetSize) {
+		this.chgSetSize = chgSetSize;
+	}
+
+	public int getMax_chgSetSize() {
+		return max_chgSetSize;
+	}
+
+	public void setMax_chgSetSize(int max_chgSetSize) {
+		this.max_chgSetSize = max_chgSetSize;
+	}
+
+	public double getAvg_chgSetSize() {
+		return avg_chgSetSize;
+	}
+
+	public void setAvg_chgSetSize(double avg_chgSetSize) {
+		this.avg_chgSetSize = avg_chgSetSize;
+	}
+
+	public int getnFix() {
+		return nFix;
+	}
+
+	public void setnFix(int nFix) {
+		this.nFix = nFix;
 	}
 	
 

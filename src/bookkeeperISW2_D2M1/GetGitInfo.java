@@ -211,10 +211,13 @@ public class GetGitInfo {
             		releases.get(i).getFilesOfRelease().add(treeWalk.getPathString());
             		
             		count++;
+            		
+            		//c'è stato rename?
             		Data dbEntry=new Data(releases.get(i), treeWalk.getPathString());
             		fileLoc= Metrics.loc(treeWalk);
             		dbEntry.setLoc(fileLoc);
             		dbEntries.add(dbEntry);
+            		
             		//Metrics.locTouched2(Release release, releases.get(i).getCommitsOfRelease());
             		
             		//chiama qua LOC TOUCHED e gli passi il commit da lastCommits e la release da value(Integer)

@@ -3,6 +3,7 @@ package bookkeeperISW2_D2M1;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -48,7 +49,8 @@ public class Metrics {
 		int nr;
 		List <Data> dbEntries = MainControl.entries;
 		
-		nr_auth(dbEntries);
+		//nr_auth(dbEntries);
+		prova2(dbEntries);
 		
 		/*
 		//prendo ogni release
@@ -76,14 +78,17 @@ public class Metrics {
 	 */
 	
 	public static void nr_auth(List <Data> dbEntries) throws NoHeadException, GitAPIException, IOException {
+		
+		
 		//per ogni release, prendo ogni file ed esamino tutti i commit (TOTALI, commitsList) per vedere quante volte è presente quel file
 		//per ogni file, vedo i commit in cui è presente e prendo l'autore del commit. Ogni volta che è diverso, conto ++.
+		
 		
 		int i,j;
 		int count=0;
 		int auth=0;
 		int checkauth=0;
-
+		/*
 		//System.out.println("file to find= "+filename);
 		
 		//List<RevCommit> comList = MainControl.myCommitsList;
@@ -95,6 +100,7 @@ public class Metrics {
 			
 			List<PersonIdent> authors = new ArrayList <PersonIdent>();
 			comList=dbEntries.get(i).getRelease().getCommitsOfRelease();
+			count=0;
 			
 			for (j=0;j<comList.size();j++) {
     		
@@ -109,7 +115,13 @@ public class Metrics {
     	    	List<DiffEntry> entries = diffFormatter.scan( parent.getTree(),oldTree );
     	    	//System.out.println("\n\n\n");
     	    	
-    	    	for( DiffEntry entry : entries ) {
+    	    	//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
+    			if (authors.contains(comList.get(j).getAuthorIdent())==false) {
+    				authors.add(comList.get(j).getAuthorIdent());
+    			}
+    			
+    	    	
+    			for( DiffEntry entry : entries ) {
  
     	    		if (entry.toString().contains(dbEntries.get(i).getFilename())) {
     	    			
@@ -117,6 +129,7 @@ public class Metrics {
     	    			if (authors.contains(comList.get(j).getAuthorIdent())==false) {
     	    				authors.add(comList.get(j).getAuthorIdent());
     	    			}
+    	    			
     	    			
     	    			count++;
     	    			//System.out.println("commit: "+commitList.get(j).getId()+"         date: "+commitList.get(j).getAuthorIdent().getWhen()+"         diffEntry: "+entry.toString()+"         count: "+count);
@@ -131,9 +144,11 @@ public class Metrics {
 			dbEntries.get(i).setnAuth(auth);
 	
 		}
-		
-		/*
+		*/
+		for (j=0;j<dbEntries.size();j++) {
+		//List<RevCommit> comList = dbEntries.get(j).getRelease().getCommitsOfRelease();
 		List<RevCommit> comList = MainControl.myCommitsList;
+
 		//System.out.println("comList= "+comList.size());
     	
 		for (i=0;i<comList.size();i++) {
@@ -152,7 +167,7 @@ public class Metrics {
     	    	for( DiffEntry entry : entries ) {
     	    		
     	    		
-    	    		if (entry.toString().contains(filename)) {
+    	    		if (entry.toString().contains(dbEntries.get(j).getFilename())) {
     	    			
     	    			count++;
     	    			//System.out.println("commit: "+commitList.get(j).getId()+"         date: "+commitList.get(j).getAuthorIdent().getWhen()+"         diffEntry: "+entry.toString()+"         count: "+count);
@@ -162,11 +177,13 @@ public class Metrics {
     	    	}
     			
     		}
+			dbEntries.get(i).setNr(count);
+		}
     	
     	
     	//System.out.println("file: "+filename+"   count (n commit del file)= "+count);
-    	return count;
-    	*/
+    	return;
+    	
 		
 	}
 	
@@ -462,30 +479,39 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 	*/
 	public static void prova2(List<Data> dbEntries) throws IOException {
 		
-		int locAdded;
-		int locTouched;
-		int locDeleted;
-		int locModify;
-		int churn;
+		int nr, locAdded, locTouched, locDeleted, churn, chgGetSize;	
+		Integer max;
+		int avg;
 		
-		List<PersonIdent> authors = new ArrayList <PersonIdent>();
+		ProportionMethod computeAvg = new ProportionMethod();
+		
 		List<RevCommit> comList;
+		List<Integer> churnList=  new ArrayList <Integer>();
+		List<Integer> locAddedList = new ArrayList <Integer>();
+		List<String> numFiles = new ArrayList <String>();
+		List<Integer> chgSetSizeList = new ArrayList <Integer>();
+		List<PersonIdent> authors = new ArrayList <PersonIdent>();
+		
 		RevWalk rw = new RevWalk(repository);
 		
 		//mi prendo tutti i commit nella release e mi calcolo le metriche per ogni file delal release
 		for(int i = 0;i<dbEntries.size();i++) {
 			
+			nr = 0;
 			locAdded = 0;
 			locTouched = 0;
 			locDeleted = 0;
-			locModify = 0;
 			churn = 0;
+			chgGetSize = 0;
+			
 			comList=dbEntries.get(i).getRelease().getCommitsOfRelease();
+			
+			
+			//List<Integer> locAddedList = new ArrayList <Integer>();
 			
 			//per ogni file nella release
 			for(int j = 0;j<comList.size();j++) {
-				
-				
+									
 					RevCommit commit = comList.get(j);
 	
 					RevCommit parent = null;
@@ -497,53 +523,152 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 					}
 						//System.out.println("parent = " + parent);
 						
-					DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-						
+					DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);	
 					df.setRepository(repository);
 					df.setDiffComparator(RawTextComparator.DEFAULT);
 					df.setDetectRenames(true);
-					List<DiffEntry> diffs;
+					List<DiffEntry> entries;
 					
 						if(parent != null) {
-								diffs = df.scan(parent.getTree(), commit.getTree());
+							entries = df.scan(parent.getTree(), commit.getTree());
 						}
 						else {
 							
 							//System.out.println("Il commit è : " + commit.getId().getName() + "\tnon c'è parent");
 							ObjectReader reader = rw.getObjectReader();
-							 diffs =df.scan(new EmptyTreeIterator(),
+							entries =df.scan(new EmptyTreeIterator(),
 							        new CanonicalTreeParser(null, reader, commit.getTree()));
 						}
 						
-						for (DiffEntry diff : diffs) {     							// For each file changed in the commit
-							if(diff.getOldPath().equals(dbEntries.get(i).getFilename()) ||diff.getNewPath().equals(dbEntries.get(i).getFilename()) ){
-	
-								for(Edit edit : df.toFileHeader(diff).toEditList()) {
+						
+						//differenze tra il commit e il parent
+						for (DiffEntry diffEntry : entries) { 
+							
+							// For each file changed in the commit 
+							//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
+							if(diffEntry.getOldPath().equals(dbEntries.get(i).getFilename()) ||diffEntry.getNewPath().equals(dbEntries.get(i).getFilename()) ){
+								
+								nr++;
+								
+					   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
+		    	    			if (authors.contains(comList.get(j).getAuthorIdent())==false) {
+		    	    				authors.add(comList.get(j).getAuthorIdent());
+		    	    			}
+		    	    			
+		    	    			
+								//per ogni modifica (edit) presente nel file
+								for(Edit edit : df.toFileHeader(diffEntry).toEditList()) {
 		
 										locAdded += edit.getEndB() - edit.getBeginB();
+										locAddedList.add(locAdded);
 			
 										locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB
 	
-									}
+										churn = locAdded- locDeleted;
+										churnList.add(churn);
+										
 								}
 								
-	
+								if (diffEntry.getChangeType().toString().equals("DELETE")) {
+									numFiles.add(diffEntry.getOldPath());
+								}
+								else {	//se ho MODIFY, ADD o RENAME, aggiungo newPath del file della diffEntry
+									numFiles.add(diffEntry.getNewPath());
+								}
+							
 							}
+							
+						
+						}
+
+						
+						if (numFiles.contains(dbEntries.get(i).getFilename())) {	
+							chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
+							chgSetSizeList.add(chgGetSize);
+						}
 	
-				}
+				} //end comList
+			
+				dbEntries.get(i).setNr(nr);
+				dbEntries.get(i).setnAuth(authors.size());
+				
+				//prendo loc touched per un file (dbEntry.get(i).getFilename) in un commit di una release, e vado agli altri 
+				//commit della stessa release per vedere le modifiche apportate sempre a quello stesso file
 	
+				//dopo che ho scorso tutti i commit di una release che contengono un certo file, calcolo :
+
+				// ============= LOC TOUCHED , LOC ADDED , MAX&AVG
+				max = maxElement(locAddedList);
+				avg= computeAvg.calculateAverage(locAddedList);
+				
 				locTouched = locAdded+locDeleted;
 				
+				dbEntries.get(i).setMax_locAdded(max);
+				dbEntries.get(i).setAvg_locAdded(avg);
 				dbEntries.get(i).setLocAdded(locAdded);
 				dbEntries.get(i).setLocTouched(locTouched);
-				churn = locAdded- locDeleted;
-				dbEntries.get(i).setChurn(churn);
 				
-			}
-			
+				// ============= CHURN, MAX&AVG
+				churn = locAdded- locDeleted;
+				
+				max = maxElement(churnList);
+				avg= computeAvg.calculateAverage(locAddedList);
+				
+				dbEntries.get(i).setChurn(churn);
+				dbEntries.get(i).setMax_churn(max);
+				dbEntries.get(i).setAvg_churn(avg);
+
+				
+				// ============= chgSetSize, MAX&AVG
+				max = maxElement(chgSetSizeList);
+				avg= computeAvg.calculateAverage(chgSetSizeList);
+				
+				dbEntries.get(i).setChgSetSize(chgGetSize);
+				dbEntries.get(i).setMax_chgSetSize(max);
+				dbEntries.get(i).setAvg_chgSetSize(avg);
+				
+				// ============= CLEAR LISTS =============
+				
+				locAddedList.clear();
+				churnList.clear();
+				chgSetSizeList.clear();
+				numFiles.clear();
+				authors.clear();
+				
+				
+			} //end release -> cambio file
+					
 		}
 	
 	
+
+	public static void nFix(List<Data> dbEntries) {
+		//numero di bug fixati in quel file
+		//devo vedere se nei file della release il commit.getFulMessage contiene "%fix%"
+		
+		
+		
+	}
+	
+	public static int maxElement(List<Integer> list) {
+		
+		if (list.size()>0) {
+			int max=list.get(0);
+			for (int i=0;i<list.size();i++) {
+				
+				if (list.get(i)>max) {
+					max=list.get(i);
+				}
+				
+			}
+			return max;
+		}
+		else {
+			return 0;
+		}
+
+		
+	}
 
 
 
