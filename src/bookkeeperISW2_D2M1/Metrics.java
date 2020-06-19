@@ -462,7 +462,11 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 	*/
 	public static void prova2(List<Data> dbEntries) throws IOException {
 		
-	
+		int locAdded;
+		int locTouched;
+		int locDeleted;
+		int locModify;
+		int churn;
 		
 		List<PersonIdent> authors = new ArrayList <PersonIdent>();
 		List<RevCommit> comList;
@@ -471,11 +475,11 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 		//mi prendo tutti i commit nella release e mi calcolo le metriche per ogni file delal release
 		for(int i = 0;i<dbEntries.size();i++) {
 			
-			int locAdded = 0;
-			int locTouched = 0;
-			int locDeleted = 0;
-			int locModify = 0;
-			int churn = 0;
+			locAdded = 0;
+			locTouched = 0;
+			locDeleted = 0;
+			locModify = 0;
+			churn = 0;
 			comList=dbEntries.get(i).getRelease().getCommitsOfRelease();
 			
 			//per ogni file nella release
@@ -518,7 +522,7 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 		
 										locAdded += edit.getEndB() - edit.getBeginB();
 			
-										locDeleted += edit.getEndA() - edit.getBeginA();
+										locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB
 	
 									}
 								}
@@ -529,12 +533,12 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 				}
 	
 				locTouched = locAdded+locDeleted;
-				/*
-				dbEntries.get(i).setLOC_added(locAdded);
-				dbEntries.get(i).setLOC_touched(locTouched);
-				churn= locAdded- locDeleted;
+				
+				dbEntries.get(i).setLocAdded(locAdded);
+				dbEntries.get(i).setLocTouched(locTouched);
+				churn = locAdded- locDeleted;
 				dbEntries.get(i).setChurn(churn);
-				*/
+				
 			}
 			
 		}
