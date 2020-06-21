@@ -17,13 +17,13 @@ public class Data {
 	private int locTouched;
 	private int locAdded;
 	private int max_locAdded;
-	private double avg_locAdded;
+	private int avg_locAdded;
 	private int churn;
 	private int max_churn;
-	private double avg_churn;
+	private int avg_churn;
 	private int chgSetSize;	//n files committed together with C
 	private int max_chgSetSize;
-	private double avg_chgSetSize;
+	private int avg_chgSetSize;
 	
 	private List<RevCommit> relatedCommits;
 	
@@ -138,7 +138,7 @@ public class Data {
 		return avg_locAdded;
 	}
 
-	public void setAvg_locAdded(double avg_locAdded) {
+	public void setAvg_locAdded(int avg_locAdded) {
 		this.avg_locAdded = avg_locAdded;
 	}
 
@@ -154,7 +154,7 @@ public class Data {
 		return avg_churn;
 	}
 
-	public void setAvg_churn(double avg_churn) {
+	public void setAvg_churn(int avg_churn) {
 		this.avg_churn = avg_churn;
 	}
 
@@ -178,7 +178,7 @@ public class Data {
 		return avg_chgSetSize;
 	}
 
-	public void setAvg_chgSetSize(double avg_chgSetSize) {
+	public void setAvg_chgSetSize(int avg_chgSetSize) {
 		this.avg_chgSetSize = avg_chgSetSize;
 	}
 

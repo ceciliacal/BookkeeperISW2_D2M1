@@ -13,7 +13,7 @@ public class CsvWriter {
 	
 	public static void write (List<Data> list) {
 		
-		try (PrintWriter writer = new PrintWriter(new File("testProva2.csv"))) {
+		try (PrintWriter writer = new PrintWriter(new File("testProva2DopoRename.csv"))) {
 
 		      StringBuilder sb = new StringBuilder();
 		      sb.append("Release");

@@ -294,9 +294,9 @@ public class GetGitInfo {
     		
     	}
     	
-   
-    	return myCommits;
 		//System.out.println("numero commit id +: "+count+"   num tot commit logCommitList: "+logCommitList.size()+"    numero tickets id:"+ticketlist.size());
+
+    	return myCommits;
     	
     }
     

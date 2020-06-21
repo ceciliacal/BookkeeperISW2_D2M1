@@ -480,6 +480,7 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 	public static void prova2(List<Data> dbEntries) throws IOException {
 		
 		int nr, locAdded, locTouched, locDeleted, churn, chgGetSize;	
+		int locAddedOnce, churnOnce, chgGetSizeOnce;	
 		Integer max;
 		int avg;
 		
@@ -546,45 +547,79 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 							
 							// For each file changed in the commit 
 							//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
-							if(diffEntry.getOldPath().equals(dbEntries.get(i).getFilename()) ||diffEntry.getNewPath().equals(dbEntries.get(i).getFilename()) ){
+							String diffFileName;
+							
+							if (diffEntry.toString().contains(".java")) {
+							
 								
-								nr++;
+								if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
+									diffFileName = diffEntry.getOldPath();	
+								}
+								else {
+									diffFileName = diffEntry.getNewPath();
+								}
 								
-					   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
-		    	    			if (authors.contains(comList.get(j).getAuthorIdent())==false) {
-		    	    				authors.add(comList.get(j).getAuthorIdent());
-		    	    			}
-		    	    			
-		    	    			
-								//per ogni modifica (edit) presente nel file
-								for(Edit edit : df.toFileHeader(diffEntry).toEditList()) {
-		
-										locAdded += edit.getEndB() - edit.getBeginB();
-										locAddedList.add(locAdded);
-			
-										locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB
-	
-										churn = locAdded- locDeleted;
-										churnList.add(churn);
+								String rename = MainControl.verifyRename(diffFileName);
+								String fileToUse = null;
+								
+								if (rename!=null) {
+									fileToUse=rename;
+								}
+								else {
+									fileToUse=diffFileName;
+								}
+									
+								//if(diffEntry.getOldPath().equals(dbEntries.get(i).getFilename()) ||diffEntry.getNewPath().equals(dbEntries.get(i).getFilename()) ){
+								if (fileToUse.equals(dbEntries.get(i).getFilename())) {
 										
+									nr++;
+									//aggiusta autori + file = dbENtry.getfilename ?
+						   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
+			    	    			if (authors.contains(comList.get(j).getAuthorIdent())==false) {
+			    	    				authors.add(comList.get(j).getAuthorIdent());
+			    	    			}
+			    	    			
+			    	    			
+									//per ogni modifica (edit) presente nel file
+									for(Edit edit : df.toFileHeader(diffEntry).toEditList()) {
+			
+											locAddedOnce = edit.getEndB() - edit.getBeginB();
+											locAdded += edit.getEndB() - edit.getBeginB();
+											//locAddedList.add(locAdded);
+											locAddedList.add(locAddedOnce);
+				
+											locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB
+		
+											//churn = locAdded- locDeleted;
+											//churnList.add(churn);
+											
+											churnOnce = locAdded- locDeleted;
+											churnList.add(churnOnce);
+											
+									}
+									
+									//prendo i path tutti i file toccati dal commit 
+									//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
+									if (diffEntry.getChangeType().toString().equals("DELETE")) {
+										numFiles.add(diffEntry.getOldPath());
+									}
+									else {	//se ho MODIFY, ADD o RENAME, aggiungo newPath del file della diffEntry
+										numFiles.add(diffEntry.getNewPath());
+									}
+								
 								}
 								
-								if (diffEntry.getChangeType().toString().equals("DELETE")) {
-									numFiles.add(diffEntry.getOldPath());
-								}
-								else {	//se ho MODIFY, ADD o RENAME, aggiungo newPath del file della diffEntry
-									numFiles.add(diffEntry.getNewPath());
-								}
 							
 							}
-							
-						
 						}
 
 						
-						if (numFiles.contains(dbEntries.get(i).getFilename())) {	
+						if (numFiles.contains(dbEntries.get(i).getFilename())) {
+							
 							chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
-							chgSetSizeList.add(chgGetSize);
+							
+							chgGetSizeOnce = numFiles.size()-1;
+							chgSetSizeList.add(chgGetSizeOnce);
 						}
 	
 				} //end comList
@@ -598,7 +633,7 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 				//dopo che ho scorso tutti i commit di una release che contengono un certo file, calcolo :
 
 				// ============= LOC TOUCHED , LOC ADDED , MAX&AVG
-				max = maxElement(locAddedList);
+				max = maxElement(locAddedList);			//devono essere quelle volta per volta (non somma)
 				avg= computeAvg.calculateAverage(locAddedList);
 				
 				locTouched = locAdded+locDeleted;
@@ -669,6 +704,8 @@ public static void prova(ArrayList<Release> releases,Repository repository) thro
 
 		
 	}
+	
+	
 
 
 
