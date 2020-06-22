@@ -321,7 +321,7 @@ public class ProportionMethod {
 					 
 					 if ((noIv.get(i).getIV()>noIv.get(i).getOV()) || (noIv.get(i).getIV()>noIv.get(i).getFV()) ) {
 						 
-						 System.out.println("ERRORE: versioni inconsistenti.");
+						 Log.infoLog("ERRORE: versioni inconsistenti.");
 						 return;
 
 					 }
