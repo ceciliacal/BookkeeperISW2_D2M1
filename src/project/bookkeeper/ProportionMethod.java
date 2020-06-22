@@ -32,9 +32,8 @@ public class ProportionMethod {
 			
 			//se ticket ha data creazione > data fix, allora dati non sono consistenti
 			if (ticketlist.get(i).getCreatedDate().compareTo(ticketlist.get(i).getResolutionDate())>0) {
-				 
-				 System.out.println("Errore: date inconsistenti");
-				 return;
+				Log.infoLog("Errore: date inconsistenti");
+				return;
 			 }
 			
 			if  (ticketlist.get(i).getOV()==1) {	// IV=1
