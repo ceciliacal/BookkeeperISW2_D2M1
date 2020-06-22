@@ -2,3 +2,13 @@ language: java
 jdk:
 - openjdk8
 script: ant build
+
+addons:
+  sonarcloud:
+    organization: "ceciliacal"
+    token:
+      secure: "travis encrypt c4e72dca8873c34a77dab571194eb69573bd2123" # encrypted value of your token
+
+script:
+  - ant build
+  - sonar-scanner
