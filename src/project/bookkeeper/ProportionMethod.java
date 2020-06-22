@@ -315,6 +315,7 @@ public class ProportionMethod {
 
 					 
 					//ora calcolo predictedIV come media degli ultimi 4 P
+					// --
 					 noIv.get(i).setP(average);
 					 calculatePredictedIV(noIv.get(i));
 					 
