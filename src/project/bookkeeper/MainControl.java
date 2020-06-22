@@ -82,22 +82,29 @@ public class MainControl {
     	//mi salvo tutti i commits del log di bookkeeper in commitsIDlist e intanto li aggiungo ai relativi ticket
     	myCommitsList=GetGitInfo.getCommitsID(git, ticketlist, path);	//va dopo getTicketInfo perché senno non conosco ticketID
 		//System.out.println("commits dim: "+myCommitsList.size());
-
-		renameList=checkRename(entries, git);
+    	
+    	// ---> addJavaFiles (repository);	//questo li mette nei vari ticket (prende quelli toccati dai commit di un ticket)
+    	
+		//renameList=checkRename(entries, git);
     	//GetJiraInfo.printTicketList(ticketlist);
  	
     	//classesList=GetGitInfo.listAllFiles(repository);	//listAllFiles prende tutti i file Java della repo
 	    	
     	renames = new ArrayList<RenamedFile>();
-    	addJavaFiles (repository);	//questo li mette nei vari ticket (prende quelli toccati dai commit di un ticket)
+    	//addJavaFiles (repository);	
     	
+    	
+    	
+    	renameList=checkRename(entries, git);
+    	addJavaFiles (repository);
+    	// -----> adjustRenamesInTicketlist();
     	
     	//entries= cartesiano();
     	//GetGitInfo.printList(classesList);
-    	
+    	//renameList=checkRename(entries, git);
     	
     	ProportionMethod proportionMethod = new ProportionMethod();
-    	proportionMethod.checkDates2(good, wrong, halfRelease);
+    	proportionMethod.checkDates2(good, wrong);
     	proportionMethod.proportion(good, wrong, numDefects);
     	proportionMethod.defineAV(halfRelease);
     	
@@ -127,6 +134,8 @@ public class MainControl {
 		
 		List<Rename> renameList = new ArrayList<Rename>();		
 		
+		
+		
 
     	//get Commits
     	Iterable<RevCommit> log = git.log().call();
@@ -151,6 +160,7 @@ public class MainControl {
 			//System.out.println("commits dim: "+logCommitList.size());
 
 			//dopo aggiungi file per ogni ticket
+		
 			for (int j=0;j<logCommitList.size();j++) {
 				
 				RevCommit commit = logCommitList.get(j);
@@ -186,11 +196,46 @@ public class MainControl {
 						String oldPath = diffEntry.getOldPath();
 						String newPath = diffEntry.getNewPath();
 						
-						if(oldPath.contains(".java"))	{
-							if (diffEntry.getChangeType().toString().equals("RENAME") ) {
+						//per ogni diffEntry, vedo se è un Rename di files java
+					if (diffEntry.getChangeType().toString().equals("RENAME")) {
+						if (diffEntry.getOldPath().contains(".java") || diffEntry.getNewPath().contains(".java"))	{
+							//if (diffEntry.getChangeType().toString().equals("RENAME") ) {
+								
+								
+								boolean oPCheck = true;
+								boolean nPCheck = true;
+								
+								//scorro la lista di rename (renameList) se è popolata per vedere se oldPath o newPath sono presenti
+								for(Rename fileRenamed : renameList) {
+									
+									if(fileRenamed.checkAlias(oldPath) == false) {
+										oPCheck = false;
+										if(fileRenamed.checkAlias(newPath) == true) {
+											fileRenamed.getOldpaths().add(newPath);
+											nPCheck = false;
+										}
+									}
+									if(fileRenamed.checkAlias(newPath) == false) {
+										nPCheck = false;
+										if(fileRenamed.checkAlias(oldPath) == true) {
+											fileRenamed.getOldpaths().add(oldPath);
+											oPCheck = false;
+										}
+									}
+								}
+								
+								//se non sono presenti, creo nuovo renamedFile
+								if(oPCheck == true && nPCheck== true) {
+									
+									Rename fileRenamed = new Rename();
+									fileRenamed.getOldpaths().add(oldPath);
+									fileRenamed.getOldpaths().add(newPath);
+									renameList.add(fileRenamed);
+								}
+								
 								//System.out.println("newpath: "+renameList.get(0).getNewpath());
 								//System.out.println("oldpaths: "+renameList.get(0).getOldpaths());
-								
+								/*
 								if (renameList.size()==0) {
 									createRename(renameList,oldPath,newPath);
 									
@@ -199,10 +244,11 @@ public class MainControl {
 								else {
 									//System.out.println(" list size >0 ");
 									//mi ritorna l'ultimo rename 
-									checkRenameFiles(renameList,oldPath,newPath);	
+									addRename(renameList,oldPath,newPath);	
 						
 									
 								}
+								*/
 	
 								
 					
@@ -214,18 +260,21 @@ public class MainControl {
 						
 					}
 					
-
 			}
-			/*
-			for (int j=0; j<renameList.size();j++) {
-				System.out.println("newpath: "+renameList.get(j).getNewpath());
-				System.out.println("oldpaths: "+renameList.get(j).getOldpaths());
+				
+			
+			System.out.println("Lista renames: " + renameList.size());
+			
+			for (int x=0; x<renameList.size();x++) {
+				System.out.println("newpath: "+renameList.get(x).getNewpath());
+				System.out.println("oldpaths: "+renameList.get(x).getOldpaths());
 				System.out.println(" -------------------- ");
 
 
 			}
-			System.out.println("Lista renames: " + renameList.size());
-			*/
+			
+			System.out.println("\n\n\n");
+			
 			/*
 			//aggiorno il path di ogni file in ogni release con l'ultimo rename
 			for (int i=0;i<entries.size();i++) {
@@ -250,15 +299,67 @@ public class MainControl {
 				}
 			}
 			*/
+			// per ogni insieme di alias di ogni file calcolo il nome piu recente ad esso associato 
 			
-			//aggiorno il path di ogni file in ogni release con l'ultimo rename
-			for (int i=0;i<entries.size();i++) {
-				
-				List<String> filesOfRelease=entries.get(i).getRelease().getFilesOfRelease();
-				
-				for (int j=0;j<filesOfRelease.size();j++) {
+						for (int i=0;i<dbEntries.size();i++) {
+							
+							String fileName = dbEntries.get(i).getFilename();
+								
+							for (int k=0;k<renameList.size();k++) {
+									
+									for( int m=0;m<renameList.get(k).getOldpaths().size();m++) {
+										
+										String renameFile = renameList.get(k).getOldpaths().get(m);
+										
+										if (renameFile.equals(fileName) || fileName.contains(renameFile) ) {
+											
+											//filesOfRelease.set(y, renameList.get(k).getNewpath());	
+											renameList.get(k).setNewpath(renameFile);
+											
+										}
+									}
+								}
+							}
 					
-					String filename=filesOfRelease.get(j);
+						//aggiorno il path di ogni file in ogni release con l'ultimo rename
+						for (int i=0;i<dbEntries.size();i++) {
+							
+							String fileName = dbEntries.get(i).getFilename();
+								
+							for (int k=0;k<renameList.size();k++) {
+									
+								for( int m=0;m<renameList.get(k).getOldpaths().size();m++) {
+										
+										String renameFile = renameList.get(k).getOldpaths().get(m);
+										
+										if (renameFile.equals(fileName) || fileName.contains(renameFile) ) {
+											
+											//filesOfRelease.set(y, renameList.get(k).getNewpath());	
+											//dbEntries.get(i).getRelease().getFilesOfRelease().set(y, renameList.get(k).getNewpath());
+											//dbEntries.get(i).getRelease().getFilesOfRelease().remove(y);
+											//dbEntries.get(i).getRelease().getFilesOfRelease().add(y, renameList.get(k).getNewpath());
+											//dbEntries.get(i).setFilename(renameList.get(k).getNewpath());
+											
+											//dbEntries.get(i).getRelease().getFilesOfRelease().get(y).replace(dbEntries.get(i).getRelease().getFilesOfRelease().get(y), renameList.get(k).getNewpath());
+											
+											System.out.println("renameFile: "+renameFile);
+											System.out.println("prima dbEntries.set : "+dbEntries.get(i).getFilename());
+											dbEntries.get(i).setFilename(renameList.get(k).getNewpath());
+											System.out.println("dopo dbEntries.set : "+dbEntries.get(i).getFilename());
+										}
+									}
+								}
+						}
+	/*
+			// per ogni insieme di alias di ogni file calcolo il nome piu recente ad esso assocaito 
+			
+			for (int i=0;i<dbEntries.size();i++) {
+				
+				List<String> filesOfRelease=dbEntries.get(i).getRelease().getFilesOfRelease();
+				
+				for (int y=0;y<filesOfRelease.size();y++) {
+					
+					String filename=filesOfRelease.get(y);
 					
 					for (int k=0;k<renameList.size();k++) {
 						
@@ -268,7 +369,8 @@ public class MainControl {
 							
 							if (renameFile.equals(filename)) {
 								
-								filesOfRelease.set(j, renameList.get(k).getNewpath());								
+								//filesOfRelease.set(y, renameList.get(k).getNewpath());	
+								renameList.get(k).setNewpath(renameFile);
 								
 							}
 						}
@@ -276,6 +378,37 @@ public class MainControl {
 				}
 			}
 			
+			//aggiorno il path di ogni file in ogni release con l'ultimo rename
+			for (int i=0;i<dbEntries.size();i++) {
+				
+				List<String> filesOfRelease=dbEntries.get(i).getRelease().getFilesOfRelease();
+				
+				for (int y=0;y<filesOfRelease.size();y++) {
+					
+					String filename=filesOfRelease.get(y);
+					
+					for (int k=0;k<renameList.size();k++) {
+						
+						for( int m=0;m<renameList.get(k).getOldpaths().size();m++) {
+							
+							String renameFile = renameList.get(k).getOldpaths().get(m);
+							
+							if (renameFile.equals(filename)) {
+								
+								//filesOfRelease.set(y, renameList.get(k).getNewpath());	
+								//dbEntries.get(i).getRelease().getFilesOfRelease().set(y, renameList.get(k).getNewpath());
+								//dbEntries.get(i).getRelease().getFilesOfRelease().remove(y);
+								//dbEntries.get(i).getRelease().getFilesOfRelease().add(y, renameList.get(k).getNewpath());
+								//dbEntries.get(i).setFilename(renameList.get(k).getNewpath());
+								dbEntries.get(i).getRelease().getFilesOfRelease().get(y).replace(dbEntries.get(i).getRelease().getFilesOfRelease().get(y), renameList.get(k).getNewpath());
+							}
+						}
+					}
+				}
+			}
+			*/
+			/*
+			 // aggiorno il path di ogni file in ogni ticket con l'ultimo rename
 			for (int i=0;i<ticketlist.size();i++) {
 				
 				List<String> relatedJavaFiles=ticketlist.get(i).getRelatedJavaFiles();
@@ -292,7 +425,8 @@ public class MainControl {
 							
 							if (renameFile.equals(filename)) {
 								
-								relatedJavaFiles.set(j, renameList.get(k).getNewpath());								
+								//relatedJavaFiles.set(j, renameList.get(k).getNewpath());
+								ticketlist.get(i).getRelatedJavaFiles().set(j, renameList.get(k).getNewpath());
 								
 							}
 						}
@@ -300,14 +434,49 @@ public class MainControl {
 				}
 			}
 			
+			*/
+						
+			/*
 			
+			System.out.println("in checkRename: ");
+			for (int a=0;a<renameList.size();a++) {
+				System.out.println("newpath: "+renameList.get(a).getNewpath()+"   oldpaths: "+renameList.get(a).getOldpaths());
+			}
 			
+			*/
 			
+	
+						
+	
 			return renameList;
+	}
+		
+	//aggiorno il path di ogni file in ogni ticket con l'ultimo rename	
+	public static void adjustRenamesInTicketlist() {
+		for (int i=0;i<ticketlist.size();i++) {
 			
+			List<String> relatedJavaFiles=ticketlist.get(i).getRelatedJavaFiles();
+			
+			for (int j=0;j<relatedJavaFiles.size();j++) {
+				
+				String filename=relatedJavaFiles.get(j);
+				
+				for (int k=0;k<renameList.size();k++) {
+					
+					for( int m=0;m<renameList.get(k).getOldpaths().size();m++) {
+						
+						String renameFile = renameList.get(k).getOldpaths().get(m);
+						
+						if (renameFile.equals(filename)) {
+							
+							relatedJavaFiles.set(j, renameList.get(k).getNewpath());								
+							
+						}
+					}
+				}
+			}
 		}
-		
-		
+	}
 	
 	
 	public static void createRename(List<Rename> renameList, String oldP, String newP) {
@@ -333,7 +502,7 @@ public class MainControl {
 		
 	}
 	
-	public static void checkRenameFiles(List<Rename> renameList, String myOldpath, String myNewpath ) {
+	public static void addRename(List<Rename> renameList, String myOldpath, String myNewpath ) {
 		//se myOldpath sta già in una renameFile, mi torna l'ultimo rename (newpath)
 		int i;
 		int isThere=0;
@@ -404,7 +573,8 @@ public class MainControl {
 
     public static int setHalfRelease() {
 
-    	int dim, res;
+    	int dim;
+    	int res;
     	
     	dim=releases.size();
 		res=dim/2;
@@ -430,15 +600,18 @@ public class MainControl {
     	diffFormatter.setDiffComparator(RawTextComparator.DEFAULT);
     	diffFormatter.setDetectRenames(true);
     	List<DiffEntry> entries = diffFormatter.scan( parent.getTree(),oldTree );
-    	//System.out.println("\n\n\n");
+    	
+    	
     	
     	for( DiffEntry diffEntry : entries ) {
     		
-    		if (diffEntry.toString().contains(".java")) {
+    		if (diffEntry.getOldPath().contains(".java") || diffEntry.getNewPath().contains(".java")) {
     		
     			//javaFilesPerTicket.add(entry.toString());
     			
     			String diffFileName;
+    			
+    			
     			
 				if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
 					diffFileName = diffEntry.getOldPath();	
@@ -456,7 +629,13 @@ public class MainControl {
 				else {
 					fileToUse=diffFileName;
 				}
-    			
+				
+				if (diffEntry.getChangeType().toString().equals("RENAME")) {
+					
+					System.out.println(" oldPath: "+diffEntry.getOldPath()+"       newPath: "+diffEntry.getNewPath()+"       fileToUse (preso da renameList): "+fileToUse);
+					
+				}
+				
 				javaFilesPerTicket.add(fileToUse);
 				
 				/*
@@ -581,7 +760,7 @@ public class MainControl {
 		
 		int i, j;
 		
-
+		System.out.println("\n\n\n in getJavaFiles ");
     	for (i=0;i<ticketlist.size();i++) {
     		
     		for (j=0;j<myCommitsList.size();j++) {

@@ -15,6 +15,10 @@ public class Rename {
 		this.oldpaths=o;
 	}
 	
+	public Rename() {
+		this.initOldpaths();
+	}
+
 	public String getNewpath() {
 		return newpath;
 	}
@@ -30,6 +34,18 @@ public class Rename {
 	public void initOldpaths() {
 		
 		this.oldpaths= new ArrayList<>();
+	}
+	
+	public boolean checkAlias(String fileName) {
+		
+		for(String a : oldpaths) {
+			
+			if(a.equals(fileName)) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	

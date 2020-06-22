@@ -8,11 +8,12 @@ import java.util.List;
 
 public class ProportionMethod {
 	
-	public static List<Ticket> ticketlist= MainControl.ticketlist;
+	public static final List<Ticket> ticketlist= MainControl.ticketlist;
 
 	
-	public void checkDates2(List <Ticket> goodProp, List <Ticket> noIV, int halfRelease) {
-		int i, j;		//int countNOIV=0;
+	public void checkDates2(List <Ticket> goodProp, List <Ticket> noIV) {
+		int i;	
+		/*
 		int ovIs1=0;
 		int mettoIn_noIV=0;
 		int removed=0;
@@ -22,7 +23,7 @@ public class ProportionMethod {
 		List <Ticket> ovIs1_list = new ArrayList<Ticket>();
 		List <Ticket> mettoIn_noIV_list = new ArrayList<Ticket>();
 		List <Ticket> removed_list = new ArrayList<Ticket>();
-		
+		*/
 		
 
 		
@@ -38,11 +39,11 @@ public class ProportionMethod {
 			
 			if  (ticketlist.get(i).getOV()==1) {	// IV=1
 				
-				ovIs1_list.add(ticketlist.get(i));
+				//ovIs1_list.add(ticketlist.get(i));
 				ticketlist.get(i).setIV(1);
 				ticketlist.get(i).getAV().remove(0);
 				ticketlist.get(i).getAV().add(1);
-				ovIs1++;
+				//ovIs1++;
 				
 				
 			}
@@ -54,10 +55,10 @@ public class ProportionMethod {
 			
 				if ((ticketlist.get(i).getIV()>ticketlist.get(i).getOV()) || (ticketlist.get(i).getIV() >ticketlist.get(i).getFV())) {
 					
-					mettoIn_noIV_list.add(ticketlist.get(i));
+					//mettoIn_noIV_list.add(ticketlist.get(i));
 					ticketlist.get(i).setIV(0);
 					ticketlist.get(i).getAV().clear();
-					mettoIn_noIV++;
+					//mettoIn_noIV++;
 
 					
 				}
@@ -78,9 +79,9 @@ public class ProportionMethod {
 
 			if ((ticketlist.get(i).getIV()==0)&&(ticketlist.get(i).getOV()==ticketlist.get(i).getFV())) {
 				
-				removed_list.add(ticketlist.get(i));
+				//removed_list.add(ticketlist.get(i));
 				ticketlist.remove(i);
-				removed++;
+				//removed++;
 				i--;
 
 				
@@ -144,7 +145,7 @@ public class ProportionMethod {
 		}
 		
 		*/
-		System.out.println("\n\n");
+		//System.out.println("\n\n");
 			
 			/*
 			 * quindi finora abbiamo settato:
@@ -161,7 +162,7 @@ public class ProportionMethod {
 		
 		for(i=0;i<ticketlist.size();i++) {
 			
-			smistoTraIv_e_Good++;
+			//smistoTraIv_e_Good++;
 			
 			//Prendiamo ticket con IV !=0 (cioè che hanno AV)
 			if (ticketlist.get(i).getIV()!=0) {
@@ -170,7 +171,7 @@ public class ProportionMethod {
 				if ((ticketlist.get(i).getFV()!=ticketlist.get(i).getIV()) && (ticketlist.get(i).getFV()!=ticketlist.get(i).getOV())&&(ticketlist.get(i).getIV()<=ticketlist.get(i).getOV())){
 					//if (ticketlist.get(i).getOV()<=halfRelease && ticketlist.get(i).getFV()<=halfRelease ) {
 							
-						good++;
+						//good++;
 	
 						//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+"		created: "+ticketlist.get(i).getCreatedDate()+"		resolution: "+ticketlist.get(i).getResolutionDate()+" 		IV: "+ticketlist.get(i).getIV()+" 		OV: "+ticketlist.get(i).getOV()+" 		FV: "+ticketlist.get(i).getFV());
 						goodProp.add(ticketlist.get(i));
@@ -190,7 +191,7 @@ public class ProportionMethod {
 			else {
 
 					noIV.add(ticketlist.get(i));
-					noIv++;
+					//noIv++;
 					
 				}
 			
@@ -223,7 +224,6 @@ public class ProportionMethod {
 		
 		*/
 		
-		return;	
 
 	}
 	
@@ -232,15 +232,19 @@ public class ProportionMethod {
 		
 		int dim;
 		double perc;	//percentuale: 1% degli ultimi fixed bugs 
-		int i, j, k;
-		double IV, FV, OV, p;
+		int i;
+		double iv;
+		double fv;
+		double ov;
+		double p;
 		double predictedIV;
-		int P;
+		int prop;
+		String formatted;
 		
 		LinkedHashMap<Ticket, Integer> pList = new LinkedHashMap<Ticket, Integer>();	//lista di P da cui calcolo la media dell'ultimo 1% dei difetti
 		
 		//calcolo 1% dei difetti
-		perc= numDefects*0.01;							
+		perc= numDefects*0.01;		
 		String.format("%.3f", perc);	//arrotondo la percentuale
 		//System.out.println("perc= "+perc);
 		
@@ -254,29 +258,30 @@ public class ProportionMethod {
 		//ora calcola P per ognuno dei mytickets
 		for (i=0;i<mytickets.size();i++) {
 			
-			IV=mytickets.get(i).getIV();
-			OV=mytickets.get(i).getOV();
-			FV=mytickets.get(i).getFV();
+			iv=mytickets.get(i).getIV();
+			ov=mytickets.get(i).getOV();
+			fv=mytickets.get(i).getFV();
 			
-			p= (FV-IV)/(FV-OV);
+			p= (fv-iv)/(fv-ov);
 			String.format("%3f", p);
 			
 			//System.out.println("ticketID= "+mytickets.get(i).getTicketID()+"  		p= "+p+"  		numTicket= "+mytickets.get(i).getNumTicket());
 
-			P= (int) Math.round(p);
+			prop= (int) Math.round(p);
 			
-			mytickets.get(i).setP(P);
-			pList.put(mytickets.get(i), P);			
+			mytickets.get(i).setP(prop);
+			pList.put(mytickets.get(i), prop);			
 			
 		}
 		
+		proportionCalculus(pList, noIv, dim);
 
 		//System.out.println("\n\n\n");
 
+		
 		List<Integer> window;
 		
 		int average;
-		int predictedIv;
 		int lastKey=0;
 		int countInsideIf;
 
@@ -284,7 +289,7 @@ public class ProportionMethod {
 
 		for (i=0; i<noIv.size();i++) {
 			
-			average=0;
+			//average=0;
 			countInsideIf=0;
 			
 			//se ticketnoIV-iesimo supera un ticket good, deve prendere la p corrispondete
@@ -298,10 +303,6 @@ public class ProportionMethod {
 			    	 
 
 			    	 //prendi ultimi 4 entry della pList (ultimi 4 ticket, di cui prendo il value "p")
-
-					countInsideIf++;
-
-			    	 
 
 					countInsideIf++; 
 
@@ -357,6 +358,74 @@ public class ProportionMethod {
 				
 			}
 
+			 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
+		
+		}
+	
+			
+	}
+	
+
+		
+	public void proportionCalculus(LinkedHashMap<Ticket, Integer> pList, List <Ticket> noIv, int dim) {
+		
+		List<Integer> window;
+		
+		int average;
+		int lastKey=0;
+		int countInsideIf;
+
+		 //System.out.println("==== FORSE predIV");
+
+		for (int i=0; i<noIv.size();i++) {
+			
+			//average=0;
+			countInsideIf=0;
+			
+			//se ticketnoIV-iesimo supera un ticket good, deve prendere la p corrispondete
+			//a quel ticket good e le ultime 4 (dim) p a partire da esso.
+			
+
+			for (HashMap.Entry<Ticket, Integer> pList_entry : pList.entrySet()) {		//good
+				
+				
+				if (noIv.get(i).getNumTicket()<pList_entry.getKey().getNumTicket()) {		
+			    	 
+
+			    	 //prendi ultimi 4 entry della pList (ultimi 4 ticket, di cui prendo il value "p")
+
+					countInsideIf++; 
+
+					//System.out.println("ticketID_noIv= "+noIv.get(i).getTicketID()+"  		goodID_pList= "+pList_entry.getKey().getTicketID());
+					//System.out.println("------------------- ");
+
+					
+					 window=buildWindow(pList, dim, lastKey ) ;  
+					 average= calculateAverage(window);
+					 //System.out.println("P average= "+ average);
+
+					 
+					//ora calcolo predictedIV come media degli ultimi 4 P
+					 noIv.get(i).setP(average);
+					 calculatePredictedIV(noIv.get(i));
+					 
+					 if ((noIv.get(i).getIV()>noIv.get(i).getOV()) || (noIv.get(i).getIV()>noIv.get(i).getFV()) ) {
+						 
+						 System.out.println("ERRORE: versioni inconsistenti.");
+						 return;
+
+					 }
+	
+					 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
+
+			    	 break;
+
+			     }
+			
+				lastKey=pList_entry.getKey().getNumTicket();
+					
+			}
+			
 			if (countInsideIf==0) {		//non sono mai entrato nell'IF perche ticketNoIv > ticketGood => prendo ultimo ticketGood
 				
 				//System.out.println("        -------------------> lastKey= "+lastKey);
@@ -377,17 +446,15 @@ public class ProportionMethod {
 				 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
 
 				
-			}	
+			}
+
 			 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
-	
+		
 		}
 	
-			
+		
+		
 	}
-	
-
-		
-		
 	
 	
 	
@@ -440,7 +507,11 @@ public class ProportionMethod {
 	
 	public void calculatePredictedIV(Ticket myTicket) {
 		
-		double IV, FV, OV, res, P;
+		double IV;
+		double FV;
+		double OV;
+		double res;
+		double P;
 		int predIv;
 
 		//Predicted IV = FV -(FV -OV) * P
@@ -450,6 +521,9 @@ public class ProportionMethod {
 		P= (double) myTicket.getP();
 		
 		res=  FV -(FV -OV) * P;
+		//String formattedCommand = String.format("%3f", res);
+		
+		//String.format("%3f", res);
 		String.format("%3f", res);
 
 		predIv= (int) Math.round(res);		
@@ -500,7 +574,11 @@ public void defineAV (int halfRelease) {
 		
 	System.out.println("\n\n");	
 
-		int i, count, IV, OV, FV;
+		int i;
+		int count;
+		int IV;
+		int OV;
+		int FV;
 		
 		for (i=0;i<ticketlist.size();i++) {
 		

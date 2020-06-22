@@ -1,38 +1,30 @@
 package project.bookkeeper;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
+
+
 import java.io.IOException;
 import java.time.Instant;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.json.JSONException;
+
 
 public class GetGitInfo {
 	
@@ -42,17 +34,14 @@ public class GetGitInfo {
 	public static final List <String> classesList= MainControl.classesList;
 	public static List<Data> entries2;
 	
-	public static LinkedHashMap <RevCommit, LocalDateTime> sameRelease;
+	public static Map <RevCommit, LocalDateTime> sameRelease;
 	
-	public static LinkedHashMap <RevCommit, Integer> lastCommits;
-	public static LinkedHashMap<RevCommit, Integer> lastCommitRelease;
+	public static Map <RevCommit, Integer> lastCommits;
+	public static Map<RevCommit, Integer> lastCommitRelease;
 	
 	
 	// PER RECUPERARE FILES PER RELEASE !!!!!
-	public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOException, GitAPIException {
-
-		int res_release;
-    	
+	public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOException, GitAPIException {    	
 		
     	//get Commits
     	Iterable<RevCommit> log = git.log().all().call();
@@ -71,7 +60,7 @@ public class GetGitInfo {
     		//prendo un commit e gli associo la release (con confronto date)
     		//poi aggiungo quel commit alla lista di quella release
     		
-    		res_release=associateCommit(commit);
+    		associateCommit(commit);
     		
     	}
     	
@@ -93,13 +82,11 @@ public class GetGitInfo {
 		
 		
 	
-	public static int associateCommit(RevCommit commit) {
+	public static void associateCommit(RevCommit commit) {
 		
 		int i;
 		LocalDateTime commitDate;
 		LocalDateTime releaseDate;
-		
-		int resRelease=0;
 		
 		commitDate= Instant.ofEpochSecond(commit.getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDateTime();
 		
@@ -111,7 +98,7 @@ public class GetGitInfo {
 				
 				//il commit viene prima della data della release res, quindi è dopo la release che ha superato e me lo ritrovo in quella successiva
 				
-				resRelease=releases.get(i).getIndex();
+				//resRelease=releases.get(i).getIndex();
 				releases.get(i).getCommitsOfRelease().add(commit);
 				//System.out.println("release: "+res_release+"      releaseDate: "+releaseDate+"        commitDate: "+commitDate);
 
@@ -120,13 +107,11 @@ public class GetGitInfo {
 			
 		}
 		
-		return resRelease;
-		
 	}
 	
 	public static void populateLastCommitRelease() {
 		
-		List<LocalDateTime> timeList= new ArrayList<LocalDateTime>();
+		List<LocalDateTime> timeList= new ArrayList<>();
 		List<RevCommit> commitList;
 		RevCommit lastCommit;
 		
@@ -138,7 +123,7 @@ public class GetGitInfo {
 			
 			//prendi la lista di commit di quella release
 
-			if (commitList.size()==0 && i!=0){
+			if (commitList.isEmpty() && i!=0){
 				
 				//se questa release non ha commit, gli devo mettere come ultimo commit quello della release prima
 				releases.get(i).setLastCommit(releases.get(i-1).getLastCommit());
@@ -178,19 +163,14 @@ public class GetGitInfo {
 		
 		int count;
 		int fileLoc=0;
-		int fileLocTouched;
        
-		Ref head = repository.exactRef("HEAD");
 
         for (int i=0;i<releases.size();i++) {
         	
         	RevCommit lastCommit= releases.get(i).getLastCommit();
         
-        	//for (HashMap.Entry<RevCommit, Integer> entry : lastCommitRelease.entrySet()) {
             count=0;
-        	RevWalk walk = new RevWalk(repository);
 
-            RevCommit commit = walk.parseCommit(head.getObjectId());
             RevTree tree = lastCommit.getTree();
             //System.out.println("Having tree: " + tree);
 
@@ -246,7 +226,6 @@ public class GetGitInfo {
     
     public static List<RevCommit> getCommitsID(Git git, List<Ticket> ticketlist, String pathName) throws IOException, NoHeadException, GitAPIException {
     	
-    	//Git git= Git.open(new File(pathName));
     	List<RevCommit> myCommits= new ArrayList <RevCommit>();
     	int i;
     	int count=0;
@@ -258,14 +237,9 @@ public class GetGitInfo {
     	List<RevCommit> logCommitList = new  ArrayList<RevCommit>();
     	
     	for (RevCommit commit : log) {
-            
-    		//checkCommitDate=compareDates(commit);
-    		//if (checkCommitDate==true) {
+    		
                 logCommitList.add(commit);
-    		//}
-            
-      
-   
+
         }
     	
     	//inserisco in Ticket gli id dei commit che si riferiscono ad esso
@@ -348,9 +322,9 @@ public class GetGitInfo {
     	int len= list.size();
     	
     	for(i=0;i<len;i++) {
-            System.out.println("found: " +list.get(i));
+            //System.out.println("found: " +list.get(i));
     	}
-        System.out.println("dim classesList: " +classesList.size());
+        //System.out.println("dim classesList: " +classesList.size());
 
     }
     	
@@ -359,7 +333,7 @@ public class GetGitInfo {
     public static List<String> listJavaFiles(List<String> fileList) {
     	int i;
     	int len= fileList.size();
-        List<String> classes = new ArrayList<String>();	//lista in cui metto tutti i file .java della repository
+        List<String> classes = new ArrayList<>();	//lista in cui metto tutti i file .java della repository
 
     	
     	for(i=0;i<len;i++) {          

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -25,9 +26,9 @@ import org.json.JSONArray;
 
 public class GetJiraInfo {
 	
-	   public static HashMap<LocalDateTime, String> releaseNames;
-	   public static HashMap<LocalDateTime, String> releaseID;
-	   public static ArrayList<LocalDateTime> releases;
+	   public static Map<LocalDateTime, String> releaseNames;
+	   public static Map<LocalDateTime, String> releaseID;
+	   public static List<LocalDateTime> releases;
 	   public static Integer numVersions;
 	   
 
@@ -51,8 +52,8 @@ public class GetJiraInfo {
 	        String url = "https://issues.apache.org/jira/rest/api/2/project/" + projName;
 	        JSONObject json = readJsonFromUrl(url);
 	        JSONArray versions = json.getJSONArray("versions");
-	        releaseNames = new HashMap<LocalDateTime, String>();
-	        releaseID = new HashMap<LocalDateTime, String> ();
+	        releaseNames = new HashMap<>();
+	        releaseID = new HashMap<> ();
 	        for (i = 0; i < versions.length(); i++ ) {
 	            String name = "";
 	            String id = "";
@@ -139,18 +140,15 @@ public class GetJiraInfo {
 		         releases.add(dateTime);
 		      releaseNames.put(dateTime, name);
 		      releaseID.put(dateTime, id);
-		      return;
 		   }
 	   
 	   
 	   //get Ticket Info (Issue)
 	   public static List<Ticket> getTicketInfo(List <Release> rel) throws IOException, JSONException {
 
-		   List<Ticket> ticketList = new ArrayList<Ticket>();
+		   List<Ticket> ticketList = new ArrayList<>();
 		   
-	  	   String projName ="BOOKKEEPER";
-	  	   int k;
-	  	   
+	  	   String projName ="BOOKKEEPER";	  	   
 		   Integer i=0; //inizio index da cui prendo file json
 		   Integer j=0; //fine index del file json
 		   Integer total=1; 
@@ -210,7 +208,7 @@ public class GetJiraInfo {
 
 	   
 	   public static List<Integer> createAVList(JSONArray ver, List<Release> rel) throws JSONException {
-		   List<Integer> AV = new ArrayList<Integer>();
+		   List<Integer> av = new ArrayList<>();
 		   int len;
 		   int i;
 		   
@@ -218,18 +216,18 @@ public class GetJiraInfo {
 		   len=ver.length();
 		   
 		   if (len==0) {
-			   AV.add(0);
+			   av.add(0);
 		   }
 		   else {
 			   for (i=0;i<len;i++) {
 				   
-				   AV.add( indexConversion(ver.getJSONObject(i).get("name").toString(),  rel ));
+				   av.add( indexConversion(ver.getJSONObject(i).get("name").toString(),  rel ));
 				   
 				   //AV.add(ver.getJSONObject(i).get("name").toString());
 			   }
 		   }
 		   
-		return AV;
+		return av;
 		   
 		   
 	   }
@@ -303,8 +301,8 @@ public class GetJiraInfo {
 	      try {
 	         BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 	         String jsonText = readAll(rd);
-	         JSONObject json = new JSONObject(jsonText);
-	         return json;
+
+	         return new JSONObject(jsonText);
 	       } finally {
 	         is.close();
 	       }
