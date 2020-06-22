@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.lib.ObjectId;
-
 public class Ticket {
 
 	
@@ -140,13 +138,6 @@ public class Ticket {
 
 
 
-	public void setIV2(int iV) {
-		iv = iV;
-		
-		Integer myInteger = new Integer(5000);
-		//int i = myInteger.intValue();
-			
-	}
 
 
 	public void setIV(Integer iV) {

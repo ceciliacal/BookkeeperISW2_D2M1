@@ -59,10 +59,10 @@ public class MainControl {
 		
 		int numDefects;
 
-		List <Ticket> good = new ArrayList<Ticket>();		//tickets con AV regolare che utilizzo per calcolare proportion
-		List <Ticket> wrong = new ArrayList<Ticket>();		//tickets senza IV (AV), e quindi di cui calcolo predictedIV
-		classesList = new ArrayList<String>();
-		entries= new ArrayList<Data>();
+		List <Ticket> good = new ArrayList<>();		//tickets con AV regolare che utilizzo per calcolare proportion
+		List <Ticket> wrong = new ArrayList<>();		//tickets senza IV (AV), e quindi di cui calcolo predictedIV
+		classesList = new ArrayList<>();
+		entries= new ArrayList<>();
 		
 		Git git= Git.open(new File(path));
     	repository=git.getRepository();

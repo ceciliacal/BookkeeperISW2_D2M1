@@ -1,6 +1,5 @@
 package project.bookkeeper;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +30,12 @@ public class Release {
 
 	public void initCommits() {
 		
-		this.commitsOfRelease= new ArrayList<RevCommit>();
+		this.commitsOfRelease= new ArrayList<>();
 	}
 	
 	public void initFiles() {
 		
-		this.filesOfRelease= new ArrayList<String>();
+		this.filesOfRelease= new ArrayList<>();
 	}
 
 	public int getIndex() {
