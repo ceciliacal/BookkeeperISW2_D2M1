@@ -3,28 +3,19 @@ package project.bookkeeper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.NoHeadException;
+
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.RawTextComparator;
-import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.patch.FileHeader;
-import org.eclipse.jgit.patch.HunkHeader;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.EmptyTreeIterator;
@@ -33,9 +24,9 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 public class Metrics {
 
-	public static final List<RevCommit> commitList= MainControl.myCommitsList;
-	public static final List<String> classesList= MainControl.classesList;
-	public static final Repository repository= MainControl.repository;
+	protected static final List<RevCommit> commitList= MainControl.myCommitsList;
+	protected static final List<String> classesList= MainControl.classesList;
+	protected static final Repository repository= MainControl.repository;
 	
 	  private Metrics() {
 		    throw new IllegalStateException("Utility class");
@@ -116,7 +107,10 @@ public class Metrics {
 			
 			//per ogni file nella release
 			for(int j = 0;j<comList.size();j++) {
-									
+				
+				//List<DiffEntry> entries = getDiffEntryList(rw, comList.get(j));
+					
+							
 					RevCommit commit = comList.get(j);
 	
 					RevCommit parent = null;
@@ -149,11 +143,14 @@ public class Metrics {
 							
 							// For each file changed in the commit 
 							//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
-							String diffFileName;
+							
+							//String diffFileName;
+							String fileToUse;
 							
 							if (diffEntry.toString().contains(".java")) {
 							
-								
+								fileToUse = getFileToUse(diffEntry);
+								/*
 								if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
 									diffFileName = diffEntry.getOldPath();	
 								}
@@ -170,8 +167,8 @@ public class Metrics {
 								else {
 									fileToUse=diffFileName;
 								}
-									
-								//if(diffEntry.getOldPath().equals(dbEntries.get(i).getFilename()) ||diffEntry.getNewPath().equals(dbEntries.get(i).getFilename()) ){
+								*/
+								
 								if (fileToUse.equals(dbEntries.get(i).getFilename())) {
 										
 									nr++;
@@ -213,7 +210,7 @@ public class Metrics {
 								
 							
 							}
-						}
+						} //end entries
 
 						
 						if (numFiles.contains(dbEntries.get(i).getFilename())) {
@@ -277,15 +274,32 @@ public class Metrics {
 					
 		}
 	
-	
+	public static String getFileToUse(DiffEntry diffEntry){
+	//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
+		
+		String diffFileName;	
+		
+		if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
+			diffFileName = diffEntry.getOldPath();	
+		}
+		else {
+			diffFileName = diffEntry.getNewPath();
+		}
+		
+		String rename = MainControl.verifyRename(diffFileName);
+		String fileToUse = null;
+		
+		if (rename!=null) {
+			fileToUse=rename;
+		}
+		else {
+			fileToUse=diffFileName;
+		}
+		
+		return fileToUse;
 
-	public static void nFix(List<Data> dbEntries) {
-		//numero di bug fixati in quel file
-		//devo vedere se nei file della release il commit.getFulMessage contiene "%fix%"
-		
-		
-		
 	}
+	
 	
 	public static int maxElement(List<Integer> list) {
 		

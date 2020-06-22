@@ -15,11 +15,9 @@ import java.util.Map;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoHeadException;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 
@@ -108,7 +106,6 @@ public class GetGitInfo {
 	
 	public static void populateLastCommitRelease(Map<RevCommit, Integer> lastCommitRelease) {
 		
-		List<LocalDateTime> timeList= new ArrayList<>();
 		List<RevCommit> commitList;
 		RevCommit lastCommit;
 		
@@ -219,9 +216,9 @@ public class GetGitInfo {
 	
 	
     
-    public static List<RevCommit> getCommitsID(Git git, List<Ticket> ticketlist, String pathName) throws IOException, NoHeadException, GitAPIException {
+    public static List<RevCommit> getCommitsID(Git git, List<Ticket> ticketlist) throws  GitAPIException {
     	
-    	List<RevCommit> myCommits= new ArrayList <RevCommit>();
+    	List<RevCommit> myCommits= new ArrayList <>();
     	int i;
     	int count=0;
    
@@ -229,7 +226,7 @@ public class GetGitInfo {
 
     	//get Commits
     	Iterable<RevCommit> log = git.log().call();
-    	List<RevCommit> logCommitList = new  ArrayList<RevCommit>();
+    	List<RevCommit> logCommitList = new  ArrayList<>();
     	
     	for (RevCommit commit : log) {
     		

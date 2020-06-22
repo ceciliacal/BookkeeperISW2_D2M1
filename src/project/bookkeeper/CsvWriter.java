@@ -107,8 +107,6 @@ public class CsvWriter {
 		      }
 
 		      writer.write(sb.toString());
-
-		      //System.out.println("done!");
 		      Log.infoLog("done!");
 
 		    } catch (FileNotFoundException e) {

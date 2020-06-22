@@ -45,7 +45,6 @@ public class GetJiraInfo {
 			Map<LocalDateTime, String> releaseNames;
 			Map<LocalDateTime, String> releaseID;
 			List<LocalDateTime> releases;
-			Integer numVersions;
 			
 			List<Release> myReleases = new ArrayList<>();
 			String projName ="BOOKKEEPER ";
@@ -106,13 +105,12 @@ public class GetJiraInfo {
 			String outname = projName + "VersionInfo.csv";
 			StringBuilder sb=null;
 			int i;
-			Integer numVersions;
 			
 			try (PrintWriter writer = new PrintWriter(new File(outname))) {
 
 			       sb = new StringBuilder();
 
-			      numVersions = releases.size();
+			       Integer numVersions = releases.size();
 		            for ( i = 0; i < releases.size(); i++) {
 		               Integer index = i + 1;
 		               sb.append(index.toString());
@@ -279,7 +277,8 @@ public class GetJiraInfo {
 	   }
 	   
 	   public static int indexConversion(String name, List<Release> rel ) {
-		   int res, i;
+		   int res;
+		   int i;
 		   
 		   for (i=0;i<rel.size();i++) {
 			   
@@ -298,7 +297,9 @@ public class GetJiraInfo {
 
 	   
 	   public static void printTicketList(List<Ticket> ticketList) {
-		   int i, j, k;
+		   int i;
+		   int j;
+		   int k;
 		   int len=ticketList.size();
 		   
 		   for (i=0;i<len;i++) {	//prendo ticket i-esimo

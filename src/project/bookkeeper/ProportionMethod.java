@@ -119,7 +119,7 @@ public class ProportionMethod {
 		
 		//System.out.println("dim ticketlist: "+ticketlist.size());	
 		
-		int persi=0;
+		
 		/*
 		System.out.println("\n\n");
 		System.out.println("ovIs1: "+ovIs1);
@@ -159,6 +159,10 @@ public class ProportionMethod {
 		//AVRO GIA TOLTO TICKET CON IV>7
 		//ora prendiamo ticket su cui calcolare Proportion
 		
+		getProportionTickets( goodProp, noIV);
+		
+		/*
+		
 		for(i=0;i<ticketlist.size();i++) {
 			
 			//smistoTraIv_e_Good++;
@@ -195,8 +199,9 @@ public class ProportionMethod {
 				}
 			
 			}
+			*/
 
-		
+	}
 
 		
 
@@ -223,6 +228,39 @@ public class ProportionMethod {
 		
 		*/
 		
+		
+
+	public static void getProportionTickets(List<Ticket> goodProp, List<Ticket> noIV) {
+		
+		for(int i=0;i<ticketlist.size();i++) {
+			
+			//smistoTraIv_e_Good++;
+			
+			//Prendiamo ticket con IV !=0 (cioè che hanno AV)
+			if (ticketlist.get(i).getIV()!=0) {
+
+				//FV!=IV && FV!=OV -> sennò P=0
+				if ((ticketlist.get(i).getFV()!=ticketlist.get(i).getIV()) && (ticketlist.get(i).getFV()!=ticketlist.get(i).getOV())&&(ticketlist.get(i).getIV()<=ticketlist.get(i).getOV())){
+					//if (ticketlist.get(i).getOV()<=halfRelease && ticketlist.get(i).getFV()<=halfRelease ) {
+							
+						//good++;
+	
+						//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+"		created: "+ticketlist.get(i).getCreatedDate()+"		resolution: "+ticketlist.get(i).getResolutionDate()+" 		IV: "+ticketlist.get(i).getIV()+" 		OV: "+ticketlist.get(i).getOV()+" 		FV: "+ticketlist.get(i).getFV());
+						goodProp.add(ticketlist.get(i));
+						
+					//}
+					
+				}			
+			}
+			
+			else {
+
+					noIV.add(ticketlist.get(i));
+					//noIv++;
+					
+				}
+			
+			}
 
 	}
 	
