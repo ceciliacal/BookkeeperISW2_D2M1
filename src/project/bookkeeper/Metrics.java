@@ -25,24 +25,24 @@ public class Metrics {
 	//protected
 	public static final List<RevCommit> commitList= MainControl.myCommitsList;
 	public static final List<String> classesList= MainControl.classesList;
-	public static final Repository repository= MainControl.repository;
+	//public static final Repository repository= MainControl.repository;
 	
 	  private Metrics() {
 		    throw new IllegalStateException("Utility class");
 		  }
 	
-	public static void calculate() throws IOException {
+	public static void calculate(Repository repository) throws IOException {
 		
 		List <Data> dbEntries = MainControl.entries;
 
-		prova2(dbEntries);
+		prova2(dbEntries, repository);
 
 	}
 	
 	
 
 	
-	public static int loc(TreeWalk treewalk) throws IOException {
+	public static int loc(TreeWalk treewalk, Repository repository) throws IOException {
 		
 		ObjectLoader loader = repository.open(treewalk.getObjectId(0));
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -65,7 +65,7 @@ public class Metrics {
 	
 	
 
-	public static void prova2(List<Data> dbEntries) throws IOException {
+	public static void prova2(List<Data> dbEntries, Repository repository) throws IOException {
 		
 		int nr;
 		int locAdded;

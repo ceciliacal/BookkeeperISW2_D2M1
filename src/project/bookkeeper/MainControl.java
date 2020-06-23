@@ -2,22 +2,13 @@ package project.bookkeeper;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.RawTextComparator;
-import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
@@ -35,17 +26,18 @@ public class MainControl {
 	protected static List<RevCommit> myCommitsList;	//lista dei commit relativi ai ticket
 	protected static List <Release> releases;
 	protected static List<Data> entries;
-	protected static List<RenamedFile> renames;
+	//protected static List<RenamedFile> renames;
 	protected static final String path="D:\\Cecilia\\Desktop\\bookkeeper";
 	
-	public static int halfRelease;
-	public static Repository repository;
+	//public static Repository repository;
 	
 	public static List<Rename> renameList;
 	
 	public static void main(String[] args) throws IOException, JSONException, GitAPIException {
 		
 		int numDefects;
+		int halfRelease;
+		Repository repository;
 
 		List <Ticket> good = new ArrayList<>();		//tickets con AV regolare che utilizzo per calcolare proportion
 		List <Ticket> wrong = new ArrayList<>();		//tickets senza IV (AV), e quindi di cui calcolo predictedIV
@@ -54,8 +46,6 @@ public class MainControl {
 		entries= new ArrayList<>();
 		
 		Git git= Git.open(new File(path));
-
-		
     	repository=git.getRepository();
     	
     	releases=GetJiraInfo.getReleaseInfo();
@@ -66,32 +56,20 @@ public class MainControl {
     	
 
     	setOvFvIv();
-    	GetGitInfo.getFilesPerRelease(git, entries);
+    	GetGitInfo.getFilesPerRelease(git, entries, repository);
     	
     	
     	//mi salvo tutti i commits del log di bookkeeper in commitsIDlist e intanto li aggiungo ai relativi ticket
     	myCommitsList=GetGitInfo.getCommitsID(git, ticketlist );	//va dopo getTicketInfo perché senno non conosco ticketID
-		//System.out.println("commits dim: "+myCommitsList.size());
-    	
-    	// ---> addJavaFiles (repository);	//questo li mette nei vari ticket (prende quelli toccati dai commit di un ticket)
-    	
-		//renameList=checkRename(entries, git);
-    	//GetJiraInfo.printTicketList(ticketlist);
- 	
-    	//classesList=GetGitInfo.listAllFiles(repository);	//listAllFiles prende tutti i file Java della repo
 	    	
-    	renames = new ArrayList<RenamedFile>();
-    	//addJavaFiles (repository);	
-    	
-    	
-    	
-    	renameList=checkRename(entries, git);
-    	addJavaFiles (repository);
+    	//renames = new ArrayList<RenamedFile>();
 
     	
-    	//entries= cartesiano();
-    	//GetGitInfo.printList(classesList);
-    	//renameList=checkRename(entries, git);
+    	
+    	
+    	renameList=checkRename(entries, git, repository);
+    	addJavaFiles (repository);
+
     	
     	ProportionMethod proportionMethod = new ProportionMethod();
     	proportionMethod.checkDates(good, wrong);
@@ -101,26 +79,16 @@ public class MainControl {
     	//finalPrintTickets();
     	System.out.println("ticketlist size: "+ticketlist.size());
 
-    	
-    
-
     	bugsPerRelease();
+ 
     	
-    	
-    	//GetJiraInfo.printTicketList(ticketlist);
-
-    	//CsvWriter.write(entries);
-    	
-    	//ComputeMetrics.NR();
-    	//System.out.println("commitList size: "+myCommitsList.size());
-    	
-    	Metrics.calculate();
+    	Metrics.calculate(repository);
     	CsvWriter.write(entries);
 
 	
 	}
 	
-	public static List<Rename> checkRename(List<Data> dbEntries, Git git) throws IOException, GitAPIException {
+	public static List<Rename> checkRename(List<Data> dbEntries, Git git, Repository repository) throws IOException, GitAPIException {
 		
 		List<Rename> renameList = new ArrayList<>();		
 

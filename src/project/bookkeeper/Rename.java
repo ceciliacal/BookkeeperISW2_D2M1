@@ -3,8 +3,6 @@ package project.bookkeeper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jgit.revwalk.RevCommit;
-
 public class Rename {
 	
 	private String newpath;

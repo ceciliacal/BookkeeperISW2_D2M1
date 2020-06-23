@@ -21,7 +21,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 public class GetGitInfo {
 	
 	public static final List <Release> releases= MainControl.releases;
-	public static final Repository repository= MainControl.repository;
+	//public static final Repository repository= MainControl.repository;
 	public static final List <String> classesList= MainControl.classesList;
 
 	
@@ -31,7 +31,7 @@ public class GetGitInfo {
 	 }
 	
 	
-	public static void getFilesPerRelease(Git git, List<Data> dbEntries) throws IOException, GitAPIException {    	
+	public static void getFilesPerRelease(Git git, List<Data> dbEntries, Repository repository) throws IOException, GitAPIException {    	
 
 
 		
@@ -62,7 +62,7 @@ public class GetGitInfo {
     	    	
     	// === PRENDO TUTTI I FILE JAVA A PARTIRE DALL'ULTIMO COMMIT DI UNA RELEASE
 
-    	retrieveJavaFiles(dbEntries);
+    	retrieveJavaFiles(dbEntries, repository);
 
 	}	
 		
@@ -134,7 +134,7 @@ public class GetGitInfo {
 	}
 
 	//prendo TUTTI i file in una release
-	public static void retrieveJavaFiles(List<Data> dbEntries) throws IOException {
+	public static void retrieveJavaFiles(List<Data> dbEntries, Repository repository) throws IOException {
 		
 		int count;
 		int fileLoc=0;
@@ -162,7 +162,7 @@ public class GetGitInfo {
             		count++;
             		
             		Data dbEntry=new Data(releases.get(i), treeWalk.getPathString());
-            		fileLoc= Metrics.loc(treeWalk);
+            		fileLoc= Metrics.loc(treeWalk, repository);
             		dbEntry.setLoc(fileLoc);
             		dbEntries.add(dbEntry);
             		
