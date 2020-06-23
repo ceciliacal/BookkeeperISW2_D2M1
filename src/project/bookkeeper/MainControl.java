@@ -31,6 +31,7 @@ public class MainControl {
 	protected static List<Rename> renameList;
 	
 	protected static final String PROJECTNAME="bookkeeper";
+	protected static final String RENAME="RENAME";
 	
 	
 	
@@ -48,7 +49,7 @@ public class MainControl {
 		classesList = new ArrayList<>();
 		entries= new ArrayList<>();
 		
-		 
+		 /*
 		try (Git git= Git.open(new File(path))){
 			
 			repository=git.getRepository();
@@ -60,7 +61,8 @@ public class MainControl {
 	        e.printStackTrace(pw);
 	        Log.errorLog(sw.toString());
 		}
-
+		*/
+		
 		Git git= Git.open(new File(path));
     	repository=git.getRepository();
     	
@@ -173,45 +175,10 @@ public class MainControl {
 				String newPath = diffEntry.getNewPath();
 					
 				//per ogni diffEntry, vedo se è un Rename di files java
-				if (diffEntry.getChangeType().toString().equals("RENAME") && (diffEntry.toString().contains(".java")))	{
+				if (diffEntry.getChangeType().toString().equals(RENAME) && (diffEntry.toString().contains(".java")))	{
 
 					populateRenameList(oldPath, newPath, renameList);
-					/*
-						boolean oPCheck = true;
-						boolean nPCheck = true;
-						
-						//scorro la lista di rename (renameList) se è popolata per vedere se oldPath o newPath sono presenti
-						for(Rename fileRenamed : renameList) {
-							
-							if(!fileRenamed.checkAlias(oldPath)) {
-								oPCheck = false;
-								if(fileRenamed.checkAlias(newPath)) {
-									fileRenamed.getOldpaths().add(newPath);
-									nPCheck = false;
-								}
-							}
-							if(!fileRenamed.checkAlias(newPath)) {
-								nPCheck = false;
-								if(fileRenamed.checkAlias(oldPath)) {
-									fileRenamed.getOldpaths().add(oldPath);
-									oPCheck = false;
-								}
-							}
-						}
-						
-						//se non sono presenti, creo nuovo renamedFile
-						if(oPCheck && nPCheck) {
-							
-							Rename fileRenamed = new Rename();
-							fileRenamed.getOldpaths().add(oldPath);
-							fileRenamed.getOldpaths().add(newPath);
-							renameList.add(fileRenamed);
-						}
-						
-						//System.out.println("newpath: "+renameList.get(0).getNewpath());
-						//System.out.println("oldpaths: "+renameList.get(0).getOldpaths());
-					
-					 */
+
 				}
 			}				
 				
