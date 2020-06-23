@@ -26,12 +26,12 @@ public class MainControl {
 	protected static List<RevCommit> myCommitsList;	//lista dei commit relativi ai ticket
 	protected static List <Release> releases;
 	protected static List<Data> entries;
-	//protected static List<RenamedFile> renames;
+	protected static List<Rename> renameList;
+	
 	protected static final String path="D:\\Cecilia\\Desktop\\bookkeeper";
 	
-	//public static Repository repository;
 	
-	public static List<Rename> renameList;
+	
 	
 	public static void main(String[] args) throws IOException, JSONException, GitAPIException {
 		
@@ -61,12 +61,7 @@ public class MainControl {
     	
     	//mi salvo tutti i commits del log di bookkeeper in commitsIDlist e intanto li aggiungo ai relativi ticket
     	myCommitsList=GetGitInfo.getCommitsID(git, ticketlist );	//va dopo getTicketInfo perché senno non conosco ticketID
-	    	
-    	//renames = new ArrayList<RenamedFile>();
-
-    	
-    	
-    	
+ 	
     	renameList=checkRename(entries, git, repository);
     	addJavaFiles (repository);
 
@@ -315,7 +310,7 @@ public class MainControl {
     	
     	for( DiffEntry diffEntry : entries ) {
     		
-    		if (diffEntry.getOldPath().contains(".java") || diffEntry.getNewPath().contains(".java")) {
+    		if (diffEntry.toString().contains(".java")) {
     		    			
     			String diffFileName;
     			
