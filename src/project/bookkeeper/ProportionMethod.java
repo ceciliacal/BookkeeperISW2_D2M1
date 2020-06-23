@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 public class ProportionMethod {
 	
 	public static final List<Ticket> ticketlist= MainControl.ticketlist;
+	private static final String INCONSISTENT_VERSIONS = "ERRORE: versioni inconsistenti.";
 
 	
 	public void checkDates2(List <Ticket> goodProp, List <Ticket> noIV) {
@@ -89,7 +90,6 @@ public class ProportionMethod {
 		
 		}
 
-		int k;
 		//System.out.println("dim ticketlist: "+ticketlist.size());
 		//System.out.println("HALF: "+halfRelease);
 
@@ -301,10 +301,15 @@ public class ProportionMethod {
 			
 		}
 		
-		//proportionCalculus(pList, noIv, dim);
+		proportionCalculus(pList, noIv, dim);
 
-		//System.out.println("\n\n\n");
+	
+			
+	}
+	
 
+		
+	public void proportionCalculus(Map<Ticket, Integer> pList, List <Ticket> noIv, int dim) {
 		
 		List<Integer> window;
 		
@@ -314,7 +319,7 @@ public class ProportionMethod {
 
 		 //System.out.println("==== FORSE predIV");
 
-		for (i=0; i<noIv.size();i++) {
+		for (int i=0; i<noIv.size();i++) {
 			
 			//average=0;
 			countInsideIf=0;
@@ -343,13 +348,12 @@ public class ProportionMethod {
 
 					 
 					//ora calcolo predictedIV come media degli ultimi 4 P
-					// --
 					 noIv.get(i).setP(average);
 					 calculatePredictedIV(noIv.get(i));
 					 
 					 if ((noIv.get(i).getIV()>noIv.get(i).getOV()) || (noIv.get(i).getIV()>noIv.get(i).getFV()) ) {
 						 
-						 Log.infoLog("ERRORE: versioni inconsistenti.");
+						 Log.infoLog(INCONSISTENT_VERSIONS);
 						 return;
 
 					 }
@@ -376,97 +380,7 @@ public class ProportionMethod {
 				 
 				 if ((noIv.get(i).getIV()>noIv.get(i).getOV()) || (noIv.get(i).getIV()>noIv.get(i).getFV()) ) {
 					 
-					 Log.infoLog("ERRORE: versioni inconsistenti.");
-					 return;
-
-				 }
-
-				 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
-
-				
-			}
-
-			 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
-		
-		}
-	
-			
-	}
-	
-
-	/*	
-	public void proportionCalculus(LinkedHashMap<Ticket, Integer> pList, List <Ticket> noIv, int dim) {
-		
-		List<Integer> window;
-		
-		int average;
-		int lastKey=0;
-		int countInsideIf;
-
-		 //System.out.println("==== FORSE predIV");
-
-		for (int i=0; i<noIv.size();i++) {
-			
-			//average=0;
-			countInsideIf=0;
-			
-			//se ticketnoIV-iesimo supera un ticket good, deve prendere la p corrispondete
-			//a quel ticket good e le ultime 4 (dim) p a partire da esso.
-			
-
-			for (HashMap.Entry<Ticket, Integer> pList_entry : pList.entrySet()) {		//good
-				
-				
-				if (noIv.get(i).getNumTicket()<pList_entry.getKey().getNumTicket()) {		
-			    	 
-
-			    	 //prendi ultimi 4 entry della pList (ultimi 4 ticket, di cui prendo il value "p")
-
-					countInsideIf++; 
-
-					//System.out.println("ticketID_noIv= "+noIv.get(i).getTicketID()+"  		goodID_pList= "+pList_entry.getKey().getTicketID());
-					//System.out.println("------------------- ");
-
-					
-					 window=buildWindow(pList, dim, lastKey ) ;  
-					 average= calculateAverage(window);
-					 //System.out.println("P average= "+ average);
-
-					 
-					//ora calcolo predictedIV come media degli ultimi 4 P
-					 noIv.get(i).setP(average);
-					 calculatePredictedIV(noIv.get(i));
-					 
-					 if ((noIv.get(i).getIV()>noIv.get(i).getOV()) || (noIv.get(i).getIV()>noIv.get(i).getFV()) ) {
-						 
-						 System.out.println("ERRORE: versioni inconsistenti.");
-						 return;
-
-					 }
-	
-					 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
-
-			    	 break;
-
-			     }
-			
-				lastKey=pList_entry.getKey().getNumTicket();
-					
-			}
-			
-			if (countInsideIf==0) {		//non sono mai entrato nell'IF perche ticketNoIv > ticketGood => prendo ultimo ticketGood
-				
-				//System.out.println("        -------------------> lastKey= "+lastKey);
-				
-				window=buildWindow(pList, dim, lastKey ) ;  
-				average= calculateAverage(window);
-				
-				 noIv.get(i).setP(average);
-				 calculatePredictedIV(noIv.get(i));
-				 
-				 if ((noIv.get(i).getIV()>noIv.get(i).getOV()) || (noIv.get(i).getIV()>noIv.get(i).getFV()) ) {
-					 
-					 System.out.println("ERRORE: versioni inconsistenti.");
+					 Log.infoLog(INCONSISTENT_VERSIONS);
 					 return;
 
 				 }
@@ -483,7 +397,7 @@ public class ProportionMethod {
 		
 		
 	}
-	*/
+
 	
 	
 	public List<Integer> buildWindow(Map<Ticket, Integer> pList, int dim, int targetNumTicket ) {
@@ -644,7 +558,7 @@ public class ProportionMethod {
 				
 			}
 			
-			count=0;
+			//count=0;
 			//System.out.println(ticketlist.get(i).getTicketID()+"            IV: "+ ticketlist.get(i).getIV()+"           OV : "+ticketlist.get(i).getOV()+"             FV: "+ticketlist.get(i).getFV());
 
 

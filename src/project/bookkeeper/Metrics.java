@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-
-
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
@@ -23,10 +21,11 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 public class Metrics {
-
-	protected static final List<RevCommit> commitList= MainControl.myCommitsList;
-	protected static final List<String> classesList= MainControl.classesList;
-	protected static final Repository repository= MainControl.repository;
+	
+	//protected
+	public static final List<RevCommit> commitList= MainControl.myCommitsList;
+	public static final List<String> classesList= MainControl.classesList;
+	public static final Repository repository= MainControl.repository;
 	
 	  private Metrics() {
 		    throw new IllegalStateException("Utility class");
@@ -144,13 +143,13 @@ public class Metrics {
 							// For each file changed in the commit 
 							//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
 							
-							//String diffFileName;
-							String fileToUse;
+							String diffFileName;
+							//String fileToUse;
 							
 							if (diffEntry.toString().contains(".java")) {
 							
-								fileToUse = getFileToUse(diffEntry);
-								/*
+								
+								
 								if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
 									diffFileName = diffEntry.getOldPath();	
 								}
@@ -167,7 +166,7 @@ public class Metrics {
 								else {
 									fileToUse=diffFileName;
 								}
-								*/
+								
 								
 								if (fileToUse.equals(dbEntries.get(i).getFilename())) {
 										

@@ -1,17 +1,17 @@
 package project.bookkeeper;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.io.Reader;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.Map;
 import java.util.List;
 import java.util.Collections;
@@ -26,30 +26,25 @@ import org.json.JSONArray;
 
 public class GetJiraInfo {
 	
-	/*
 	   public static Map<LocalDateTime, String> releaseNames;
 	   public static Map<LocalDateTime, String> releaseID;
 	   public static List<LocalDateTime> releases;
 	   public static Integer numVersions;
-	   */
+	   
 
-	   private GetJiraInfo() {
-	     throw new IllegalStateException("Utility class");
-	   }
+	public static void main(String[] args) throws IOException, JSONException {
+		   
 
+		 
+	}
 	
 		//get Release Info: popola liste su release (attributi di questa classe)
 		//ex createCsvReleaseInfo
 		public static List<Release> getReleaseInfo()  throws IOException, JSONException {
 			
-			Map<LocalDateTime, String> releaseNames;
-			Map<LocalDateTime, String> releaseID;
-			List<LocalDateTime> releases;
-			
 			List<Release> myReleases = new ArrayList<>();
 			String projName ="BOOKKEEPER ";
-			int j;
-			int i;
+			int j, i;
 			
 			//Fills the arraylist with releases dates and orders them
 			//Ignores releases with missing dates
@@ -67,21 +62,17 @@ public class GetJiraInfo {
 	                  name = versions.getJSONObject(i).get("name").toString();
 	               if (versions.getJSONObject(i).has("id"))
 	                  id = versions.getJSONObject(i).get("id").toString();
-	               addRelease(releases, releaseID, releaseNames, versions.getJSONObject(i).get("releaseDate").toString(),
+	               addRelease(versions.getJSONObject(i).get("releaseDate").toString(),
 	                          name,id);
 	            }
 	        }
 	        // order releases by date
-	        /*
 	        Collections.sort(releases, new Comparator<LocalDateTime>(){
 	            //@Override
 	            public int compare(LocalDateTime o1, LocalDateTime o2) {
 	                return o1.compareTo(o2);
 	            }
 	        });
-	        */
-	        
-	        Collections.sort(releases, (o1, o2) -> o1.compareTo(o2));
 	        
 	        if (releases.size() < 6) {
 	            return null;
@@ -100,41 +91,7 @@ public class GetJiraInfo {
 	         return myReleases;
 		}
 
-		public static void write(List<LocalDateTime> releases, Map<LocalDateTime, String> releaseID, Map<LocalDateTime, String> releaseNames) {
-			String projName ="BOOKKEEPER ";
-			String outname = projName + "VersionInfo.csv";
-			StringBuilder sb=null;
-			int i;
-			
-			try (PrintWriter writer = new PrintWriter(new File(outname))) {
-
-			       sb = new StringBuilder();
-
-			       Integer numVersions = releases.size();
-		            for ( i = 0; i < releases.size(); i++) {
-		               Integer index = i + 1;
-		               sb.append(index.toString());
-		               sb.append(";");
-		               sb.append(releaseID.get(releases.get(i)));
-		               sb.append(";");
-		               sb.append(releaseNames.get(releases.get(i)));
-		               sb.append(";");
-		               sb.append(releases.get(i).toString());
-		               sb.append("\n");
-		               
-		            }
-		    	} catch (FileNotFoundException e) {
-			      Log.infoLog(e.getMessage());
-			    } catch (Exception e) {
-				    Log.infoLog("Error in csv writer");
-		            e.printStackTrace();		
-	        }
-		}
 		
-		
-		
-		/*
-		 	
 		public static void write() {
 			String projName ="BOOKKEEPER ";
 			int i;
@@ -174,11 +131,9 @@ public class GetJiraInfo {
 		         return;
 			
 		}
-		
-		*/
  
 	
-	   public static void addRelease(List<LocalDateTime> releases, Map<LocalDateTime, String> releaseID, Map<LocalDateTime, String> releaseNames, String strDate, String name, String id) {
+	   public static void addRelease(String strDate, String name, String id) {
 		      LocalDate date = LocalDate.parse(strDate);
 		      LocalDateTime dateTime = date.atStartOfDay();
 		      if (!releases.contains(dateTime))
@@ -268,6 +223,7 @@ public class GetJiraInfo {
 				   
 				   av.add( indexConversion(ver.getJSONObject(i).get("name").toString(),  rel ));
 				   
+				   //AV.add(ver.getJSONObject(i).get("name").toString());
 			   }
 		   }
 		   
@@ -277,8 +233,7 @@ public class GetJiraInfo {
 	   }
 	   
 	   public static int indexConversion(String name, List<Release> rel ) {
-		   int res;
-		   int i;
+		   int res, i;
 		   
 		   for (i=0;i<rel.size();i++) {
 			   
@@ -297,34 +252,43 @@ public class GetJiraInfo {
 
 	   
 	   public static void printTicketList(List<Ticket> ticketList) {
-		   int i;
-		   int j;
-		   int k;
+		   int i, j, k;
 		   int len=ticketList.size();
 		   
 		   for (i=0;i<len;i++) {	//prendo ticket i-esimo
 			  
-			   Log.infoLog("ticketID: "+ ticketList.get(i).getTicketID());
-			   Log.infoLog("resolutionDate: "+ ticketList.get(i).getResolutionDate());
-			   Log.infoLog("created: "+ ticketList.get(i).getCreatedDate());
+			   System.out.println("ticketID: "+ ticketList.get(i).getTicketID());	
+			   System.out.println("resolutionDate: "+ ticketList.get(i).getResolutionDate());
+			   System.out.println("created: "+ ticketList.get(i).getCreatedDate());
+			   
+			   /*
+			   for (j=0;j<ticketList.get(i).getAV().size();j++) {				//scorro Lista delle AV del ticket i-esimo
+	
+				   System.out.println("AV n "+j+": " + ticketList.get(i).getAV().get(j));
+				   
+			   
+			   }
+			   */
 			   
 			   
-			   Log.infoLog("AV: " + ticketList.get(i).getAV());
+			   System.out.println("AV: " + ticketList.get(i).getAV());
 			   
 			   for (k=0;k<ticketList.get(i).getRelatedCommits().size();k++) {	//scorro Lista dei Commits del ticket i-esimo
 					
-				   Log.infoLog("commit n "+k+": " + ticketList.get(i).getRelatedCommits().get(k));
+				   System.out.println("commit n "+k+": " + ticketList.get(i).getRelatedCommits().get(k));	   
+			   
 			   }
 			   
 			   for (k=0;k<ticketList.get(i).getRelatedJavaFiles().size();k++) {	//scorro Lista delle classi toccate dai commit del ticket i-esimo
 					
-
-				   Log.infoLog("file n "+k+": " + ticketList.get(i).getRelatedJavaFiles().get(k));
+				   System.out.println("file n "+k+": " + ticketList.get(i).getRelatedJavaFiles().get(k));	   
+			   
 			   }
 
 			   
 			   
-			   Log.infoLog("============================");
+			   
+			   System.out.println("============================");  
 			
 		   }
 		   
@@ -333,17 +297,16 @@ public class GetJiraInfo {
 
 
 	   public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
-		      InputStream is = new URL(url).openStream();
-		      try (BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8.name()))){
-		         StandardCharsets.UTF_8.name();
-		         String jsonText = readAll(rd);
-		         return new JSONObject(jsonText);
-		       } finally {
-		         is.close();
-		       }
-		   }
-	   
+	      InputStream is = new URL(url).openStream();
+	      try {
+	         BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+	         String jsonText = readAll(rd);
 
+	         return new JSONObject(jsonText);
+	       } finally {
+	         is.close();
+	       }
+	   }
 	   
 	   private static String readAll(Reader rd) throws IOException {
 		      StringBuilder sb = new StringBuilder();

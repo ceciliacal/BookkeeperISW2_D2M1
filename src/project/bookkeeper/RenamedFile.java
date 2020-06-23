@@ -1,7 +1,5 @@
 package project.bookkeeper;
 
-import java.util.List;
-
 public class RenamedFile {
 	
 	private String oldPath;

@@ -80,7 +80,7 @@ public class MainControl {
     	
     	
     	//mi salvo tutti i commits del log di bookkeeper in commitsIDlist e intanto li aggiungo ai relativi ticket
-    	myCommitsList=GetGitInfo.getCommitsID(git, ticketlist);	//va dopo getTicketInfo perché senno non conosco ticketID
+    	myCommitsList=GetGitInfo.getCommitsID(git, ticketlist );	//va dopo getTicketInfo perché senno non conosco ticketID
 		//System.out.println("commits dim: "+myCommitsList.size());
     	
     	// ---> addJavaFiles (repository);	//questo li mette nei vari ticket (prende quelli toccati dai commit di un ticket)
