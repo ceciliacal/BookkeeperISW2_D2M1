@@ -132,14 +132,14 @@ public class MainControl {
 	
 	public static List<Rename> checkRename(List<Data> dbEntries, Git git) throws IOException, NoHeadException, GitAPIException {
 		
-		List<Rename> renameList = new ArrayList<Rename>();		
+		List<Rename> renameList = new ArrayList<>();		
 		
 		
 		
 
     	//get Commits
     	Iterable<RevCommit> log = git.log().call();
-    	List<RevCommit> logCommitList = new  ArrayList<RevCommit>();
+    	List<RevCommit> logCommitList = new  ArrayList<>();
     	
     	for (RevCommit commit : log) {
             
