@@ -13,7 +13,7 @@ public class ProportionMethod {
 	private static final String INCONSISTENT_VERSIONS = "ERRORE: versioni inconsistenti.";
 
 	
-	public void checkDates2(List <Ticket> goodProp, List <Ticket> noIV) {
+	public void checkDates(List <Ticket> goodProp, List <Ticket> noIV) {
 		int i;	
 		/*
 		int ovIs1=0;
@@ -318,7 +318,6 @@ public class ProportionMethod {
 		int average;
 		int lastKey=0;
 		int countInsideIf;
-		boolean checkIf;
 
 		 //System.out.println("==== FORSE predIV");
 
@@ -326,7 +325,7 @@ public class ProportionMethod {
 			
 			//average=0;
 			countInsideIf=0;
-			checkIf = false;
+			
 			
 			//se ticketnoIV-iesimo supera un ticket good, deve prendere la p corrispondete
 			//a quel ticket good e le ultime 4 (dim) p a partire da esso.
@@ -341,7 +340,7 @@ public class ProportionMethod {
 			    	 //prendi ultimi 4 entry della pList (ultimi 4 ticket, di cui prendo il value "p")
 
 					countInsideIf++;
-					checkIf = true;
+				
 
 					//System.out.println("ticketID_noIv= "+noIv.get(i).getTicketID()+"  		goodID_pList= "+pList_entry.getKey().getTicketID());
 					//System.out.println("------------------- ");
