@@ -21,20 +21,18 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 public class Metrics {
-	
-	//protected
+
 	public static final List<RevCommit> commitList= MainControl.myCommitsList;
 	public static final List<String> classesList= MainControl.classesList;
-	//public static final Repository repository= MainControl.repository;
 	
-	  private Metrics() {
-		    throw new IllegalStateException("Utility class");
-		  }
+	private Metrics() {
+	    throw new IllegalStateException("Utility class");
+	 }
+	
 	
 	public static void calculate(Repository repository) throws IOException {
 		
 		List <Data> dbEntries = MainControl.entries;
-
 		prova2(dbEntries, repository);
 
 	}

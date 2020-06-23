@@ -152,168 +152,124 @@ public class MainControl {
 		//for (int i=0;i<dbEntries.size();i++) {
 			//comList=dbEntries.get(i).getRelease().getCommitsOfRelease();
 			//System.out.println("commits dim: "+logCommitList.size());
+		//}
 
-			//dopo aggiungi file per ogni ticket
 		
-			for (int j=0;j<logCommitList.size();j++) {
-				
-				
-				DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);	
-				df.setRepository(repository);
-				df.setDiffComparator(RawTextComparator.DEFAULT);
-				df.setDetectRenames(true);
-				
-				List<DiffEntry> entries=getEntryList(rw, df, logCommitList.get(j));
-				
-				/*
-				RevCommit commit = logCommitList.get(j);
-				RevCommit parent = null;
-				
-				if(commit.getParentCount() !=0) {
-					parent = (RevCommit)commit.getParent(0);
-				}
-					
-				
-				
-				if(parent != null) {
-					
-					entries = df.scan(parent.getTree(), commit.getTree());
-					
-				}
-				else {
-					
-					ObjectReader reader = rw.getObjectReader();
-					entries =df.scan(new EmptyTreeIterator(),
-					        new CanonicalTreeParser(null, reader, commit.getTree()));
-				}
-				 */
-				
-				//differenze tra il commit e il parent
-				for (DiffEntry diffEntry : entries) { 
-						
-					String oldPath = diffEntry.getOldPath();
-					String newPath = diffEntry.getNewPath();
-						
-					//per ogni diffEntry, vedo se è un Rename di files java
-					//if (diffEntry.getChangeType().toString().equals("RENAME")) {
-						
-						if (diffEntry.getChangeType().toString().equals("RENAME") && (diffEntry.getOldPath().contains(".java") || diffEntry.getNewPath().contains(".java")))	{
+		for (int j=0;j<logCommitList.size();j++) {
+			
+			
+			DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);	
+			df.setRepository(repository);
+			df.setDiffComparator(RawTextComparator.DEFAULT);
+			df.setDetectRenames(true);
+			
+			List<DiffEntry> entries=getEntryList(rw, df, logCommitList.get(j));
 
-								boolean oPCheck = true;
-								boolean nPCheck = true;
-								
-								//scorro la lista di rename (renameList) se è popolata per vedere se oldPath o newPath sono presenti
-								for(Rename fileRenamed : renameList) {
-									
-									if(!fileRenamed.checkAlias(oldPath)) {
-										oPCheck = false;
-										if(fileRenamed.checkAlias(newPath)) {
-											fileRenamed.getOldpaths().add(newPath);
-											nPCheck = false;
-										}
-									}
-									if(!fileRenamed.checkAlias(newPath)) {
-										nPCheck = false;
-										if(fileRenamed.checkAlias(oldPath)) {
-											fileRenamed.getOldpaths().add(oldPath);
-											oPCheck = false;
-										}
-									}
-								}
-								
-								//se non sono presenti, creo nuovo renamedFile
-								if(oPCheck && nPCheck) {
-									
-									Rename fileRenamed = new Rename();
-									fileRenamed.getOldpaths().add(oldPath);
-									fileRenamed.getOldpaths().add(newPath);
-									renameList.add(fileRenamed);
-								}
-								
-								//System.out.println("newpath: "+renameList.get(0).getNewpath());
-								//System.out.println("oldpaths: "+renameList.get(0).getOldpaths());
-						}
-					}
-											
-						
-				//}
+			
+			//differenze tra il commit e il parent
+			for (DiffEntry diffEntry : entries) { 
 					
-			}
+				String oldPath = diffEntry.getOldPath();
+				String newPath = diffEntry.getNewPath();
+					
+				//per ogni diffEntry, vedo se è un Rename di files java
+				if (diffEntry.getChangeType().toString().equals("RENAME") && (diffEntry.toString().contains(".java")))	{
+
+					populateRenameList(oldPath, newPath, renameList);
+					/*
+						boolean oPCheck = true;
+						boolean nPCheck = true;
+						
+						//scorro la lista di rename (renameList) se è popolata per vedere se oldPath o newPath sono presenti
+						for(Rename fileRenamed : renameList) {
+							
+							if(!fileRenamed.checkAlias(oldPath)) {
+								oPCheck = false;
+								if(fileRenamed.checkAlias(newPath)) {
+									fileRenamed.getOldpaths().add(newPath);
+									nPCheck = false;
+								}
+							}
+							if(!fileRenamed.checkAlias(newPath)) {
+								nPCheck = false;
+								if(fileRenamed.checkAlias(oldPath)) {
+									fileRenamed.getOldpaths().add(oldPath);
+									oPCheck = false;
+								}
+							}
+						}
+						
+						//se non sono presenti, creo nuovo renamedFile
+						if(oPCheck && nPCheck) {
+							
+							Rename fileRenamed = new Rename();
+							fileRenamed.getOldpaths().add(oldPath);
+							fileRenamed.getOldpaths().add(newPath);
+							renameList.add(fileRenamed);
+						}
+						
+						//System.out.println("newpath: "+renameList.get(0).getNewpath());
+						//System.out.println("oldpaths: "+renameList.get(0).getOldpaths());
+					
+					 */
+				}
+			}				
+				
+		}
 			
 			updateAfterRenames(dbEntries, renameList);
 				
-			/*
-			System.out.println("Lista renames: " + renameList.size());
-			
-			for (int x=0; x<renameList.size();x++) {
-				System.out.println("newpath: "+renameList.get(x).getNewpath());
-				System.out.println("oldpaths: "+renameList.get(x).getOldpaths());
-				System.out.println(" -------------------- ");
-
-
-			}
-			
-			System.out.println("\n\n\n");
-			*/
-			
-			
-			// per ogni insieme di alias di ogni file calcolo il nome piu recente ad esso associato 
-			// per ogni file in renameList, imposto il newpath di esso come il piu recente ad esso associato (perche sta nelle dbEntries)
-			
-			/*
-			for (int i=0;i<dbEntries.size();i++) {
-				
-				String fileName = dbEntries.get(i).getFilename();
-					
-				for (int k=0;k<renameList.size();k++) {
-						
-						for( int m=0;m<renameList.get(k).getOldpaths().size();m++) {
-							
-							String renameFile = renameList.get(k).getOldpaths().get(m);
-							
-							if (renameFile.equals(fileName) || fileName.contains(renameFile) ) {
-								
-								//filesOfRelease.set(y, renameList.get(k).getNewpath());	
-								renameList.get(k).setNewpath(renameFile);
-								
-							}
-						}
-					}
-				}
-					
-			//aggiorno il path di ogni file in ogni release con l'ultimo rename
-			for (int i=0;i<dbEntries.size();i++) {
-				
-				String fileName = dbEntries.get(i).getFilename();
-					
-				for (int k=0;k<renameList.size();k++) {
-						
-					for( int m=0;m<renameList.get(k).getOldpaths().size();m++) {
-							
-							String renameFile = renameList.get(k).getOldpaths().get(m);
-							
-							if (renameFile.equals(fileName) || fileName.contains(renameFile) ) {
-															
-								//System.out.println("renameFile: "+renameFile);
-								//System.out.println("prima dbEntries.set : "+dbEntries.get(i).getFilename());
-								dbEntries.get(i).setFilename(renameList.get(k).getNewpath());
-								//System.out.println("dopo dbEntries.set : "+dbEntries.get(i).getFilename());
-							}
-						}
-					}
-			}
-			*/
 	
 			return renameList;
+	}
+	
+	
+	public static void populateRenameList(String oldPath, String newPath, List<Rename> renameList) {
+		boolean oPCheck = true;
+		boolean nPCheck = true;
+		
+		//scorro la lista di rename (renameList) se è popolata per vedere se oldPath o newPath sono presenti
+		for(Rename fileRenamed : renameList) {
+			
+			if(!fileRenamed.checkAlias(oldPath)) {
+				oPCheck = false;
+				if(fileRenamed.checkAlias(newPath)) {
+					fileRenamed.getOldpaths().add(newPath);
+					nPCheck = false;
+				}
+			}
+			if(!fileRenamed.checkAlias(newPath)) {
+				nPCheck = false;
+				if(fileRenamed.checkAlias(oldPath)) {
+					fileRenamed.getOldpaths().add(oldPath);
+					oPCheck = false;
+				}
+			}
+		}
+		
+		//se non sono presenti, creo nuovo renamedFile
+		if(oPCheck && nPCheck) {
+			
+			Rename fileRenamed = new Rename();
+			fileRenamed.getOldpaths().add(oldPath);
+			fileRenamed.getOldpaths().add(newPath);
+			renameList.add(fileRenamed);
+		}
 	}
 		
 
 	
 	public static void updateAfterRenames(List<Data> dbEntries, List<Rename> renameList) {
+			
+		updateRenameList(dbEntries, renameList);
+		updateDbEntries(dbEntries, renameList);
 		
+	}
+	
+	public static void updateRenameList(List<Data> dbEntries, List<Rename> renameList) {
 		// per ogni insieme di alias di ogni file calcolo il nome piu recente ad esso associato 
 		// per ogni file in renameList, imposto il newpath di esso come il piu recente ad esso associato (perche sta nelle dbEntries)
-		
+				
 		for (int i=0;i<dbEntries.size();i++) {
 			
 			String fileName = dbEntries.get(i).getFilename();
@@ -333,7 +289,10 @@ public class MainControl {
 					}
 				}
 			}
-				
+	}
+	
+
+	public static void updateDbEntries(List<Data> dbEntries, List<Rename> renameList) {
 		//aggiorno il path di ogni file in ogni release con l'ultimo rename
 		for (int i=0;i<dbEntries.size();i++) {
 			
@@ -355,7 +314,6 @@ public class MainControl {
 					}
 				}
 		}
-		
 	}
 	
 	
