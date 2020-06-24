@@ -63,6 +63,8 @@ public class MainControl {
 		}
 		*/
 		
+		Log.setupLogger();
+		
 		Git git= Git.open(new File(path));
     	repository=git.getRepository();
     	
