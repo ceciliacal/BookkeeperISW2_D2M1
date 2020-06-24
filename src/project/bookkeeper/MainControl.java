@@ -49,20 +49,6 @@ public class MainControl {
 		classesList = new ArrayList<>();
 		entries= new ArrayList<>();
 		
-		 /*
-		try (Git git= Git.open(new File(path))){
-			
-			repository=git.getRepository();
-		
-		} catch (IOException e){
-			
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-	        e.printStackTrace(pw);
-	        Log.errorLog(sw.toString());
-		}
-		*/
-		
 		Log.setupLogger();
 		
 		Git git= Git.open(new File(path));
@@ -90,9 +76,6 @@ public class MainControl {
     	proportionMethod.checkDates(good, wrong);
     	proportionMethod.proportion(good, wrong, numDefects);
     	proportionMethod.defineAV(halfRelease);
-    	
-    	//finalPrintTickets();
-    	//System.out.println("ticketlist size: "+ticketlist.size());
 
     	bugsPerRelease();
  
@@ -147,18 +130,10 @@ public class MainControl {
 	public static List<Rename> checkRename(List<Data> dbEntries, Git git, Repository repository) throws IOException, GitAPIException {
 		
 		List<Rename> renameList = new ArrayList<>();		
-		
 		List<RevCommit> logCommitList = getCommitList(git);
     	
-    	//System.out.println("logCommitslist : "+logCommitList.size());
 		RevWalk rw = new RevWalk(repository);
-		
-		//for (int i=0;i<dbEntries.size();i++) {
-			//comList=dbEntries.get(i).getRelease().getCommitsOfRelease();
-			//System.out.println("commits dim: "+logCommitList.size());
-		//}
 
-		
 		for (int j=0;j<logCommitList.size();j++) {
 			
 			
@@ -250,8 +225,6 @@ public class MainControl {
 						String renameFile = renameList.get(k).getOldpaths().get(m);
 						
 						if (renameFile.equals(fileName) || fileName.contains(renameFile) ) {
-							
-							//filesOfRelease.set(y, renameList.get(k).getNewpath());	
 							renameList.get(k).setNewpath(renameFile);
 							
 						}
@@ -275,10 +248,7 @@ public class MainControl {
 						
 						if (renameFile.equals(fileName) || fileName.contains(renameFile) ) {
 														
-							//System.out.println("renameFile: "+renameFile);
-							//System.out.println("prima dbEntries.set : "+dbEntries.get(i).getFilename());
 							dbEntries.get(i).setFilename(renameList.get(k).getNewpath());
-							//System.out.println("dopo dbEntries.set : "+dbEntries.get(i).getFilename());
 						}
 					}
 				}
@@ -370,11 +340,6 @@ public class MainControl {
 					fileToUse=diffFileName;
 				}
 				
-				if (diffEntry.getChangeType().toString().equals(RENAME)) {
-					
-					//System.out.println(" oldPath: "+diffEntry.getOldPath()+"       newPath: "+diffEntry.getNewPath()+"       fileToUse (preso da renameList): "+fileToUse);
-					
-				}
 				
 				javaFilesPerTicket.add(fileToUse);
 				
@@ -394,7 +359,6 @@ public class MainControl {
 		int i;
 		int j;
 		
-		//System.out.println("\n\n\n in getJavaFiles ");
     	for (i=0;i<ticketlist.size();i++) {
     		
     		for (j=0;j<myCommitsList.size();j++) {
@@ -403,12 +367,7 @@ public class MainControl {
     				//prendi file modificati da questo commit e aggiungili al ticket
     				
     				ticketlist.get(i).setRelatedJavaFiles(getJavaFiles(repo, myCommitsList.get(j)));
-    				
-    				/*
-					System.out.println("ticketID: "+ticketlist.get(i).getTicketID());
-					System.out.println("commit: "+myCommitsList.get(j).getId());
-					System.out.println("related files: "+ ticketlist.get(i).getRelatedJavaFiles());
-					*/
+
 
     			}
     				
@@ -468,35 +427,10 @@ public class MainControl {
 						
 			//IV
 			ticketlist.get(i).setIV(ticketlist.get(i).getAV().get(0));	
-			
-			
-
-			//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+" 		OV: "+ticketlist.get(i).getOV()+" 		FV: "+ticketlist.get(i).getFV()+" 		IV: "+ticketlist.get(i).getIV());
-
-			//System.out.println("ticket: "+ticket.get(i).getTicketID()+"		created: "+ticket.get(i).getCreatedDate()+"		resolution: "+ticket.get(i).getResolutionDate()+" 		OV: "+ticket.get(i).getOV()+" 		FV: "+ticket.get(i).getFV()+" 		IV: "+ticket.get(i).getIV());
-
-			//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+"		created: "+ticketlist.get(i).getCreatedDate()+"		resolution: "+ticketlist.get(i).getResolutionDate()+" 		OV: "+ticketlist.get(i).getOV()+" 		FV: "+ticketlist.get(i).getFV()+" 		IV: "+ticketlist.get(i).getIV());
-
 
 			
 		}
-		/*
-		System.out.println("\nRIMUOVO:\n");
 
-		for (i=0;i<ticketlist.size();i++) {
-			
-			if (ticketlist.get(i).getIV()>halfRelease) {
-				//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+" 		OV: "+ticketlist.get(i).getOV()+" 		FV: "+ticketlist.get(i).getFV()+" 		IV: "+ticketlist.get(i).getIV());
-				ticketlist.remove(i);
-				i--;
-			}
-			
-		}
-		
-		System.out.println("ticket totali dopo rimozione IV>7: "+ticketlist.size());
-		System.out.println("\n\n");
-		*/
-		
 	}
 	
 
@@ -507,8 +441,6 @@ public class MainControl {
 		for (i=0;i<ticketlist.size();i++) {
 			
 			Log.infoLog(ticketlist.get(i).getTicketID()+"            IV: "+ ticketlist.get(i).getIV()+"           OV : "+ticketlist.get(i).getOV()+"             FV: "+ticketlist.get(i).getFV()+"             AV: "+ticketlist.get(i).getAV());
-			//System.out.println(ticketlist.get(i).getTicketID()+"            IV: "+ ticketlist.get(i).getIV()+"           OV : "+ticketlist.get(i).getOV()+"             FV: "+ticketlist.get(i).getFV());
-
 			
 		}
 	}
@@ -558,30 +490,20 @@ public class MainControl {
 		int i;
 		int j;
 		int k;
-		//System.out.println("releaseIndex: "+releaseIndex);
 
 		for (i=0;i<ticketlist.size();i++) {	//prendo un ticket
-			//System.out.println("--------------");
-			//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+"      AV size: "+ticketlist.get(i).getAV().size());
 
 			if (ticketlist.get(i).getAV().size()>0) {	//se quel ticket ha AV
+				
 				for (j=0;j<ticketlist.get(i).getAV().size();j++) {	//scorro la lista delle AV di quel ticket
 					
 					if (ticketlist.get(i).getAV().get(j)==releaseIndex) {	//se tra le AV trovo la release x
 					//allora vuol dire che quella release ha come classi buggy quelle riportate come attributo di quel ticket
-						
-						//System.out.println("file: "+ticketlist.get(i).getRelatedJavaFiles());
-						
-						//prendo relatedJavaFiles del ticket i e lo segno a buggy in quella release
+					//prendo relatedJavaFiles del ticket i e lo segno a buggy in quella release
 						
 						for (k=0;k<ticketlist.get(i).getRelatedJavaFiles().size();k++) {	//quindi prendo le classi di quel ticket
 							
-
-							//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+"      release: "+releaseIndex+"       nome file: "+ticketlist.get(i).getRelatedJavaFiles().get(k));
-
 							computeBuggyness(releaseIndex, ticketlist.get(i).getRelatedJavaFiles().get(k));
-
-						
 							
 						}
 						

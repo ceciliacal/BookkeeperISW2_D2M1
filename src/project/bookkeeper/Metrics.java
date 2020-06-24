@@ -61,7 +61,6 @@ public class Metrics {
 	
 	public static String getFileToUse(DiffEntry diffEntry) {
 		String diffFileName;
-		//String fileToUse;
 
 			
 		if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
@@ -140,138 +139,132 @@ public class Metrics {
 		
 		RevWalk rw = new RevWalk(repository);
 		
-		//mi prendo tutti i commit nella release e mi calcolo le metriche per ogni file delal release
-		//for(int i = 0;i<dbEntries.size();i++) {
-			
-			nr = 0;
-			locAdded = 0;
-			locDeleted = 0;
-			chgGetSize = 0;
-			chgGetSizeOnce = 0 ;
-			locAddedOnce = 0;
-			
-			comList=dbEntry.getRelease().getCommitsOfRelease();
-
-			//per ogni file nella release
-			for(int j = 0;j<comList.size();j++) {
-				
-				DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);	
-				df.setRepository(repository);
-				df.setDiffComparator(RawTextComparator.DEFAULT);
-				df.setDetectRenames(true);
-				
-				List<DiffEntry> entries=MainControl.getEntryList(rw, df, comList.get(j));
-
-						
-						
-				//differenze tra il commit e il parent
-				for (DiffEntry diffEntry : entries) { 
-					
-					// For each file changed in the commit 
-					//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
-					
-					String fileToUse = getFileToUse(diffEntry);
-
-					
-					if ( (diffEntry.toString().contains(".java")) && (fileToUse.equals(dbEntry.getFilename())) ) {
-								
-							nr++;
-							
-				   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
-							
-	    	    			computeNAuth(comList.get(j),authors);
-	    	    	
-	    	    			
-							//per ogni modifica (edit) presente nel file    			
-							for(Edit edit : df.toFileHeader(diffEntry).toEditList()) {
-	
-									locAddedOnce = edit.getEndB() - edit.getBeginB();
-									locAdded += edit.getEndB() - edit.getBeginB();
-									//locAddedList.add(locAdded);
-									locAddedList.add(locAddedOnce);
+		//mi prendo tutti i commit nella release e mi calcolo le metriche per ogni file della release			
+		nr = 0;
+		locAdded = 0;
+		locDeleted = 0;
+		chgGetSize = 0;
+		//chgGetSizeOnce = 0 ;
+		//locAddedOnce = 0;
 		
-									locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB
+		comList=dbEntry.getRelease().getCommitsOfRelease();
 
-									//churn = locAdded- locDeleted;
-									//churnList.add(churn);
-									
-									churnOnce = locAdded- locDeleted;
-									churnList.add(churnOnce);
-									
-							}
-							
-							
-							//prendo i path tutti i file toccati dal commit 
-							//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
-							 getNumFiles(numFiles,diffEntry);
-						
-						
-					
-						}
-					
-					} //end entries
-
-					if (numFiles.contains(dbEntry.getFilename())) {
-						
-						chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
-						
-						chgGetSizeOnce = numFiles.size()-1;
-						chgSetSizeList.add(chgGetSizeOnce);
-					}
-					
-	
-				} //end comList
+		//per ogni file nella release
+		for(int j = 0;j<comList.size();j++) {
 			
-				dbEntry.setNr(nr);
-				dbEntry.setnAuth(authors.size());
-				
-				//prendo loc touched per un file (dbEntry.get(i).getFilename) in un commit di una release, e vado agli altri 
-				//commit della stessa release per vedere le modifiche apportate sempre a quello stesso file
-	
-				//dopo che ho scorso tutti i commit di una release che contengono un certo file, calcolo :
+			DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);	
+			df.setRepository(repository);
+			df.setDiffComparator(RawTextComparator.DEFAULT);
+			df.setDetectRenames(true);
+			
+			List<DiffEntry> entries=MainControl.getEntryList(rw, df, comList.get(j));
 
-				// ============= LOC TOUCHED , LOC ADDED , MAX&AVG
-				max = maxElement(locAddedList);			//devono essere quelle volta per volta (non somma)
-				avg= computeAvg.calculateAverage(locAddedList);
-				
-				locTouched = locAdded+locDeleted;
-				
-				dbEntry.setMaxLocAdded(max);
-				dbEntry.setAvgLocAdded(avg);
-				dbEntry.setLocAdded(locAdded);
-				dbEntry.setLocTouched(locTouched);
-				
-				// ============= CHURN, MAX&AVG
-				churn = locAdded- locDeleted;
-				
-				max = maxElement(churnList);
-				avg= computeAvg.calculateAverage(locAddedList);
-				
-				dbEntry.setChurn(churn);
-				dbEntry.setMaxChurn(max);
-				dbEntry.setAvgChurn(avg);
-
-				
-				// ============= chgSetSize, MAX&AVG
-				max = maxElement(chgSetSizeList);
-				avg= computeAvg.calculateAverage(chgSetSizeList);
-				
-				dbEntry.setChgSetSize(chgGetSize);
-				dbEntry.setMaxChgSetSize(max);
-				dbEntry.setAvgChgSetSize(avg);
-				
-				// ============= CLEAR LISTS =============
-				
-				locAddedList.clear();
-				churnList.clear();
-				chgSetSizeList.clear();
-				numFiles.clear();
-				authors.clear();
-				
-				
-			//} //end release -> cambio file
 					
-		}
+					
+			//differenze tra il commit e il parent
+			for (DiffEntry diffEntry : entries) { 
+				
+				// For each file changed in the commit 
+				//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
+				
+				String fileToUse = getFileToUse(diffEntry);
+
+				
+				if ( (diffEntry.toString().contains(".java")) && (fileToUse.equals(dbEntry.getFilename())) ) {
+							
+						nr++;
+						
+			   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
+						
+    	    			computeNAuth(comList.get(j),authors);
+    	    	
+    	    			
+						//per ogni modifica (edit) presente nel file    			
+						for(Edit edit : df.toFileHeader(diffEntry).toEditList()) {
+
+								locAddedOnce = edit.getEndB() - edit.getBeginB();
+								locAdded += edit.getEndB() - edit.getBeginB();
+								locAddedList.add(locAddedOnce);
+	
+								locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB
+								
+								churnOnce = locAdded- locDeleted;
+								churnList.add(churnOnce);
+								
+						}
+						
+						
+						//prendo i path tutti i file toccati dal commit 
+						//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
+						 getNumFiles(numFiles,diffEntry);
+					
+					
+				
+					}
+				
+				} //end entries
+
+			if (numFiles.contains(dbEntry.getFilename())) {
+				
+				chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
+				
+				chgGetSizeOnce = numFiles.size()-1;
+				chgSetSizeList.add(chgGetSizeOnce);
+			}
+				
+
+		} //end comList
+		
+		dbEntry.setNr(nr);
+		dbEntry.setnAuth(authors.size());
+		
+		//prendo loc touched per un file (dbEntry.get(i).getFilename) in un commit di una release, e vado agli altri 
+		//commit della stessa release per vedere le modifiche apportate sempre a quello stesso file
+
+		//dopo che ho scorso tutti i commit di una release che contengono un certo file, calcolo :
+
+		// ============= LOC TOUCHED , LOC ADDED , MAX&AVG
+		max = maxElement(locAddedList);			//devono essere quelle volta per volta (non somma)
+		avg= computeAvg.calculateAverage(locAddedList);
+		
+		locTouched = locAdded+locDeleted;
+		
+		dbEntry.setMaxLocAdded(max);
+		dbEntry.setAvgLocAdded(avg);
+		dbEntry.setLocAdded(locAdded);
+		dbEntry.setLocTouched(locTouched);
+		
+		// ============= CHURN, MAX&AVG
+		churn = locAdded- locDeleted;
+		
+		max = maxElement(churnList);
+		avg= computeAvg.calculateAverage(locAddedList);
+		
+		dbEntry.setChurn(churn);
+		dbEntry.setMaxChurn(max);
+		dbEntry.setAvgChurn(avg);
+
+		
+		// ============= chgSetSize, MAX&AVG
+		max = maxElement(chgSetSizeList);
+		avg= computeAvg.calculateAverage(chgSetSizeList);
+		
+		dbEntry.setChgSetSize(chgGetSize);
+		dbEntry.setMaxChgSetSize(max);
+		dbEntry.setAvgChgSetSize(avg);
+		
+		// ============= CLEAR LISTS =============
+		
+		locAddedList.clear();
+		churnList.clear();
+		chgSetSizeList.clear();
+		numFiles.clear();
+		authors.clear();
+		
+		
+	//} //end release -> cambio file
+			
+}
 
 	
 	public static int maxElement(List<Integer> list) {

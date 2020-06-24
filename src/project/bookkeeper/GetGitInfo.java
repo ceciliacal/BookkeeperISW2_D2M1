@@ -21,7 +21,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 public class GetGitInfo {
 	
 	public static final List <Release> releases= MainControl.releases;
-	//public static final Repository repository= MainControl.repository;
 	public static final List <String> classesList= MainControl.classesList;
 
 	
@@ -86,9 +85,7 @@ public class GetGitInfo {
 				
 				//il commit viene prima della data della release res, quindi è dopo la release che ha superato e me lo ritrovo in quella successiva
 				
-				//resRelease=releases.get(i).getIndex();
 				releases.get(i).getCommitsOfRelease().add(commit);
-				//System.out.println("release: "+res_release+"      releaseDate: "+releaseDate+"        commitDate: "+commitDate);
 
 				break;
 			}
@@ -147,8 +144,6 @@ public class GetGitInfo {
             count=0;
 
             RevTree tree = lastCommit.getTree();
-            //System.out.println("Having tree: " + tree);
-
             TreeWalk treeWalk = new TreeWalk(repository);
             treeWalk.addTree(tree);
             treeWalk.setRecursive(true);
@@ -165,13 +160,7 @@ public class GetGitInfo {
             		fileLoc= Metrics.loc(treeWalk, repository);
             		dbEntry.setLoc(fileLoc);
             		dbEntries.add(dbEntry);
-            		
-            		
-            		 //System.out.println("count release "+entry.getValue()+": "+count);
-                     //System.out.println("release: "+releases.get(i).getIndex()+"     fileLocTouched: "+fileLocTouched+"       file: "+treeWalk.getPathString());
-            		 //System.out.println("count: "+count);
-	
-            		
+         
             	}
             	
 
@@ -180,12 +169,9 @@ public class GetGitInfo {
            
  
          Log.infoLog("================================================================");
-         //System.out.println("release "+entry.getValue()+"    nFiles: "+releases.get(entry.getValue()-1).getFilesOfRelease().size());
          Log.infoLog("count release "+releases.get(i).getIndex()+": "+count);
-   		 //System.out.println("count: "+count);
 
         }
-        //System.out.println("count release "+entry.getValue()+": "+count);
 	}
 	
 	
@@ -227,7 +213,6 @@ public class GetGitInfo {
     		
     	}
     	
-		//System.out.println("numero commit id +: "+count+"   num tot commit logCommitList: "+logCommitList.size()+"    numero tickets id:"+ticketlist.size());
 
     	return myCommits;
     	

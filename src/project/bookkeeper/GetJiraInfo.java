@@ -69,13 +69,10 @@ public class GetJiraInfo {
 	        if (releases.size() < 6) {
 	            return Collections.emptyList();
 	        }
-
-	         //System.out.println("myReleases: ");
 	          
 	         for (j=0;j<releases.size();j++) {
 	        	 
 	        	 myReleases.add(new Release(j+1,releaseNames.get((releases).get(j)),releases.get(j)));
-	        	 //System.out.println(myReleases.get(j).getIndex()+"			"+ myReleases.get(j).getVersionName()+"			"+myReleases.get(j).getDate());
 	        	 
 	         }
 	        
@@ -84,52 +81,6 @@ public class GetJiraInfo {
 		}
 
 		
-		
-		
-		/*
-		 	
-		public static void write() {
-			String projName ="BOOKKEEPER ";
-			int i;
-			FileWriter fileWriter = null;
-			try {
-		            fileWriter = null;
-		            String outname = projName + "VersionInfo.csv";
-						    //Name of CSV for output
-						    fileWriter = new FileWriter(outname);
-		            fileWriter.append("Index;Version ID;Version Name;Date");
-		            fileWriter.append("\n");
-		            numVersions = releases.size();
-		            for ( i = 0; i < releases.size(); i++) {
-		               Integer index = i + 1;
-		               fileWriter.append(index.toString());
-		               fileWriter.append(";");
-		               fileWriter.append(releaseID.get(releases.get(i)));
-		               fileWriter.append(";");
-		               fileWriter.append(releaseNames.get(releases.get(i)));
-		               fileWriter.append(";");
-		               fileWriter.append(releases.get(i).toString());
-		               fileWriter.append("\n");
-		            }
-
-		         } catch (Exception e) {
-		            System.out.println("Error in csv writer");
-		            e.printStackTrace();
-		         } finally {
-		            try {
-		               fileWriter.flush();
-		               fileWriter.close();
-		            } catch (IOException e) {
-		               System.out.println("Error while flushing/closing fileWriter !!!");
-		               e.printStackTrace();
-		            }
-		         }
-		         return;
-			
-		}
-		
-		*/
- 
 	
 	   public static void addRelease(List<LocalDateTime> releases, Map<LocalDateTime, String> releaseID, Map<LocalDateTime, String> releaseNames, String strDate, String name, String id) {
 		      LocalDate date = LocalDate.parse(strDate);
@@ -169,17 +120,14 @@ public class GetJiraInfo {
 	         JSONArray issues = json.getJSONArray("issues");	//ordered sequence of values, array di tickets (issues)
 	         total = json.getInt("total");						//numero totale degli elementi nel file json considerato
 	         
-	       //itero per ogni issue (ticket)
+	         //itero per ogni issue (ticket)
 	         for (; i < total && i < j; i++) {
 	        	 
 	            //per ogni issue(bug), prendo key=ticketID, versions=AV, resolutionDate=FV, created=OV 
-	            String key = issues.getJSONObject(i%1000).get("key").toString();	//key= ticketID
-	            //System.out.println(key);
-	            
+	            String key = issues.getJSONObject(i%1000).get("key").toString();	//key= ticketID	            
 	            
 	            //resolutiondate= data fix del bug
 	            LocalDate resolutiondate = LocalDate.parse(((CharSequence) issues.getJSONObject(i%1000).getJSONObject(FIELDS).get("resolutiondate")).subSequence(0,10));
-	            //System.out.println(resolutiondate);
 	            
 	            //versions=AV del bug   
 	            JSONArray versions = issues.getJSONObject(i%1000).getJSONObject(FIELDS).getJSONArray("versions");	            
@@ -187,11 +135,7 @@ public class GetJiraInfo {
 	            
 	            //created= data creazione ticket (OV)  
 	            LocalDate created = LocalDate.parse(((CharSequence) issues.getJSONObject(i%1000).getJSONObject(FIELDS).get("created")).subSequence(0,10));
-	            //System.out.println(created);
-	            
-	            
-
-	            
+ 
 	           ticketList.add(new Ticket(key,versionsList,resolutiondate,created));        	            
 	         
 	         } 
@@ -251,7 +195,6 @@ public class GetJiraInfo {
 	   
 	   public static void printTicketList(List<Ticket> ticketList) {
 		   int i;
-		   int j;
 		   int k;
 		   int len=ticketList.size();
 		   

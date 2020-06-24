@@ -14,21 +14,8 @@ public class ProportionMethod {
 
 	
 	public void checkDates(List <Ticket> goodProp, List <Ticket> noIV) {
+		
 		int i;	
-		/*
-		int ovIs1=0;
-		int mettoIn_noIV=0;
-		int removed=0;
-		int smistoTraIv_e_Good=0;
-		int good=0;
-		int noIv=0;
-		List <Ticket> ovIs1_list = new ArrayList<Ticket>();
-		List <Ticket> mettoIn_noIV_list = new ArrayList<Ticket>();
-		List <Ticket> removed_list = new ArrayList<Ticket>();
-		*/
-		
-
-		
 		
 		for (i=0;i<ticketlist.size();i++){
 			
@@ -40,14 +27,12 @@ public class ProportionMethod {
 			
 			if  (ticketlist.get(i).getOV()==1) {	// IV=1
 				
-				//ovIs1_list.add(ticketlist.get(i));
 				ticketlist.get(i).setIV(1);
 				ticketlist.get(i).getAV().remove(0);
 				ticketlist.get(i).getAV().add(1);
-				//ovIs1++;
-				
-				
+					
 			}
+			
 			//questi hanno l'AV	(???)
 			else {	
 				
@@ -56,10 +41,8 @@ public class ProportionMethod {
 			
 				if ((ticketlist.get(i).getIV()>ticketlist.get(i).getOV()) || (ticketlist.get(i).getIV() >ticketlist.get(i).getFV())) {
 					
-					//mettoIn_noIV_list.add(ticketlist.get(i));
 					ticketlist.get(i).setIV(0);
 					ticketlist.get(i).getAV().clear();
-					//mettoIn_noIV++;
 
 					
 				}
@@ -80,9 +63,7 @@ public class ProportionMethod {
 
 			if ((ticketlist.get(i).getIV()==0)&&(ticketlist.get(i).getOV()==ticketlist.get(i).getFV())) {
 				
-				//removed_list.add(ticketlist.get(i));
 				ticketlist.remove(i);
-				//removed++;
 				i--;
 
 				
@@ -90,145 +71,15 @@ public class ProportionMethod {
 		
 		}
 
-		//System.out.println("dim ticketlist: "+ticketlist.size());
-		//System.out.println("HALF: "+halfRelease);
-
-		
-		//rimuovo i ticket con IV=0 & OV>7 || FV>7 , perché non posso calcolarne predictedIV
-		
-		/*
-		for (k=0;k<ticketlist.size();k++){
-			
-			if (ticketlist.get(k).getIV()==0)  {
-				if ((ticketlist.get(k).getOV()>halfRelease) || (ticketlist.get(k).getFV()>halfRelease)) {
-				
-				
-			
-				
-				//removed_list.add(ticketlist.get(i));
-				//System.out.println("ticket: "+ticketlist.get(k).getTicketID()+" 		OV: "+ticketlist.get(k).getOV()+" 		FV: "+ticketlist.get(k).getFV()+" 		IV: "+ticketlist.get(k).getIV());
-
-				ticketlist.remove(k);
-				removed++;
-				k--;
-
-				//}
-			}
-		
-		}
-		*/
-		
-		//System.out.println("dim ticketlist: "+ticketlist.size());	
-		
-		
-		/*
-		System.out.println("\n\n");
-		System.out.println("ovIs1: "+ovIs1);
-		for (i=0;i<ovIs1_list.size();i++){
-			
-			 System.out.println(ovIs1_list.get(i).getTicketID()+"		IV: "+ ovIs1_list.get(i).getIV()  +"		OV: "+ovIs1_list.get(i).getOV() +"		FV: "+ovIs1_list.get(i).getFV()+"		AV: "+ovIs1_list.get(i).getAV());
-		}
-		System.out.println("\n\n");
-		System.out.println("removed: "+removed);
-		for (i=0;i<removed_list.size();i++){
-			
-			 System.out.println(removed_list.get(i).getTicketID()+"		IV: "+ removed_list.get(i).getIV()  +"		OV: "+removed_list.get(i).getOV() +"		FV: "+removed_list.get(i).getFV()+"		AV: "+removed_list.get(i).getAV());
-			
-		}
-		System.out.println("\n\n");
-		System.out.println("mettoIn_noIV: "+mettoIn_noIV);
-		for (i=0;i<mettoIn_noIV_list.size();i++){
-			
-			
-			 System.out.println(mettoIn_noIV_list.get(i).getTicketID()+"		IV: "+ mettoIn_noIV_list.get(i).getIV()  +"		OV: "+mettoIn_noIV_list.get(i).getOV() +"		FV: "+mettoIn_noIV_list.get(i).getFV()+"		AV: "+mettoIn_noIV_list.get(i).getAV());
-			
-		}
-		
-		*/
-		//System.out.println("\n\n");
-			
-			/*
-			 * quindi finora abbiamo settato:
-			 * - IV=1 per i ticket aventi OV=1
-			 * - IV=0 per i ticket che hanno un AV (di Jira) non affidabile, perche risulta che IV>OV o IV>FV 
-			 * 
-			 * e abbiamo rimosso:
-			 * - i ticket con OV=FV & IV=0 (o perché AV non c'è su Jira, o perché IV>OV || IV>FV)
-			 * 
-			 */
-			
-		//AVRO GIA TOLTO TICKET CON IV>7
 		//ora prendiamo ticket su cui calcolare Proportion
 		
 		getProportionTickets( goodProp, noIV);
 		
-		/*
 		
-		for(i=0;i<ticketlist.size();i++) {
-			
-			//smistoTraIv_e_Good++;
-			
-			//Prendiamo ticket con IV !=0 (cioè che hanno AV)
-			if (ticketlist.get(i).getIV()!=0) {
-
-				//FV!=IV && FV!=OV -> sennò P=0
-				if ((ticketlist.get(i).getFV()!=ticketlist.get(i).getIV()) && (ticketlist.get(i).getFV()!=ticketlist.get(i).getOV())&&(ticketlist.get(i).getIV()<=ticketlist.get(i).getOV())){
-					//if (ticketlist.get(i).getOV()<=halfRelease && ticketlist.get(i).getFV()<=halfRelease ) {
-							
-						//good++;
-	
-						//System.out.println("ticket: "+ticketlist.get(i).getTicketID()+"		created: "+ticketlist.get(i).getCreatedDate()+"		resolution: "+ticketlist.get(i).getResolutionDate()+" 		IV: "+ticketlist.get(i).getIV()+" 		OV: "+ticketlist.get(i).getOV()+" 		FV: "+ticketlist.get(i).getFV());
-						goodProp.add(ticketlist.get(i));
-						
-					//}
-					
-				}
-				else {
-					
-					persi++;
-					//System.out.println("=============ticket: "+ticketlist.get(i).getTicketID()+"		created: "+ticketlist.get(i).getCreatedDate()+"		resolution: "+ticketlist.get(i).getResolutionDate()+" 		IV: "+ticketlist.get(i).getIV()+" 		OV: "+ticketlist.get(i).getOV()+" 		FV: "+ticketlist.get(i).getFV());
-
-				}
-				
-				
-			}
-			else {
-
-					noIV.add(ticketlist.get(i));
-					//noIv++;
-					
-				}
-			
-			}
-			*/
-
 	}
 
 		
 
-		
-		
-
-		/*
-		System.out.println("smistoTraIv_e_Good: "+smistoTraIv_e_Good);
-		System.out.println("\n\n");
-		System.out.println("good: "+good+"         dim listaGood: "+goodProp.size());
-		for (i=0;i<goodProp.size();i++) {
-			
-			System.out.println("ticket: "+goodProp.get(i).getTicketID()+"		created: "+goodProp.get(i).getCreatedDate()+"		resolution: "+goodProp.get(i).getResolutionDate()+" 		IV: "+goodProp.get(i).getIV()+" 		OV: "+goodProp.get(i).getOV()+" 		FV: "+goodProp.get(i).getFV()+"		AV: "+ovIs1_list.get(i).getAV());
-		}
-		System.out.println("\n\n");
-		System.out.println("noIv: "+noIv+"         dim noIv: "+noIV.size());
-		for (i=0;i<noIV.size();i++) {
-			
-			System.out.println("ticket: "+noIV.get(i).getTicketID()+"		created: "+noIV.get(i).getCreatedDate()+"		resolution: "+noIV.get(i).getResolutionDate()+" 		IV: "+noIV.get(i).getIV()+" 		OV: "+noIV.get(i).getOV()+" 		FV: "+noIV.get(i).getFV()+"		AV: "+ovIs1_list.get(i).getAV());
-		}
-		
-		System.out.println("persi: "+persi);
-		
-		
-		*/
-		
 		
 
 	public static void getProportionTickets(List<Ticket> goodProp, List<Ticket> noIV) {
@@ -265,18 +116,14 @@ public class ProportionMethod {
 		double fv;
 		double ov;
 		double p;
-		//double predictedIV;
 		int prop;
 		
 		LinkedHashMap<Ticket, Integer> pList = new LinkedHashMap<>();	//lista di P da cui calcolo la media dell'ultimo 1% dei difetti
 		
 		//calcolo 1% dei difetti
 		perc= numDefects*0.01;		
-		//String.format("%.3f", perc);	//arrotondo la percentuale
-		//System.out.println("perc= "+perc);
 		
 		dim= (int) Math.round(perc);	//dimensione della moving window: arrotondamento di perc (può essere sia x difetto, sia x eccesso)
-		//System.out.println("dim= "+dim);
 		
 		
 		Collections.reverse(mytickets);
@@ -290,9 +137,6 @@ public class ProportionMethod {
 			fv=mytickets.get(i).getFV();
 			
 			p= (fv-iv)/(fv-ov);
-			//String.format("%3f", p);
-			
-			//System.out.println("ticketID= "+mytickets.get(i).getTicketID()+"  		p= "+p+"  		numTicket= "+mytickets.get(i).getNumTicket());
 
 			prop= (int) Math.round(p);
 			
@@ -319,11 +163,9 @@ public class ProportionMethod {
 		int lastKey=0;
 		int countInsideIf;
 
-		 //System.out.println("==== FORSE predIV");
 
 		for (int i=0; i<noIv.size();i++) {
 			
-			//average=0;
 			countInsideIf=0;
 			
 			
@@ -339,16 +181,10 @@ public class ProportionMethod {
 
 			    	 //prendi ultimi 4 entry della pList (ultimi 4 ticket, di cui prendo il value "p")
 
-					countInsideIf++;
-				
+					 countInsideIf++;
 
-					//System.out.println("ticketID_noIv= "+noIv.get(i).getTicketID()+"  		goodID_pList= "+pList_entry.getKey().getTicketID());
-					//System.out.println("------------------- ");
-
-					
 					 window=buildWindow(pList, dim, lastKey ) ;  
 					 average= calculateAverage(window);
-					 //System.out.println("P average= "+ average);
 
 					 
 					//ora calcolo predictedIV come media degli ultimi 4 P
@@ -359,18 +195,7 @@ public class ProportionMethod {
 						 return;
 						 
 					 }
-					 
-					 /*					 
-					 if ((noIv.get(i).getIV()>noIv.get(i).getOV()) || (noIv.get(i).getIV()>noIv.get(i).getFV()) ) {
-						 
-						 Log.infoLog(INCONSISTENT_VERSIONS);
-						 return;
-
-					 }
-					 */
-	
-					 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
-
+					 				 
 			    	 break;
 
 			     }
@@ -380,9 +205,7 @@ public class ProportionMethod {
 			}
 			
 			if (countInsideIf==0) {		//non sono mai entrato nell'IF perche ticketNoIv > ticketGood => prendo ultimo ticketGood
-				
-				//System.out.println("        -------------------> lastKey= "+lastKey);
-				
+								
 				window=buildWindow(pList, dim, lastKey ) ;  
 				average= calculateAverage(window);
 				
@@ -393,21 +216,10 @@ public class ProportionMethod {
 					 return;
 					 
 				 }
-				 /*
-				 if ((noIv.get(i).getIV()>noIv.get(i).getOV()) || (noIv.get(i).getIV()>noIv.get(i).getFV()) ) {
-					 
-					 Log.infoLog(INCONSISTENT_VERSIONS);
-					 return;
-
-				 }
-				 */
-
-				 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
-
+				
 				
 			}
 
-			 //System.out.println(noIv.get(i).getTicketID()+"            IV: "+ noIv.get(i).getIV()+"           OV : "+noIv.get(i).getOV()+"             FV: "+noIv.get(i).getFV()+"             AV: "+noIv.get(i).getAV());
 		
 		}
 	
@@ -433,7 +245,6 @@ public class ProportionMethod {
 	public List<Integer> buildWindow(Map<Ticket, Integer> pList, int dim, int targetNumTicket ) {
 		
 		int i;
-		//System.out.println("targetNumTicket: "+ targetNumTicket);
 
 		List<Integer> window= new ArrayList<>();
 		
@@ -441,7 +252,6 @@ public class ProportionMethod {
 		
 		for (Entry<Ticket, Integer> pList_entry : pList.entrySet()) {
 			
-			//System.out.println("key: "+pList_entry.getKey().getTicketID()+"			p: "+pList_entry.getValue());
 			tempWindow.add(pList_entry.getValue());
 			
 			if (pList_entry.getKey().getNumTicket()==targetNumTicket) {
@@ -454,7 +264,6 @@ public class ProportionMethod {
 		}
 		
 		i=tempWindow.size()-dim;
-		//System.out.println("tempWindow: "+tempWindow+"        size: "+i);
 		
 		int count=0;
 		
@@ -462,7 +271,6 @@ public class ProportionMethod {
 		
 		while (count<dim) {
 			
-			//System.out.println("tempWindow.get(i): "+tempWindow.get(i));
 			window.add(tempWindow.get(i));
 			i++;
 			count++;
@@ -470,7 +278,6 @@ public class ProportionMethod {
 		}
 		
 		
-		//System.out.println("window: "+window);
 		return window;
 		
 		
@@ -492,15 +299,8 @@ public class ProportionMethod {
 		p= (double) myTicket.getP();
 		
 		res=  fv -(fv -ov) * p;
-		//String formattedCommand = String.format("%3f", res);
-		
-		//String.format("%3f", res);
-
-		predIv= (int) Math.round(res);		
-		//System.out.println("predictedIV: "+ predIv);	
-	
+		predIv= (int) Math.round(res);			
 		myTicket.setIV(predIv);
-		//System.out.println("IV: "+ myTicket.getIV());	
 
 		
 	}
@@ -524,14 +324,7 @@ public class ProportionMethod {
 		}
 		
 		tempAvg= (sum)/len;
-		//System.out.println("tempAvg: "+tempAvg);	
-
-		//String.format("%3f", tempAvg);
-		//System.out.println("tempAvg: "+tempAvg);	
-
 		avg= (int) Math.round(tempAvg);
-		//System.out.println("avg: "+avg);	
-
 		
 		return avg;
 	
@@ -588,9 +381,6 @@ public class ProportionMethod {
 				
 			}
 			
-			//count=0;
-			//System.out.println(ticketlist.get(i).getTicketID()+"            IV: "+ ticketlist.get(i).getIV()+"           OV : "+ticketlist.get(i).getOV()+"             FV: "+ticketlist.get(i).getFV());
-
 
 		}
 			
