@@ -10,13 +10,10 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.treewalk.CanonicalTreeParser;
-import org.eclipse.jgit.treewalk.EmptyTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
@@ -88,6 +85,37 @@ public class Metrics {
 
 			
 	}
+	
+	public static void computeNAuth(RevCommit commit, List<PersonIdent> authors) {
+		
+		if (!authors.contains(commit.getAuthorIdent())) {
+			authors.add(commit.getAuthorIdent());
+		}
+	}
+	
+	public static void getNumFiles(List<String> numFiles, DiffEntry diffEntry) {
+			
+		//prendo i path tutti i file toccati dal commit 
+		//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
+		if (diffEntry.getChangeType().toString().equals("DELETE")) {
+			numFiles.add(diffEntry.getOldPath());
+		}
+		else {	//se ho MODIFY, ADD o RENAME, aggiungo newPath del file della diffEntry
+			numFiles.add(diffEntry.getNewPath());
+		}
+	
+		
+	}
+	
+	public static void getChgSetSize(List<String> numFiles, Data dbEntry, int chgGetSize, int chgGetSizeOnce, List<Integer> chgSetSizeList) {
+		if (numFiles.contains(dbEntry.getFilename())) {
+			
+			chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
+			
+			chgGetSizeOnce = numFiles.size()-1;
+			chgSetSizeList.add(chgGetSizeOnce);
+		}
+	}
 
 	public static void prova2(List<Data> dbEntries, Repository repository) throws IOException {
 		
@@ -155,36 +183,20 @@ public class Metrics {
 					
 					
 					if ( (diffEntry.toString().contains(".java")) && (fileToUse.equals(dbEntries.get(i).getFilename())) ) {
-						/*
-						
-						
-						if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
-							diffFileName = diffEntry.getOldPath();	
-						}
-						else {
-							diffFileName = diffEntry.getNewPath();
-						}
-						
-						String rename = MainControl.verifyRename(diffFileName);
-						String fileToUse = null;
-						
-						if (rename!=null) {
-							fileToUse=rename;
-						}
-						else {
-							fileToUse=diffFileName;
-						}
-					*/
-						
+	
 						//if (fileToUse.equals(dbEntries.get(i).getFilename())) {
 								
 							nr++;
-							//aggiusta autori + file = dbENtry.getfilename ?
+							
 				   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
+							/*
 	    	    			if (!authors.contains(comList.get(j).getAuthorIdent())) {
 	    	    				authors.add(comList.get(j).getAuthorIdent());
 	    	    			}
+	    	    			*/
 	    	    			
+	    	    			computeNAuth(comList.get(j),authors);
+	    	    	
 	    	    			
 							//per ogni modifica (edit) presente nel file
 							for(Edit edit : df.toFileHeader(diffEntry).toEditList()) {
@@ -206,27 +218,33 @@ public class Metrics {
 							
 							//prendo i path tutti i file toccati dal commit 
 							//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
+							
+							/*
 							if (diffEntry.getChangeType().toString().equals("DELETE")) {
 								numFiles.add(diffEntry.getOldPath());
 							}
 							else {	//se ho MODIFY, ADD o RENAME, aggiungo newPath del file della diffEntry
 								numFiles.add(diffEntry.getNewPath());
 							}
-						
+							*/
+							
+							
+							 getNumFiles(numFiles,diffEntry);
 						
 						
 					
-					}
-				} //end entries
+						}
+					
+					} //end entries
 
 						
-						if (numFiles.contains(dbEntries.get(i).getFilename())) {
-							
-							chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
-							
-							chgGetSizeOnce = numFiles.size()-1;
-							chgSetSizeList.add(chgGetSizeOnce);
-						}
+					if (numFiles.contains(dbEntries.get(i).getFilename())) {
+						
+						chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
+						
+						chgGetSizeOnce = numFiles.size()-1;
+						chgSetSizeList.add(chgGetSizeOnce);
+					}
 	
 				} //end comList
 			

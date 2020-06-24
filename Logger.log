@@ -1041,3 +1041,355 @@
   <message>done!</message>
 </record>
 </log>
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-06-24T01:57:54.766903700Z</date>
+  <millis>1592963874766</millis>
+  <nanos>903700</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:54.802806400Z</date>
+  <millis>1592963874802</millis>
+  <nanos>806400</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 1: 240</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:54.848684800Z</date>
+  <millis>1592963874848</millis>
+  <nanos>684800</nanos>
+  <sequence>2</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:54.849682300Z</date>
+  <millis>1592963874849</millis>
+  <nanos>682300</nanos>
+  <sequence>3</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 2: 301</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:54.918497700Z</date>
+  <millis>1592963874918</millis>
+  <nanos>497700</nanos>
+  <sequence>4</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:54.919495700Z</date>
+  <millis>1592963874919</millis>
+  <nanos>495700</nanos>
+  <sequence>5</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 3: 439</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:54.992300400Z</date>
+  <millis>1592963874992</millis>
+  <nanos>300400</nanos>
+  <sequence>6</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:54.994298400Z</date>
+  <millis>1592963874994</millis>
+  <nanos>298400</nanos>
+  <sequence>7</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 4: 439</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.086048600Z</date>
+  <millis>1592963875086</millis>
+  <nanos>48600</nanos>
+  <sequence>8</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.086048600Z</date>
+  <millis>1592963875086</millis>
+  <nanos>48600</nanos>
+  <sequence>9</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 5: 589</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.148880100Z</date>
+  <millis>1592963875148</millis>
+  <nanos>880100</nanos>
+  <sequence>10</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.148880100Z</date>
+  <millis>1592963875148</millis>
+  <nanos>880100</nanos>
+  <sequence>11</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 6: 446</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.202737Z</date>
+  <millis>1592963875202</millis>
+  <nanos>737000</nanos>
+  <sequence>12</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.202737Z</date>
+  <millis>1592963875202</millis>
+  <nanos>737000</nanos>
+  <sequence>13</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 7: 654</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.239637700Z</date>
+  <millis>1592963875239</millis>
+  <nanos>637700</nanos>
+  <sequence>14</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.240640600Z</date>
+  <millis>1592963875240</millis>
+  <nanos>640600</nanos>
+  <sequence>15</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 8: 452</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.294491200Z</date>
+  <millis>1592963875294</millis>
+  <nanos>491200</nanos>
+  <sequence>16</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.295488600Z</date>
+  <millis>1592963875295</millis>
+  <nanos>488600</nanos>
+  <sequence>17</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 9: 696</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.357325500Z</date>
+  <millis>1592963875357</millis>
+  <nanos>325500</nanos>
+  <sequence>18</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.357325500Z</date>
+  <millis>1592963875357</millis>
+  <nanos>325500</nanos>
+  <sequence>19</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 10: 693</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.384251500Z</date>
+  <millis>1592963875384</millis>
+  <nanos>251500</nanos>
+  <sequence>20</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.385249700Z</date>
+  <millis>1592963875385</millis>
+  <nanos>249700</nanos>
+  <sequence>21</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 11: 291</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.392230700Z</date>
+  <millis>1592963875392</millis>
+  <nanos>230700</nanos>
+  <sequence>22</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.393237100Z</date>
+  <millis>1592963875393</millis>
+  <nanos>237100</nanos>
+  <sequence>23</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 12: 0</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.399211Z</date>
+  <millis>1592963875399</millis>
+  <nanos>211000</nanos>
+  <sequence>24</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.399211Z</date>
+  <millis>1592963875399</millis>
+  <nanos>211000</nanos>
+  <sequence>25</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 13: 0</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.446085900Z</date>
+  <millis>1592963875446</millis>
+  <nanos>85900</nanos>
+  <sequence>26</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>================================================================</message>
+</record>
+<record>
+  <date>2020-06-24T01:57:55.446085900Z</date>
+  <millis>1592963875446</millis>
+  <nanos>85900</nanos>
+  <sequence>27</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>count release 14: 468</message>
+</record>
+<record>
+  <date>2020-06-24T02:02:07.243964Z</date>
+  <millis>1592964127243</millis>
+  <nanos>964000</nanos>
+  <sequence>28</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>project.bookkeeper.Log</class>
+  <method>infoLog</method>
+  <thread>1</thread>
+  <message>done!</message>
+</record>
+</log>
