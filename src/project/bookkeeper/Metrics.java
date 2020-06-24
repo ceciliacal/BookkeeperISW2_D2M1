@@ -23,7 +23,7 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 public class Metrics {
 
 	public static final List<RevCommit> commitList= MainControl.myCommitsList;
-	public static final List<String> classesList= MainControl.classesList;
+	protected static final List<String> classesList= MainControl.classesList;
 	
 	private Metrics() {
 	    throw new IllegalStateException("Utility class");
@@ -62,6 +62,32 @@ public class Metrics {
 	}
 	
 	
+	public static String getFileToUse(DiffEntry diffEntry) {
+		String diffFileName;
+		//String fileToUse;
+
+			
+		if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
+			diffFileName = diffEntry.getOldPath();	
+		}
+		else {
+			diffFileName = diffEntry.getNewPath();
+		}
+		
+		String rename = MainControl.verifyRename(diffFileName);
+		String fileToUse = null;
+		
+		if (rename!=null) {
+			fileToUse=rename;
+		}
+		else {
+			fileToUse=diffFileName;
+		}
+		
+		return fileToUse;
+
+			
+	}
 
 	public static void prova2(List<Data> dbEntries, Repository repository) throws IOException {
 		
@@ -93,9 +119,9 @@ public class Metrics {
 			
 			nr = 0;
 			locAdded = 0;
-			locTouched= 0 ;
+			//locTouched= 0 ;
 			locDeleted = 0;
-			churn= 0 ;
+			//churn= 0 ;
 			chgGetSize = 0;
 			
 			comList=dbEntries.get(i).getRelease().getCommitsOfRelease();
@@ -105,109 +131,93 @@ public class Metrics {
 			//per ogni file nella release
 			for(int j = 0;j<comList.size();j++) {
 				
-				//List<DiffEntry> entries = getDiffEntryList(rw, comList.get(j));
-					
-							
-					RevCommit commit = comList.get(j);
-	
-					RevCommit parent = null;
-					
-					if(commit.getParentCount() !=0) {
-						parent = (RevCommit) commit.getParent(0);
-	
-					}
+				DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);	
+				df.setRepository(repository);
+				df.setDiffComparator(RawTextComparator.DEFAULT);
+				df.setDetectRenames(true);
+				
+				List<DiffEntry> entries=MainControl.getEntryList(rw, df, comList.get(j));
 
 						
-					DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);	
-					df.setRepository(repository);
-					df.setDiffComparator(RawTextComparator.DEFAULT);
-					df.setDetectRenames(true);
-					List<DiffEntry> entries;
+						
+				//differenze tra il commit e il parent
+				for (DiffEntry diffEntry : entries) { 
 					
-						if(parent != null) {
-							entries = df.scan(parent.getTree(), commit.getTree());
+					// For each file changed in the commit 
+					//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
+					
+					String fileToUse = getFileToUse(diffEntry);
+					
+				
+					//String diffFileName;
+					//String fileToUse;
+					
+					
+					
+					if ( (diffEntry.toString().contains(".java")) && (fileToUse.equals(dbEntries.get(i).getFilename())) ) {
+						/*
+						
+						
+						if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
+							diffFileName = diffEntry.getOldPath();	
 						}
 						else {
-							
-							ObjectReader reader = rw.getObjectReader();
-							entries =df.scan(new EmptyTreeIterator(),
-							        new CanonicalTreeParser(null, reader, commit.getTree()));
+							diffFileName = diffEntry.getNewPath();
 						}
 						
+						String rename = MainControl.verifyRename(diffFileName);
+						String fileToUse = null;
 						
-						//differenze tra il commit e il parent
-						for (DiffEntry diffEntry : entries) { 
-							
-							// For each file changed in the commit 
-							//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
-							
-							String diffFileName;
-							//String fileToUse;
-							
-							if (diffEntry.toString().contains(".java")) {
-							
+						if (rename!=null) {
+							fileToUse=rename;
+						}
+						else {
+							fileToUse=diffFileName;
+						}
+					*/
+						
+						//if (fileToUse.equals(dbEntries.get(i).getFilename())) {
 								
-								
-								if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
-									diffFileName = diffEntry.getOldPath();	
-								}
-								else {
-									diffFileName = diffEntry.getNewPath();
-								}
-								
-								String rename = MainControl.verifyRename(diffFileName);
-								String fileToUse = null;
-								
-								if (rename!=null) {
-									fileToUse=rename;
-								}
-								else {
-									fileToUse=diffFileName;
-								}
-								
-								
-								if (fileToUse.equals(dbEntries.get(i).getFilename())) {
-										
-									nr++;
-									//aggiusta autori + file = dbENtry.getfilename ?
-						   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
-			    	    			if (authors.contains(comList.get(j).getAuthorIdent())==false) {
-			    	    				authors.add(comList.get(j).getAuthorIdent());
-			    	    			}
-			    	    			
-			    	    			
-									//per ogni modifica (edit) presente nel file
-									for(Edit edit : df.toFileHeader(diffEntry).toEditList()) {
-			
-											locAddedOnce = edit.getEndB() - edit.getBeginB();
-											locAdded += edit.getEndB() - edit.getBeginB();
-											//locAddedList.add(locAdded);
-											locAddedList.add(locAddedOnce);
-				
-											locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB
+							nr++;
+							//aggiusta autori + file = dbENtry.getfilename ?
+				   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
+	    	    			if (!authors.contains(comList.get(j).getAuthorIdent())) {
+	    	    				authors.add(comList.get(j).getAuthorIdent());
+	    	    			}
+	    	    			
+	    	    			
+							//per ogni modifica (edit) presente nel file
+							for(Edit edit : df.toFileHeader(diffEntry).toEditList()) {
+	
+									locAddedOnce = edit.getEndB() - edit.getBeginB();
+									locAdded += edit.getEndB() - edit.getBeginB();
+									//locAddedList.add(locAdded);
+									locAddedList.add(locAddedOnce);
 		
-											//churn = locAdded- locDeleted;
-											//churnList.add(churn);
-											
-											churnOnce = locAdded- locDeleted;
-											churnList.add(churnOnce);
-											
-									}
+									locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB
+
+									//churn = locAdded- locDeleted;
+									//churnList.add(churn);
 									
-									//prendo i path tutti i file toccati dal commit 
-									//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
-									if (diffEntry.getChangeType().toString().equals("DELETE")) {
-										numFiles.add(diffEntry.getOldPath());
-									}
-									else {	//se ho MODIFY, ADD o RENAME, aggiungo newPath del file della diffEntry
-										numFiles.add(diffEntry.getNewPath());
-									}
-								
-								}
-								
-							
+									churnOnce = locAdded- locDeleted;
+									churnList.add(churnOnce);
+									
 							}
-						} //end entries
+							
+							//prendo i path tutti i file toccati dal commit 
+							//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
+							if (diffEntry.getChangeType().toString().equals("DELETE")) {
+								numFiles.add(diffEntry.getOldPath());
+							}
+							else {	//se ho MODIFY, ADD o RENAME, aggiungo newPath del file della diffEntry
+								numFiles.add(diffEntry.getNewPath());
+							}
+						
+						
+						
+					
+					}
+				} //end entries
 
 						
 						if (numFiles.contains(dbEntries.get(i).getFilename())) {
@@ -271,31 +281,7 @@ public class Metrics {
 					
 		}
 	
-	public static String getFileToUse(DiffEntry diffEntry){
-	//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
-		
-		String diffFileName;	
-		
-		if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
-			diffFileName = diffEntry.getOldPath();	
-		}
-		else {
-			diffFileName = diffEntry.getNewPath();
-		}
-		
-		String rename = MainControl.verifyRename(diffFileName);
-		String fileToUse = null;
-		
-		if (rename!=null) {
-			fileToUse=rename;
-		}
-		else {
-			fileToUse=diffFileName;
-		}
-		
-		return fileToUse;
 
-	}
 	
 	
 	public static int maxElement(List<Integer> list) {
