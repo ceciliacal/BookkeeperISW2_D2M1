@@ -144,8 +144,7 @@ public class Metrics {
 		locAdded = 0;
 		locDeleted = 0;
 		chgGetSize = 0;
-		//chgGetSizeOnce = 0 ;
-		//locAddedOnce = 0;
+
 		
 		comList=dbEntry.getRelease().getCommitsOfRelease();
 
