@@ -43,7 +43,7 @@ public class MainControl {
 		Repository repository;
 		String path ="D:\\Cecilia\\Desktop\\"+PROJECTNAME;
 
-		List <Ticket> good = new ArrayList<>();		//tickets con AV regolare che utilizzo per calcolare proportion
+		List <Ticket> good = new ArrayList<>();			//tickets con AV regolare che utilizzo per calcolare proportion
 		List <Ticket> wrong = new ArrayList<>();		//tickets senza IV (AV), e quindi di cui calcolo predictedIV
 		
 		classesList = new ArrayList<>();
