@@ -30,7 +30,7 @@ public class Metrics {
 	public static void calculate(Repository repository) throws IOException {
 		
 		List <Data> dbEntries = MainControl.entries;
-		prova2(dbEntries, repository);
+		getMetrics(dbEntries, repository);
 
 	}
 	
@@ -107,17 +107,15 @@ public class Metrics {
 		
 	}
 	
-	public static void getChgSetSize(List<String> numFiles, Data dbEntry, int chgGetSize, int chgGetSizeOnce, List<Integer> chgSetSizeList) {
-		if (numFiles.contains(dbEntry.getFilename())) {
-			
-			chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
-			
-			chgGetSizeOnce = numFiles.size()-1;
-			chgSetSizeList.add(chgGetSizeOnce);
+	
+	public static void getMetrics(List<Data> dbEntries, Repository repository) throws IOException {
+		
+		for (int i=0;i<dbEntries.size();i++) {
+			calculateMetrics(dbEntries.get(i), repository);
 		}
 	}
-
-	public static void prova2(List<Data> dbEntries, Repository repository) throws IOException {
+	
+	public static void calculateMetrics(Data dbEntry, Repository repository) throws IOException {
 		
 		int nr;
 		int locAdded;
@@ -143,19 +141,17 @@ public class Metrics {
 		RevWalk rw = new RevWalk(repository);
 		
 		//mi prendo tutti i commit nella release e mi calcolo le metriche per ogni file delal release
-		for(int i = 0;i<dbEntries.size();i++) {
+		//for(int i = 0;i<dbEntries.size();i++) {
 			
 			nr = 0;
 			locAdded = 0;
-			//locTouched= 0 ;
 			locDeleted = 0;
-			//churn= 0 ;
 			chgGetSize = 0;
+			chgGetSizeOnce = 0 ;
+			locAddedOnce = 0;
 			
-			comList=dbEntries.get(i).getRelease().getCommitsOfRelease();
-			
-			
-			
+			comList=dbEntry.getRelease().getCommitsOfRelease();
+
 			//per ogni file nella release
 			for(int j = 0;j<comList.size();j++) {
 				
@@ -175,30 +171,18 @@ public class Metrics {
 					//(per ogni differenza/cambiamento presente nel commit) -> vedo se un commit contiene file
 					
 					String fileToUse = getFileToUse(diffEntry);
+
 					
-				
-					//String diffFileName;
-					//String fileToUse;
-					
-					
-					
-					if ( (diffEntry.toString().contains(".java")) && (fileToUse.equals(dbEntries.get(i).getFilename())) ) {
-	
-						//if (fileToUse.equals(dbEntries.get(i).getFilename())) {
+					if ( (diffEntry.toString().contains(".java")) && (fileToUse.equals(dbEntry.getFilename())) ) {
 								
 							nr++;
 							
 				   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
-							/*
-	    	    			if (!authors.contains(comList.get(j).getAuthorIdent())) {
-	    	    				authors.add(comList.get(j).getAuthorIdent());
-	    	    			}
-	    	    			*/
-	    	    			
+							
 	    	    			computeNAuth(comList.get(j),authors);
 	    	    	
 	    	    			
-							//per ogni modifica (edit) presente nel file
+							//per ogni modifica (edit) presente nel file    			
 							for(Edit edit : df.toFileHeader(diffEntry).toEditList()) {
 	
 									locAddedOnce = edit.getEndB() - edit.getBeginB();
@@ -216,19 +200,9 @@ public class Metrics {
 									
 							}
 							
+							
 							//prendo i path tutti i file toccati dal commit 
 							//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
-							
-							/*
-							if (diffEntry.getChangeType().toString().equals("DELETE")) {
-								numFiles.add(diffEntry.getOldPath());
-							}
-							else {	//se ho MODIFY, ADD o RENAME, aggiungo newPath del file della diffEntry
-								numFiles.add(diffEntry.getNewPath());
-							}
-							*/
-							
-							
 							 getNumFiles(numFiles,diffEntry);
 						
 						
@@ -237,19 +211,19 @@ public class Metrics {
 					
 					} //end entries
 
-						
-					if (numFiles.contains(dbEntries.get(i).getFilename())) {
+					if (numFiles.contains(dbEntry.getFilename())) {
 						
 						chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
 						
 						chgGetSizeOnce = numFiles.size()-1;
 						chgSetSizeList.add(chgGetSizeOnce);
 					}
+					
 	
 				} //end comList
 			
-				dbEntries.get(i).setNr(nr);
-				dbEntries.get(i).setnAuth(authors.size());
+				dbEntry.setNr(nr);
+				dbEntry.setnAuth(authors.size());
 				
 				//prendo loc touched per un file (dbEntry.get(i).getFilename) in un commit di una release, e vado agli altri 
 				//commit della stessa release per vedere le modifiche apportate sempre a quello stesso file
@@ -262,10 +236,10 @@ public class Metrics {
 				
 				locTouched = locAdded+locDeleted;
 				
-				dbEntries.get(i).setMaxLocAdded(max);
-				dbEntries.get(i).setAvgLocAdded(avg);
-				dbEntries.get(i).setLocAdded(locAdded);
-				dbEntries.get(i).setLocTouched(locTouched);
+				dbEntry.setMaxLocAdded(max);
+				dbEntry.setAvgLocAdded(avg);
+				dbEntry.setLocAdded(locAdded);
+				dbEntry.setLocTouched(locTouched);
 				
 				// ============= CHURN, MAX&AVG
 				churn = locAdded- locDeleted;
@@ -273,18 +247,18 @@ public class Metrics {
 				max = maxElement(churnList);
 				avg= computeAvg.calculateAverage(locAddedList);
 				
-				dbEntries.get(i).setChurn(churn);
-				dbEntries.get(i).setMaxChurn(max);
-				dbEntries.get(i).setAvgChurn(avg);
+				dbEntry.setChurn(churn);
+				dbEntry.setMaxChurn(max);
+				dbEntry.setAvgChurn(avg);
 
 				
 				// ============= chgSetSize, MAX&AVG
 				max = maxElement(chgSetSizeList);
 				avg= computeAvg.calculateAverage(chgSetSizeList);
 				
-				dbEntries.get(i).setChgSetSize(chgGetSize);
-				dbEntries.get(i).setMaxChgSetSize(max);
-				dbEntries.get(i).setAvgChgSetSize(avg);
+				dbEntry.setChgSetSize(chgGetSize);
+				dbEntry.setMaxChgSetSize(max);
+				dbEntry.setAvgChgSetSize(avg);
 				
 				// ============= CLEAR LISTS =============
 				
@@ -295,12 +269,10 @@ public class Metrics {
 				authors.clear();
 				
 				
-			} //end release -> cambio file
+			//} //end release -> cambio file
 					
 		}
-	
 
-	
 	
 	public static int maxElement(List<Integer> list) {
 		

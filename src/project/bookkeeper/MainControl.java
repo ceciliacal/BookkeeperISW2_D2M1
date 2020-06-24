@@ -92,7 +92,7 @@ public class MainControl {
     	proportionMethod.defineAV(halfRelease);
     	
     	//finalPrintTickets();
-    	System.out.println("ticketlist size: "+ticketlist.size());
+    	//System.out.println("ticketlist size: "+ticketlist.size());
 
     	bugsPerRelease();
  
@@ -150,7 +150,7 @@ public class MainControl {
 		
 		List<RevCommit> logCommitList = getCommitList(git);
     	
-    	System.out.println("logCommitslist : "+logCommitList.size());
+    	//System.out.println("logCommitslist : "+logCommitList.size());
 		RevWalk rw = new RevWalk(repository);
 		
 		//for (int i=0;i<dbEntries.size();i++) {
@@ -353,7 +353,7 @@ public class MainControl {
     			
     			
     			
-				if (diffEntry.getChangeType().toString().equals("RENAME") || (diffEntry.getChangeType().toString().equals("DELETE"))){
+				if (diffEntry.getChangeType().toString().equals(RENAME) || (diffEntry.getChangeType().toString().equals("DELETE"))){
 					diffFileName = diffEntry.getOldPath();	
 				}
 				else {
@@ -370,7 +370,7 @@ public class MainControl {
 					fileToUse=diffFileName;
 				}
 				
-				if (diffEntry.getChangeType().toString().equals("RENAME")) {
+				if (diffEntry.getChangeType().toString().equals(RENAME)) {
 					
 					//System.out.println(" oldPath: "+diffEntry.getOldPath()+"       newPath: "+diffEntry.getNewPath()+"       fileToUse (preso da renameList): "+fileToUse);
 					
