@@ -165,14 +165,18 @@ public class Classification{
 				kappa =eval.kappa();
 			}
 			
-	
+			/* 
+			 * Precision = TP/(TP+FP)
+			 * Recall = TP/(TP+FN)
+			 */
 			
 			//System.out.println("precision = "+p);
 			//System.out.println("recall = "+r);
 			System.out.println("AUC = "+ auc);
 			System.out.println("kappa = "+kappa);
 			
-			
+			part.setAuc(auc);
+			part.setKappa(kappa);
 		
 			
 			
