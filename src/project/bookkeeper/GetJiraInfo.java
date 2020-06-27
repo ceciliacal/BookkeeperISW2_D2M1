@@ -79,6 +79,8 @@ public class GetJiraInfo {
 	         
 	         return myReleases;
 		}
+		
+		
 
 		
 	

@@ -53,7 +53,7 @@ public class MainControl {
     	repository=git.getRepository();
     	
     	releases=GetJiraInfo.getReleaseInfo();
-    	halfRelease=setHalfRelease();
+    	//halfRelease=setHalfRelease();
     	
     	ticketlist= GetJiraInfo.getTicketInfo( releases);	//ticketList viene inizializzata in getTicketInfo
     	numDefects=ticketlist.size();
@@ -69,6 +69,7 @@ public class MainControl {
     	renameList=checkRename(entries, git, repository);
     	addJavaFiles (repository);
 
+    	halfRelease=releases.size()/2;
     	
     	ProportionMethod proportionMethod = new ProportionMethod();
     	proportionMethod.checkDates(good, wrong);
@@ -284,14 +285,16 @@ public class MainControl {
 	}
 
 
-    public static int setHalfRelease() {
+    public static List<Integer> getReleases() throws IOException, JSONException {
 
-    	int dim;
-    	int res;
+    	List<Release> releases= GetJiraInfo.getReleaseInfo();
+    	List<Integer> myReleases = new ArrayList<>();
     	
-    	dim=releases.size();
-		res=dim/2;
-		return res;
+    	for (int i=0;i<releases.size()/2;i++) {
+    		myReleases.add(releases.get(i).getIndex());
+    	}
+    	
+    	return myReleases;
     	
     }
 
