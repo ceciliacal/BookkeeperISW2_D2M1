@@ -1,6 +1,5 @@
 package milestone.two;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +10,30 @@ public class DatasetPart {
 	private int run;
 	private Instances training;
 	private Instances testing;
+	
+	private List<Integer> numTrainingRelease;
+	private int testingRel;
+	
+	private double percTraining;	//data on training / total data
+	private double percBugTraining;
+	private double percBugTesting;
+	
+	//altre cose da mettere ...
+	
+	private int tpRF;
+	private int fpRF;
+	private int tnRF;
+	private int fnRF;
+	
+	private int tpNB;
+	private int fpNB;
+	private int tnNB;
+	private int fnNB;
+	
+	private int tpIB;
+	private int fpIB;
+	private int tnIB;
+	private int fnIB;
 	
 	private double precisionRF;
 	private double recallRF;
@@ -27,8 +50,9 @@ public class DatasetPart {
 	private double aucIB;
 	private double kappaIB;
 	
-	private List<Integer> trainingRel;
-	private int testingRel;
+
+	
+	
 	
 	
 	
@@ -41,7 +65,7 @@ public class DatasetPart {
 
 	public void initTrainingRel() {
 		
-		this.trainingRel= new ArrayList<>();
+		this.numTrainingRelease= new ArrayList<>();
 	}
 
 	public int getRun() {
@@ -211,12 +235,135 @@ public class DatasetPart {
 
 
 	public List<Integer> getTrainingRel() {
-		return trainingRel;
+		return numTrainingRelease;
 	}
 
 
 	public void setTrainingRel(List<Integer> trainingRel) {
-		this.trainingRel = trainingRel;
+		this.numTrainingRelease = trainingRel;
 	}
+
+	public double getPercTraining() {
+		return percTraining;
+	}
+
+	public void setPercTraining(double percTraining) {
+		this.percTraining = percTraining;
+	}
+
+	public double getPercBugTraining() {
+		return percBugTraining;
+	}
+
+	public void setPercBugTraining(double percBugTraining) {
+		this.percBugTraining = percBugTraining;
+	}
+
+	public double getPercBugTesting() {
+		return percBugTesting;
+	}
+
+	public void setPercBugTesting(double percBugTesting) {
+		this.percBugTesting = percBugTesting;
+	}
+
+	public int getTpRF() {
+		return tpRF;
+	}
+
+	public void setTpRF(int tpRF) {
+		this.tpRF = tpRF;
+	}
+
+	public int getFpRF() {
+		return fpRF;
+	}
+
+	public void setFpRF(int fpRF) {
+		this.fpRF = fpRF;
+	}
+
+	public int getFnRF() {
+		return fnRF;
+	}
+
+	public void setFnRF(int fnRF) {
+		this.fnRF = fnRF;
+	}
+
+	public int getTnRF() {
+		return tnRF;
+	}
+
+	public void setTnRF(int tnRF) {
+		this.tnRF = tnRF;
+	}
+
+	public int getFpNB() {
+		return fpNB;
+	}
+
+	public void setFpNB(int fpNB) {
+		this.fpNB = fpNB;
+	}
+
+	public int getTnNB() {
+		return tnNB;
+	}
+
+	public void setTnNB(int tnNB) {
+		this.tnNB = tnNB;
+	}
+
+	public int getTpNB() {
+		return tpNB;
+	}
+
+	public void setTpNB(int tpNB) {
+		this.tpNB = tpNB;
+	}
+
+	public int getFnNB() {
+		return fnNB;
+	}
+
+	public void setFnNB(int fnNB) {
+		this.fnNB = fnNB;
+	}
+
+	public int getTpIB() {
+		return tpIB;
+	}
+
+	public void setTpIB(int tpIB) {
+		this.tpIB = tpIB;
+	}
+
+	public int getFpIB() {
+		return fpIB;
+	}
+
+	public void setFpIB(int fpIB) {
+		this.fpIB = fpIB;
+	}
+
+	public int getTnIB() {
+		return tnIB;
+	}
+
+	public void setTnIB(int tnIB) {
+		this.tnIB = tnIB;
+	}
+
+	public int getFnIB() {
+		return fnIB;
+	}
+
+	public void setFnIB(int fnIB) {
+		this.fnIB = fnIB;
+	}
+
+	
+	
 
 }

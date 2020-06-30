@@ -35,7 +35,32 @@ public class Writer {
 			sb.append("#TrainingRelease");
 			sb.append(',');
 			
+			sb.append("%Training");
+			sb.append(',');
+			
+			sb.append("%DefectiveTraining");
+			sb.append(',');
+			
+			sb.append("%DefectiveTesting");
+			sb.append(',');
+			
+			//mancano due cose
+			
 			sb.append("Classifier");
+			sb.append(',');
+			
+			//mancano balancing e feature selection
+			
+			sb.append("TP");
+			sb.append(',');
+			
+			sb.append("FP");
+			sb.append(',');
+			
+			sb.append("TN");
+			sb.append(',');
+			
+			sb.append("FN");
 			sb.append(',');
 			
 			sb.append("Precision");
@@ -60,6 +85,20 @@ public class Writer {
 				sb.append(',');
 				sb.append("RandomForest");
 				sb.append(',');
+				sb.append(formatter(list.get(i).getPercTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTesting()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTpRF()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFpRF()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTnRF()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFnRF()));
+				sb.append(',');
 				sb.append(formatter(list.get(i).getPrecisionRF()));
 				sb.append(',');
 				sb.append(formatter(list.get(i).getRecallRF()));
@@ -75,6 +114,20 @@ public class Writer {
 				sb.append(',');
 				sb.append("NaiveBayes");
 				sb.append(',');
+				sb.append(formatter(list.get(i).getPercTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTesting()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTpNB()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFpNB()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTnNB()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFnNB()));
+				sb.append(',');
 				sb.append(formatter(list.get(i).getPrecisionNB()));
 				sb.append(',');
 				sb.append(formatter(list.get(i).getRecallNB()));
@@ -89,6 +142,20 @@ public class Writer {
 				sb.append(sublist);
 				sb.append(',');
 				sb.append("Ibk");
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTesting()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTpIB()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFpIB()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTnIB()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFnIB()));
 				sb.append(',');
 				sb.append(formatter(list.get(i).getPrecisionIB()));
 				sb.append(',');

@@ -153,21 +153,22 @@ public class Main {
 			    int numTraining=0;			//conta quante istanze devo prendere per costruire training set
 			    int numTesting=0;			//conta quante istante devo prendere per costruire testing set 
 		    	
+			    int bugsTraining=0;
+			    int bugsTesting=0;
+			    
 			    List<Integer>  trainingReleases = new ArrayList<>();
 			    
 		    	//se sto alla run1, passo alla run 2 e inizio a creare training e testing set
 			    //System.out.println("\n\n=======================================================");
 			    //System.out.println("nRun: "+ nRun+"        endTraining: "+endTraining+"       testingRelease: "+testingRelease);
-		    	
-			   
-			    
+    
 			    if (nRun>firstRun) { 
 	    			    		
 		    		//per ogni run, scorro le release
 		    		
 		    		 for (int i=0; i<testingRelease; i++) {	
 		    			 
-		    			 System.out.println("i= "+i+"      trainingReleases dim= "+trainingReleases.size());	
+		    			 //System.out.println("i= "+i+"      trainingReleases dim= "+trainingReleases.size());	
     					 trainingReleases.add(releases.get(i));
 
 		    			 for (int j = 0; j < numInst; j++) {
@@ -176,23 +177,29 @@ public class Main {
 							
 		    				 //training
 		    				 if (i<endTraining) {
-		    					 
+	
 							   
 							   if (instance.value(0)==releases.get(i)) {								
 									//System.out.println("TRAINING ----> The "+j+" instance is: "+ instance.toString());
 									numTraining++;
+									   if (instance.stringValue(data.numAttributes()-1).equals("Y")) {
+										   bugsTraining++;		   
+									   }
 									
 								}
 							   
 		    				 }
 						   
 		    				 //testing
-		    				 else {
+		    				 else {				 
+								   
 		    					 if (instance.value(0)==testingRelease) {
 		    						 //System.out.println("TESTING ----> The "+j+" instance is: "+ instance.toString());
 		    						 numTesting++;
-		    					 }
-						   
+		    						 if (instance.stringValue(data.numAttributes()-1).contentEquals("Y")) {
+										 bugsTesting++;		   
+									 }
+		    					 }					   
 						   
 		    				 }
 						   
@@ -208,11 +215,21 @@ public class Main {
 		    	Instances training = new Instances(data, 0, numTraining);
 			    Instances testing = new Instances(data, numTraining, numTesting);
 			    
+			    
 			    DatasetPart part = new DatasetPart (nRun, training, testing);
-				part.setTrainingRel(trainingReleases);
+				
+			    double percTraining=numTraining/(float)numInst;
+			    double bugTrain=bugsTraining/(float)numTraining;
+			    double bugTest=bugsTesting/(float)(numTesting);
+				
+			    part.setTrainingRel(trainingReleases);
 			    part.setTestingRel(testingRelease);
+			    part.setPercTraining(percTraining);
+			    part.setPercBugTraining(bugTrain);
+			    part.setPercBugTesting(bugTest);
 			    parts.add(part);
-		    	nRun++;
+		    	
+			    nRun++;
 		    	
 
 		    } //end while (runs)
@@ -222,12 +239,17 @@ public class Main {
 		  System.out.println("\n\nparts dim: "+ parts.size());
 		  for (int y=0;y<parts.size();y++) {
 			  System.out.println("\n\nrun: "+ parts.get(y).getRun());
-			  System.out.println("training size: "+ parts.get(y).getTrainingRel().size());
+			  System.out.println("training size: "+ parts.get(y).getTraining().size());
 			  for (int i=0;i<parts.get(y).getTrainingRel().size();i++) {
 				  System.out.println("training: "+parts.get(y).getTrainingRel().get(i));
 			  }
 			  System.out.println("testing size: "+ parts.get(y).getTesting().size());
 			  System.out.println("testing: "+ (int) parts.get(y).getTesting().get(0).value(0));
+			  
+			  System.out.println("%training: "+ parts.get(y).getPercTraining());
+			  System.out.println("%defectiveInTraining: "+ parts.get(y).getPercBugTraining());
+			  System.out.println("%defectiveInTesting: "+ parts.get(y).getPercBugTesting());
+
 		  }
 		  return parts;
 		   

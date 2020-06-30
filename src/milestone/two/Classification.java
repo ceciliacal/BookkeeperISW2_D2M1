@@ -204,6 +204,10 @@ public class Classification{
 		double r =0;
 		double auc=0;
 		double kappa=0;
+		int tp=0;
+		int fp=0;
+		int tn=0;
+		int fn=0;
 		
 		if (num!=1 && num!=2 & num!=3 ) {
 			System.out.println("Numero inserito non valido, inserirne uno tra: 1,2,3");
@@ -234,15 +238,29 @@ public class Classification{
 				auc=eval1.areaUnderROC(1);
 				kappa =eval1.kappa();
 				
+				tp=(int)eval1.numTruePositives(1);
+				fp=(int)eval1.numFalsePositives(1);
+				tn=(int)eval1.numTrueNegatives(1);
+				fn=(int)eval1.numFalseNegatives(1);
+				
 				System.out.println("precision = "+p);
 				System.out.println("recall = "+r);
 				System.out.println("AUC = "+ auc);
 				System.out.println("kappa = "+kappa);
+				System.out.println("TP = "+tp);
+				System.out.println("FP = "+fp);
+				System.out.println("TN = "+tn);
+				System.out.println("FN = "+fn);
 				
 				part.setPrecisionRF(p);
 				part.setRecallRF(r);
 				part.setAucRF(auc);
 				part.setKappaRF(kappa);
+				
+				part.setTpRF(tp);
+				part.setFpRF(fp);
+				part.setTnRF(tn);
+				part.setFnRF(fn);
 				
 			//}
 			//else if (num==2) {
@@ -257,16 +275,30 @@ public class Classification{
 				auc=eval2.areaUnderROC(1);
 				kappa =eval2.kappa();
 				
+				tp=(int)eval2.numTruePositives(1);
+				fp=(int)eval2.numFalsePositives(1);
+				tn=(int)eval2.numTrueNegatives(1);
+				fn=(int)eval2.numFalseNegatives(1);
+				
 				System.out.println("precision = "+p);
 				System.out.println("recall = "+r);
 				System.out.println("AUC = "+ auc);
 				System.out.println("kappa = "+kappa);
+				System.out.println("TP = "+tp);
+				System.out.println("FP = "+fp);
+				System.out.println("TN = "+tn);
+				System.out.println("FN = "+fn);
 				
 				
 				part.setPrecisionNB(p);
 				part.setRecallNB(r);
 				part.setAucNB(auc);
 				part.setKappaNB(kappa);
+				
+				part.setTpNB(tp);
+				part.setFpNB(fp);
+				part.setTnNB(tn);
+				part.setFnNB(fn);
 				
 			//}
 			//else if (num==3) {
@@ -282,16 +314,30 @@ public class Classification{
 				auc=eval3.areaUnderROC(1);
 				kappa =eval3.kappa();
 				
+				tp=(int)eval3.numTruePositives(1);
+				fp=(int)eval3.numFalsePositives(1);
+				tn=(int)eval3.numTrueNegatives(1);
+				fn=(int)eval3.numFalseNegatives(1);
+				
 				System.out.println("precision = "+p);
 				System.out.println("recall = "+r);
 				System.out.println("AUC = "+ auc);
 				System.out.println("kappa = "+kappa);
+				System.out.println("TP = "+tp);
+				System.out.println("FP = "+fp);
+				System.out.println("TN = "+tn);
+				System.out.println("FN = "+fn);
 				
 				
 				part.setPrecisionIB(p);
 				part.setRecallIB(r);
 				part.setAucIB(auc);
 				part.setKappaIB(kappa);
+				
+				part.setTpIB(tp);
+				part.setFpIB(fp);
+				part.setTnIB(tn);
+				part.setFnIB(fn);
 				
 			//}
 			
