@@ -48,7 +48,8 @@ public class Main {
 		   //csv2arff(csvPath,arffPath);
 		   parts = walkForward(arffPath);
 		   
-		   //Classification.bho(parts, 3);
+		   Classification.bho2(parts, 1);
+		   Writer.write(parts);
 	   }
 
 
@@ -78,7 +79,7 @@ public class Main {
 		   int numTesting=0;			//conta quante istante devo prendere per costruire testing set 
 		   
 		   for (int i=0; i<testingRelease; i++) {	//scorro le release
-			   
+			  
 			   //training
 			   if (i<=endTraining) {	
 				   
@@ -114,7 +115,7 @@ public class Main {
 	   
 	   public static List <DatasetPart> walkForward(String arffPath) throws Exception {
 
-	   
+		    
 		    List <DatasetPart> parts = new ArrayList<>();
 		   
 		   	//load dataset
@@ -152,31 +153,35 @@ public class Main {
 			    int numTraining=0;			//conta quante istanze devo prendere per costruire training set
 			    int numTesting=0;			//conta quante istante devo prendere per costruire testing set 
 		    	
+			    List<Integer>  trainingReleases = new ArrayList<>();
+			    
 		    	//se sto alla run1, passo alla run 2 e inizio a creare training e testing set
-			    System.out.println("\n\n=======================================================");
-			    System.out.println("nRun: "+ nRun+"        endTraining: "+endTraining+"       testingRelease: "+testingRelease);
-		    	if (nRun>firstRun) { 
-		    		
-		    		
+			    //System.out.println("\n\n=======================================================");
+			    //System.out.println("nRun: "+ nRun+"        endTraining: "+endTraining+"       testingRelease: "+testingRelease);
+		    	
+			   
+			    
+			    if (nRun>firstRun) { 
+	    			    		
 		    		//per ogni run, scorro le release
 		    		
 		    		 for (int i=0; i<testingRelease; i++) {	
-		    		
+		    			 
+		    			 System.out.println("i= "+i+"      trainingReleases dim= "+trainingReleases.size());	
+    					 trainingReleases.add(releases.get(i));
+
 		    			 for (int j = 0; j < numInst; j++) {
 						   
 		    				 Instance instance = data.instance(j);
 							
-		    				 //getTraining e getTEsting -> aggiungo elemento DatasetPart a lista, che contiene nRun, training e testing set
-		    				 //getInstances(instance, parts, data, nRun);
-		   
-						   
 		    				 //training
-		    				 if (i<endTraining) {	
+		    				 if (i<endTraining) {
+		    					 
 							   
-							   if (instance.value(0)==releases.get(i)) {
-									//System.out.println("La release dell'istanza "+j+" è 1");	
-									System.out.println("TRAINING ----> The "+j+" instance is: "+ instance.toString());
+							   if (instance.value(0)==releases.get(i)) {								
+									//System.out.println("TRAINING ----> The "+j+" instance is: "+ instance.toString());
 									numTraining++;
+									
 								}
 							   
 		    				 }
@@ -184,8 +189,7 @@ public class Main {
 		    				 //testing
 		    				 else {
 		    					 if (instance.value(0)==testingRelease) {
-		    						 //System.out.println("La release dell'istanza "+j+" è 1");	
-		    						 System.out.println("TESTING ----> The "+j+" instance is: "+ instance.toString());
+		    						 //System.out.println("TESTING ----> The "+j+" instance is: "+ instance.toString());
 		    						 numTesting++;
 		    					 }
 						   
@@ -195,23 +199,35 @@ public class Main {
 		    			 }
 			
 					}
+		    		 
+		    		 	
+		    		 trainingReleases.remove(trainingReleases.size()-1);
 
-		    	}
+		    	} //end if (run >1)
 		    	
 		    	Instances training = new Instances(data, 0, numTraining);
 			    Instances testing = new Instances(data, numTraining, numTesting);
-			   
-			    parts.add(new DatasetPart (nRun, training, testing));
+			    
+			    DatasetPart part = new DatasetPart (nRun, training, testing);
+				part.setTrainingRel(trainingReleases);
+			    part.setTestingRel(testingRelease);
+			    parts.add(part);
 		    	nRun++;
+		    	
 
-		    }
+		    } //end while (runs)
 		    
 		  parts.remove(0);
+		  
 		  System.out.println("\n\nparts dim: "+ parts.size());
 		  for (int y=0;y<parts.size();y++) {
-			  System.out.println("run: "+ parts.get(y).getRun());
-			  System.out.println("training size: "+ parts.get(y).getTraining().size());
-			  
+			  System.out.println("\n\nrun: "+ parts.get(y).getRun());
+			  System.out.println("training size: "+ parts.get(y).getTrainingRel().size());
+			  for (int i=0;i<parts.get(y).getTrainingRel().size();i++) {
+				  System.out.println("training: "+parts.get(y).getTrainingRel().get(i));
+			  }
+			  System.out.println("testing size: "+ parts.get(y).getTesting().size());
+			  System.out.println("testing: "+ (int) parts.get(y).getTesting().get(0).value(0));
 		  }
 		  return parts;
 		   

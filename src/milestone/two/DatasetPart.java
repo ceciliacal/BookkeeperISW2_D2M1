@@ -1,5 +1,9 @@
 package milestone.two;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import weka.core.Instances;
 
 public class DatasetPart {
@@ -8,11 +12,23 @@ public class DatasetPart {
 	private Instances training;
 	private Instances testing;
 	
-	private double precision;
-	private double recall;
-	private double auc;
-	private double kappa;
-	private String classifier;
+	private double precisionRF;
+	private double recallRF;
+	private double aucRF;
+	private double kappaRF;
+	
+	private double precisionNB;
+	private double recallNB;
+	private double aucNB;
+	private double kappaNB;
+	
+	private double precisionIB;
+	private double recallIB;
+	private double aucIB;
+	private double kappaIB;
+	
+	private List<Integer> trainingRel;
+	private int testingRel;
 	
 	
 	
@@ -20,8 +36,13 @@ public class DatasetPart {
 		this.run=run;
 		this.training=train;
 		this.testing=test;
+		this.initTrainingRel();
 	}
 
+	public void initTrainingRel() {
+		
+		this.trainingRel= new ArrayList<>();
+	}
 
 	public int getRun() {
 		return run;
@@ -58,53 +79,144 @@ public class DatasetPart {
 	}
 
 
-	public double getKappa() {
-		return kappa;
+	public double getKappaRF() {
+		return kappaRF;
 	}
 
 
-	public void setKappa(double kappa) {
-		this.kappa = kappa;
+	public void setKappaRF(double kappa) {
+		this.kappaRF = kappa;
 	}
 
 
-	public double getAuc() {
-		return auc;
+	public double getAucRF() {
+		return aucRF;
 	}
 
 
-	public void setAuc(double auc) {
-		this.auc = auc;
+	public void setAucRF(double auc) {
+		this.aucRF = auc;
 	}
 
 
-	public String getClassifier() {
-		return classifier;
+
+	public double getPrecisionRF() {
+		return precisionRF;
 	}
 
 
-	public void setClassifier(String classifier) {
-		this.classifier = classifier;
+	public void setPrecisionRF(double precision) {
+		this.precisionRF = precision;
 	}
 
 
-	public double getPrecision() {
-		return precision;
+	public double getRecallRF() {
+		return recallRF;
 	}
 
 
-	public void setPrecision(double precision) {
-		this.precision = precision;
+	public void setRecallRF(double recall) {
+		this.recallRF = recall;
 	}
 
 
-	public double getRecall() {
-		return recall;
+	public double getPrecisionNB() {
+		return precisionNB;
 	}
 
 
-	public void setRecall(double recall) {
-		this.recall = recall;
+	public void setPrecisionNB(double precisionNB) {
+		this.precisionNB = precisionNB;
+	}
+
+
+	public double getRecallNB() {
+		return recallNB;
+	}
+
+
+	public void setRecallNB(double recallNB) {
+		this.recallNB = recallNB;
+	}
+
+
+	public double getKappaNB() {
+		return kappaNB;
+	}
+
+
+	public void setKappaNB(double kappaNB) {
+		this.kappaNB = kappaNB;
+	}
+
+
+	public double getAucNB() {
+		return aucNB;
+	}
+
+
+	public void setAucNB(double aucNB) {
+		this.aucNB = aucNB;
+	}
+
+
+	public double getPrecisionIB() {
+		return precisionIB;
+	}
+
+
+	public void setPrecisionIB(double precisionIB) {
+		this.precisionIB = precisionIB;
+	}
+
+
+	public double getRecallIB() {
+		return recallIB;
+	}
+
+
+	public void setRecallIB(double recallIB) {
+		this.recallIB = recallIB;
+	}
+
+
+	public double getAucIB() {
+		return aucIB;
+	}
+
+
+	public void setAucIB(double aucIB) {
+		this.aucIB = aucIB;
+	}
+
+
+	public double getKappaIB() {
+		return kappaIB;
+	}
+
+
+	public void setKappaIB(double kappaIB) {
+		this.kappaIB = kappaIB;
+	}
+
+
+	public int getTestingRel() {
+		return testingRel;
+	}
+
+
+	public void setTestingRel(int testingRel) {
+		this.testingRel = testingRel;
+	}
+
+
+	public List<Integer> getTrainingRel() {
+		return trainingRel;
+	}
+
+
+	public void setTrainingRel(List<Integer> trainingRel) {
+		this.trainingRel = trainingRel;
 	}
 
 }
