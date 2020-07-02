@@ -49,7 +49,10 @@ public class Writer {
 			sb.append("Classifier");
 			sb.append(',');
 			
-			//mancano balancing e feature selection
+			//manca balancing
+			
+			sb.append("FeatureSelection");
+			sb.append(',');
 			
 			sb.append("TP");
 			sb.append(',');
@@ -85,6 +88,8 @@ public class Writer {
 				sb.append(',');
 				sb.append("RandomForest");
 				sb.append(',');
+				sb.append("no");
+				sb.append(',');
 				sb.append(formatter(list.get(i).getPercTraining()));
 				sb.append(',');
 				sb.append(formatter(list.get(i).getPercBugTraining()));
@@ -113,6 +118,8 @@ public class Writer {
 				sb.append(sublist);
 				sb.append(',');
 				sb.append("NaiveBayes");
+				sb.append(',');
+				sb.append("no");
 				sb.append(',');
 				sb.append(formatter(list.get(i).getPercTraining()));
 				sb.append(',');
@@ -143,6 +150,8 @@ public class Writer {
 				sb.append(',');
 				sb.append("Ibk");
 				sb.append(',');
+				sb.append("no");
+				sb.append(',');
 				sb.append(formatter(list.get(i).getPercTraining()));
 				sb.append(',');
 				sb.append(formatter(list.get(i).getPercBugTraining()));
@@ -170,6 +179,106 @@ public class Writer {
 				
 		
 				
+			}
+			
+			for (int i=0;i<list.size();i++) {
+				List <Integer> sublist = list.get(i).getTrainingRel().subList(0, i+1);
+				
+				
+				sb.append(MainControl.PROJECTNAME);
+				sb.append(',');
+				sb.append(sublist);
+				sb.append(',');
+				sb.append("RandomForest");
+				sb.append(',');
+				sb.append("yes");
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTesting()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTpRFfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFpRFfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTnRFfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFnRFfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPrecisionRFfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getRecallRFfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getAucRFfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getKappaRFfiltered()));
+				sb.append('\n');
+				
+				sb.append(MainControl.PROJECTNAME);
+				sb.append(',');
+				sb.append(sublist);
+				sb.append(',');
+				sb.append("NaiveBayes");
+				sb.append(',');
+				sb.append("no");
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTesting()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTpNBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFpNBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTnNBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFnNBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPrecisionNBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getRecallNBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getAucNBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getKappaNBfiltered()));
+				sb.append('\n');
+				
+				sb.append(MainControl.PROJECTNAME);
+				sb.append(',');
+				sb.append(sublist);
+				sb.append(',');
+				sb.append("Ibk");
+				sb.append(',');
+				sb.append("no");
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTraining()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPercBugTesting()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTpIBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFpIBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getTnIBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getFnIBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getPrecisionIBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getRecallIBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getAucIBfiltered()));
+				sb.append(',');
+				sb.append(formatter(list.get(i).getKappaIBfiltered()));
+				sb.append('\n');
+				
+
 			}
 			
 			writer.write(sb.toString());

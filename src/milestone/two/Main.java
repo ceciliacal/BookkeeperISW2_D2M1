@@ -1,20 +1,12 @@
 package milestone.two;
 
-import weka.core.AttributeStats;
+
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
 import weka.core.converters.CSVLoader;
-import weka.core.converters.Saver;
-import weka.experiment.Stats;
 import weka.core.converters.ConverterUtils.DataSource;
-import weka.filters.Filter;
-import weka.filters.unsupervised.attribute.Remove;
-import weka.filters.unsupervised.instance.SubsetByExpression;
-
 import project.bookkeeper.MainControl;
-import project.bookkeeper.Release;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,8 +39,10 @@ public class Main {
 
 		   //csv2arff(csvPath,arffPath);
 		   parts = walkForward(arffPath);
+		   //FeatureSelection.bho(parts);
 		   
-		   Classification.bho2(parts, 1);
+		   Classification.evalutationNoFiltered(parts);
+		   Classification.evalutationFiltered(parts);
 		   Writer.write(parts);
 	   }
 
@@ -253,6 +247,7 @@ public class Main {
 		  }
 		  return parts;
 		   
-	   }	  
-
+	   }	
+	   
+	 
 }

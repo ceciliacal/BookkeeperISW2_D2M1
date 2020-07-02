@@ -50,6 +50,36 @@ public class DatasetPart {
 	private double aucIB;
 	private double kappaIB;
 	
+	private int tpRFfiltered;
+	private int fpRFfiltered;
+	private int tnRFfiltered;
+	private int fnRFfiltered;
+	
+	private int tpNBfiltered;
+	private int fpNBfiltered;
+	private int tnNBfiltered;
+	private int fnNBfiltered;
+	
+	private int tpIBfiltered;
+	private int fpIBfiltered;
+	private int tnIBfiltered;
+	private int fnIBfiltered;
+	
+	private double precisionRFfiltered;
+	private double recallRFfiltered;
+	private double aucRFfiltered;
+	private double kappaRFfiltered;
+	
+	private double precisionNBfiltered;
+	private double recallNBfiltered;
+	private double aucNBfiltered;
+	private double kappaNBfiltered;
+	
+	private double precisionIBfiltered;
+	private double recallIBfiltered;
+	private double aucIBfiltered;
+	private double kappaIBfiltered;
+	
 
 	
 	
@@ -361,6 +391,198 @@ public class DatasetPart {
 
 	public void setFnIB(int fnIB) {
 		this.fnIB = fnIB;
+	}
+
+	public int getTpRFfiltered() {
+		return tpRFfiltered;
+	}
+
+	public void setTpRFfiltered(int tpRFfiltered) {
+		this.tpRFfiltered = tpRFfiltered;
+	}
+
+	public double getKappaIBfiltered() {
+		return kappaIBfiltered;
+	}
+
+	public void setKappaIBfiltered(double kappaIBfiltered) {
+		this.kappaIBfiltered = kappaIBfiltered;
+	}
+
+	public int getFpRFfiltered() {
+		return fpRFfiltered;
+	}
+
+	public void setFpRFfiltered(int fpRFfiltered) {
+		this.fpRFfiltered = fpRFfiltered;
+	}
+
+	public int getTnRFfiltered() {
+		return tnRFfiltered;
+	}
+
+	public void setTnRFfiltered(int tnRFfiltered) {
+		this.tnRFfiltered = tnRFfiltered;
+	}
+
+	public int getFnRFfiltered() {
+		return fnRFfiltered;
+	}
+
+	public void setFnRFfiltered(int fnRFfiltered) {
+		this.fnRFfiltered = fnRFfiltered;
+	}
+
+	public int getTpNBfiltered() {
+		return tpNBfiltered;
+	}
+
+	public void setTpNBfiltered(int tpNBfiltered) {
+		this.tpNBfiltered = tpNBfiltered;
+	}
+
+	public int getFpNBfiltered() {
+		return fpNBfiltered;
+	}
+
+	public void setFpNBfiltered(int fpNBfiltered) {
+		this.fpNBfiltered = fpNBfiltered;
+	}
+
+	public int getTnNBfiltered() {
+		return tnNBfiltered;
+	}
+
+	public void setTnNBfiltered(int tnNBfiltered) {
+		this.tnNBfiltered = tnNBfiltered;
+	}
+
+	public int getFnNBfiltered() {
+		return fnNBfiltered;
+	}
+
+	public void setFnNBfiltered(int fnNBfiltered) {
+		this.fnNBfiltered = fnNBfiltered;
+	}
+
+	public int getTpIBfiltered() {
+		return tpIBfiltered;
+	}
+
+	public void setTpIBfiltered(int tpIBfiltered) {
+		this.tpIBfiltered = tpIBfiltered;
+	}
+
+	public int getFpIBfiltered() {
+		return fpIBfiltered;
+	}
+
+	public void setFpIBfiltered(int fpIBfiltered) {
+		this.fpIBfiltered = fpIBfiltered;
+	}
+
+	public int getTnIBfiltered() {
+		return tnIBfiltered;
+	}
+
+	public void setTnIBfiltered(int tnIBfiltered) {
+		this.tnIBfiltered = tnIBfiltered;
+	}
+
+	public int getFnIBfiltered() {
+		return fnIBfiltered;
+	}
+
+	public void setFnIBfiltered(int fnIBfiltered) {
+		this.fnIBfiltered = fnIBfiltered;
+	}
+
+	public double getPrecisionRFfiltered() {
+		return precisionRFfiltered;
+	}
+
+	public void setPrecisionRFfiltered(double precisionRFfiltered) {
+		this.precisionRFfiltered = precisionRFfiltered;
+	}
+
+	public double getRecallRFfiltered() {
+		return recallRFfiltered;
+	}
+
+	public void setRecallRFfiltered(double recallRFfiltered) {
+		this.recallRFfiltered = recallRFfiltered;
+	}
+
+	public double getAucRFfiltered() {
+		return aucRFfiltered;
+	}
+
+	public void setAucRFfiltered(double aucRFfiltered) {
+		this.aucRFfiltered = aucRFfiltered;
+	}
+
+	public double getKappaRFfiltered() {
+		return kappaRFfiltered;
+	}
+
+	public void setKappaRFfiltered(double kappaRFfiltered) {
+		this.kappaRFfiltered = kappaRFfiltered;
+	}
+
+	public double getPrecisionNBfiltered() {
+		return precisionNBfiltered;
+	}
+
+	public void setPrecisionNBfiltered(double precisionNBfiltered) {
+		this.precisionNBfiltered = precisionNBfiltered;
+	}
+
+	public double getRecallNBfiltered() {
+		return recallNBfiltered;
+	}
+
+	public void setRecallNBfiltered(double recallNBfiltered) {
+		this.recallNBfiltered = recallNBfiltered;
+	}
+
+	public double getAucNBfiltered() {
+		return aucNBfiltered;
+	}
+
+	public void setAucNBfiltered(double aucNBfiltered) {
+		this.aucNBfiltered = aucNBfiltered;
+	}
+
+	public double getKappaNBfiltered() {
+		return kappaNBfiltered;
+	}
+
+	public void setKappaNBfiltered(double kappaNBfiltered) {
+		this.kappaNBfiltered = kappaNBfiltered;
+	}
+
+	public double getPrecisionIBfiltered() {
+		return precisionIBfiltered;
+	}
+
+	public void setPrecisionIBfiltered(double precisionIBfiltered) {
+		this.precisionIBfiltered = precisionIBfiltered;
+	}
+
+	public double getRecallIBfiltered() {
+		return recallIBfiltered;
+	}
+
+	public void setRecallIBfiltered(double recallIBfiltered) {
+		this.recallIBfiltered = recallIBfiltered;
+	}
+
+	public double getAucIBfiltered() {
+		return aucIBfiltered;
+	}
+
+	public void setAucIBfiltered(double aucIBfiltered) {
+		this.aucIBfiltered = aucIBfiltered;
 	}
 
 	
