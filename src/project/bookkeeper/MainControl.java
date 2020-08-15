@@ -34,7 +34,7 @@ public class MainControl {
 	
 	
 	
-	public static void main(String[] args) throws IOException, JSONException, GitAPIException {
+	public static void main(String[] args) throws Exception {
 		
 		int numDefects;
 		int halfRelease;
@@ -81,6 +81,8 @@ public class MainControl {
     	
     	Metrics.calculate(repository);
     	CsvWriter.write(entries);
+    	
+    	milestone.two.Main.run();
 
 	
 	}
@@ -506,15 +508,13 @@ public class MainControl {
 							
 							computeBuggyness(releaseIndex, ticketlist.get(i).getRelatedJavaFiles().get(k));
 							
-						}
-						
-						
+						}											
 						
 					}
 					
 				}
+			
 			}
-
 			
 		}
 

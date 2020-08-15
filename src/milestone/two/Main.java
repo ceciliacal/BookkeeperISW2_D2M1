@@ -12,39 +12,58 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Main {
 	
-	public static List<Integer> releases;
+	protected static List<Integer> releases;
 	
-
+		
+	
 	   public static void main(String[] args) throws Exception {
 		   
-		   int numReleases;
 		   String csvPath;
 		   String arffPath;
 		   
 		   List<DatasetPart> parts;
 		  
-		   
-
-		   //prendi training e testing da walkforward
-		   //passali a test weka easy per darli al classificatore
-		   
 		   releases=MainControl.getReleases();
-		   numReleases=releases.size();
-		   System.out.println("numReleases: "+numReleases);
-
-		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetVirgole.csv";
-		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetCORRETTO.arff";
-
-		   //csv2arff(csvPath,arffPath);
-		   parts = walkForward(arffPath);
-		   //FeatureSelection.bho(parts);
 		   
-		   Classification.evalutationNoFiltered(parts);
-		   Classification.evalutationFiltered(parts);
-		   Writer.write(parts);
+		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetVirgole.csv";
+		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetWeka.arff";
+
+		   csv2arff(csvPath,arffPath);
+		   
+		   parts = walkForward(arffPath);
+		   int dim=getDatasetSize(arffPath) ;
+		   
+		   List<EvaluationData> dbEntryList = Classification.startEvaluation(parts,dim);
+		   Writer.write(dbEntryList);
+		   
 	   }
+	   
+	   public static void run() throws Exception {
+		   
+		   String csvPath;
+		   String arffPath;
+		   
+		   List<DatasetPart> parts;
+		  
+		   releases=MainControl.getReleases();
+		   
+		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetVirgole.csv";
+		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetWeka.arff";
+
+		   csv2arff(csvPath,arffPath);
+		   
+		   parts = walkForward(arffPath);
+		   int dim=getDatasetSize(arffPath) ;
+		   
+		   List<EvaluationData> dbEntryList = Classification.startEvaluation(parts,dim);
+		   Writer.write(dbEntryList);
+		   
+	   }
+	   
 
 
 	   public static void csv2arff(String csvPath, String arffPath) throws IOException {
@@ -52,11 +71,11 @@ public class Main {
 		   // load CSV
 		    CSVLoader loader = new CSVLoader();
 		    loader.setSource(new File(csvPath));
-		    Instances data = loader.getDataSet();//get instances object
+		    Instances data = loader.getDataSet();	//get instances object
 
 		    // save ARFF
 		    ArffSaver saver = new ArffSaver();
-		    saver.setInstances(data);//set the dataset we want to convert
+		    saver.setInstances(data);	//set the dataset we want to convert
 		    //and save as ARFF
 		    saver.setFile(new File(arffPath));
 		    saver.writeBatch();
@@ -104,6 +123,18 @@ public class Main {
 		   parts.add(new DatasetPart (run, training, testing));
 		   
 		   
+		   
+	   }
+	   
+	   public static int getDatasetSize(String arffPath) throws Exception {
+		   
+		    DataSource source = new DataSource(arffPath);
+			Instances data = source.getDataSet();
+		    int numInst = data.numInstances();
+		    
+		    System.out.println("dataset size : "+ numInst);
+			
+		    return numInst;
 		   
 	   }
 	   
@@ -230,6 +261,9 @@ public class Main {
 		    
 		  parts.remove(0);
 		  
+		  /*
+
+		  
 		  System.out.println("\n\nparts dim: "+ parts.size());
 		  for (int y=0;y<parts.size();y++) {
 			  System.out.println("\n\nrun: "+ parts.get(y).getRun());
@@ -243,8 +277,12 @@ public class Main {
 			  System.out.println("%training: "+ parts.get(y).getPercTraining());
 			  System.out.println("%defectiveInTraining: "+ parts.get(y).getPercBugTraining());
 			  System.out.println("%defectiveInTesting: "+ parts.get(y).getPercBugTesting());
-
-		  }
+			
+		 }
+		
+		*/
+		  
+		 
 		  return parts;
 		   
 	   }	

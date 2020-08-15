@@ -1,186 +1,363 @@
 package milestone.two;
-/*
- *  How to use WEKA API in Java 
- *  Copyright (C) 2014 
- *  @author Dr Noureddin M. Sadawi (noureddin.sadawi@gmail.com)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it as you wish ... 
- *  I ask you only, as a professional courtesy, to cite my name, web page 
- *  and my YouTube Channel!
- *  
- */
 
-//import required classes
-
-import weka.core.Instances;
-
+import java.util.ArrayList;
 import java.util.List;
 
-import weka.classifiers.Evaluation;
-import weka.classifiers.trees.RandomForest;
-import weka.classifiers.bayes.NaiveBayes;
-import weka.classifiers.lazy.IBk;
+import project.bookkeeper.Log;
 import weka.attributeSelection.CfsSubsetEval;
 import weka.attributeSelection.GreedyStepwise;
+import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
+import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.lazy.IBk;
+import weka.classifiers.meta.FilteredClassifier;
+import weka.classifiers.trees.RandomForest;
+import weka.core.Instances;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.AttributeSelection;
+import weka.filters.supervised.instance.Resample;
+import weka.filters.supervised.instance.SpreadSubsample;
 
-
-
-public class Classification{
+public class Classification {
 	
-	public static void classificate() {
-		
+	public static final String RF="Random Forest";
+	public static final String NB="Naive Bayes";
+	public static final String IB="IBk";
+	
+	public static final String FILTERED_EVAL="Best First";
+	public static final String UNFILTERED_EVAL="No";
+	
+	public static final String NO_SAMPLING="No";
+	public static final String OVER_SAMPLING="Over Sampling";
+	public static final String UNDER_SAMPLING="Under Sampling";
+	public static final String SMOTE="SMOTE";
+	
+	protected static List<EvaluationData> dbEntryList;
+	protected static int dim;
+	
+	private Classification() {	
 	}
-
 	
-	public static void evalutationNoFiltered(List <DatasetPart> parts) throws Exception {
-		double p =0;
-		double r =0;
-		double auc=0;
-		double kappa=0;
-		int tp=0;
-		int fp=0;
-		int tn=0;
-		int fn=0;
-
+	//metodo per classificazione di ogni parte del dataset (parti definite da walk forward)
+	public static List<EvaluationData> startEvaluation(List <DatasetPart> parts, int numInstances) throws Exception {
+		
+		dbEntryList = new ArrayList<>();
+		dim=numInstances;
+		
+		List<String> classifierNames = new ArrayList<>();
+		classifierNames.add(RF);		//RANDOM FOREST
+		classifierNames.add(NB);		//NAIVE BAYES
+		classifierNames.add(IB);		//IBK
 		
 		for (int i=0;i<parts.size();i++) {
+			
 			DatasetPart part = parts.get(i);
+			
+			//System.out.println("\n\n------------------ run "+part.getRun()+"      tr: "+part.getTrainingRel()+"       test: "+part.getTestingRel()+" ------------------------");
+			
+			for (int j=0;j<classifierNames.size();j++) {
+				
+				setEvalOptions(part, classifierNames.get(j), dbEntryList);
+				
+			}
+		}
+		return dbEntryList;
+	}
+	
+	public static void setEvalOptions(DatasetPart part, String classifierName, List<EvaluationData> dbEntryList) throws Exception {
+		
+
+		List<String> featureSelOptions = new ArrayList<>();
+		featureSelOptions.add(UNFILTERED_EVAL);		//NO fs
+		featureSelOptions.add(FILTERED_EVAL);		//Best First
+		
+		List<String> balancingOptions = new ArrayList<>();
+		balancingOptions.add(NO_SAMPLING);
+		balancingOptions.add(UNDER_SAMPLING);		
+		balancingOptions.add(OVER_SAMPLING);		
+		balancingOptions.add(SMOTE);	
+		
+		//System.out.println(" \nsize fs: "+featureSelOptions.size()+"     bal size:"+balancingOptions.size());	
+		
+		for (int i=0;i<featureSelOptions.size();i++) {
+			
+			for (int j=0;j<balancingOptions.size();j++) {
+								
+				evaluation(part, featureSelOptions.get(i), balancingOptions.get(j), classifierName, dbEntryList);
+				
+			}
+			
+		}
+		
+	}
+		
+		public static void evaluation(DatasetPart part, String featureSelection, String balancingMode, String classifierName, List<EvaluationData> dbEntryList) throws Exception {
+			
+			Classifier classifier = null;
+			Evaluation eval = null;
+			
 			Instances training = part.getTraining();
 			Instances testing = part.getTesting();
-
 			
 			int numAttr = training.numAttributes();
 			training.setClassIndex(numAttr - 1);
 			testing.setClassIndex(numAttr - 1);
-			System.out.println("\n\n------------------ run "+part.getRun()+" ------------------------");
+			
+			//System.out.println("\n------ in evaluation possibilities -----   balancing = "+balancingMode+"     fs = "+featureSelection);
+			
+			// evaluation SENZA feature selection
+			if (featureSelection.equals(UNFILTERED_EVAL)) {		
+				
+				//no balancing
+				if (balancingMode.equals(NO_SAMPLING)) {
+					
+					classifier = chooseClassifier(classifierName);
+					
+					classifier.buildClassifier(training);
+					eval = new Evaluation(testing);	
+					eval.evaluateModel(classifier, testing);
+					
+				}
+				//con balancing
+				else {
+					
+					FilteredClassifier fc = evaluationBalancing(part, training, classifierName, balancingMode);
+					fc.buildClassifier(training);
+					eval = new Evaluation(testing);	
+					eval.evaluateModel(fc, testing);
+					
+					//System.out.println("\n---- in evaluation2 --- train: "+part.getTrainingRel()+"  balancing = "+balancingMode+"     fs = "+featureSelection+"   pr="+eval.precision(1)+"     recall="+eval.recall(1)+"     auc="+eval.areaUnderROC(1)+"     recall="+eval.kappa());
 
-			// -------------------- RANDOM FOREST --------------------
+					
+				}
+				
+				
+			}
 			
-			RandomForest classifier1 = new RandomForest();
+			// evaluation CON feature selection
+			else if (featureSelection.equals(FILTERED_EVAL)) {
+				
+				eval = featureSelection(part, training, testing, classifierName, balancingMode);		
+				
+			}
 			
-			classifier1.buildClassifier(training);
-			Evaluation eval1 = new Evaluation(testing);	
-			System.out.println("RANDOM FOREST:");
-			eval1.evaluateModel(classifier1, testing);
-			
-			
-			p=eval1.precision(1);
-			r=eval1.recall(1);
-			auc=eval1.areaUnderROC(1);
-			kappa =eval1.kappa();
-			
-			tp=(int)eval1.numTruePositives(1);
-			fp=(int)eval1.numFalsePositives(1);
-			tn=(int)eval1.numTrueNegatives(1);
-			fn=(int)eval1.numFalseNegatives(1);
-			
-			System.out.println("precision = "+p);
-			System.out.println("recall = "+r);
-			System.out.println("AUC = "+ auc);
-			System.out.println("kappa = "+kappa);
-			System.out.println("TP = "+tp);
-			System.out.println("FP = "+fp);
-			System.out.println("TN = "+tn);
-			System.out.println("FN = "+fn);
-			
-			part.setPrecisionRF(p);
-			part.setRecallRF(r);
-			part.setAucRF(auc);
-			part.setKappaRF(kappa);
-			
-			part.setTpRF(tp);
-			part.setFpRF(fp);
-			part.setTnRF(tn);
-			part.setFnRF(fn);
-			
-			// -------------------- NAIVE BAYES --------------------
-
-			NaiveBayes classifier2 = new NaiveBayes();			
-			classifier2.buildClassifier(training);
-			Evaluation eval2 = new Evaluation(testing);	
-			System.out.println("\nNAIVE BAYES:");
-			eval2.evaluateModel(classifier2, testing);
-			
-			p=eval2.precision(1);
-			r=eval2.recall(1);
-			auc=eval2.areaUnderROC(1);
-			kappa =eval2.kappa();
-			
-			tp=(int)eval2.numTruePositives(1);
-			fp=(int)eval2.numFalsePositives(1);
-			tn=(int)eval2.numTrueNegatives(1);
-			fn=(int)eval2.numFalseNegatives(1);
-			
-			System.out.println("precision = "+p);
-			System.out.println("recall = "+r);
-			System.out.println("AUC = "+ auc);
-			System.out.println("kappa = "+kappa);
-			System.out.println("TP = "+tp);
-			System.out.println("FP = "+fp);
-			System.out.println("TN = "+tn);
-			System.out.println("FN = "+fn);
+			else {	
+				
+				Log.errorLog("Errore nella scelta della Feature Selection");
+				System.exit(-1);
+			}
 			
 			
-			part.setPrecisionNB(p);
-			part.setRecallNB(r);
-			part.setAucNB(auc);
-			part.setKappaNB(kappa);
-			
-			part.setTpNB(tp);
-			part.setFpNB(fp);
-			part.setTnNB(tn);
-			part.setFnNB(fn);
-
-			// -------------------- IBK --------------------
-			
-			IBk classifier3 = new IBk();
-			classifier3.buildClassifier(training);
-			Evaluation eval3 = new Evaluation(testing);	
-			System.out.println("\nIBK");
-			eval3.evaluateModel(classifier3, testing);
-			
-			p=eval3.precision(1);
-			r=eval3.recall(1);
-			auc=eval3.areaUnderROC(1);
-			kappa =eval3.kappa();
-			
-			tp=(int)eval3.numTruePositives(1);
-			fp=(int)eval3.numFalsePositives(1);
-			tn=(int)eval3.numTrueNegatives(1);
-			fn=(int)eval3.numFalseNegatives(1);
-			
-			System.out.println("precision = "+p);
-			System.out.println("recall = "+r);
-			System.out.println("AUC = "+ auc);
-			System.out.println("kappa = "+kappa);
-			System.out.println("TP = "+tp);
-			System.out.println("FP = "+fp);
-			System.out.println("TN = "+tn);
-			System.out.println("FN = "+fn);
-			
-			
-			part.setPrecisionIB(p);
-			part.setRecallIB(r);
-			part.setAucIB(auc);
-			part.setKappaIB(kappa);
-			
-			part.setTpIB(tp);
-			part.setFpIB(fp);
-			part.setTnIB(tn);
-			part.setFnIB(fn);
-			
-
-		
+			//setto in part (DatasetPart) i valori dell' evaluation 
+			setValues(part, eval, classifierName, featureSelection, balancingMode, dbEntryList);		
 		}
-	  
 		
-	}
-	
-		public static void evalutationFiltered(List <DatasetPart> parts) throws Exception {
+		
+		public static Evaluation featureSelection (DatasetPart part, Instances training, Instances testing, String classifierName, String balancingMode) throws Exception {
+			
+			AttributeSelection filter = new AttributeSelection();
+			
+			CfsSubsetEval subsetEval = new CfsSubsetEval();		//evaluator
+			GreedyStepwise search = new GreedyStepwise();		//search algorithm
+			search.setSearchBackwards(true);
 
+			filter.setEvaluator(subsetEval);
+			filter.setSearch(search);
+			filter.setInputFormat(training);
+
+			Instances filteredTraining = Filter.useFilter(training, filter);
+			filteredTraining.setClassIndex(filteredTraining.numAttributes() - 1);
+			
+			Instances filteredTesting = Filter.useFilter(testing, filter);	
+			filteredTesting.setClassIndex(filteredTesting.numAttributes() - 1);
+			
+			Evaluation eval = null;			
+			
+			if (balancingMode.isEmpty()) {			
+				Log.errorLog("Errore nella Feature Selection");
+				System.exit(-1);		
+			}
+			
+			
+			
+			//senza balancing
+			else if (balancingMode.equals(NO_SAMPLING)){
+				
+				Classifier classifier = chooseClassifier(classifierName);
+							
+				classifier.buildClassifier(filteredTraining);
+				eval = new Evaluation(testing);
+				eval.evaluateModel(classifier, filteredTesting);
+				
+			}
+			
+			//con balancing
+			else {
+				
+				FilteredClassifier fc = evaluationBalancing(part,filteredTraining, classifierName, balancingMode);
+
+				fc.buildClassifier(filteredTraining);
+				eval = new Evaluation(testing);
+				eval.evaluateModel(fc, filteredTesting);
+				
+			}
+			
+			
+			return eval;
+
+
+			
+		}
+		
+		
+		public static FilteredClassifier evaluationBalancing(DatasetPart part, Instances training, String classifierName, String balancingMode) throws Exception {
+			
+
+			FilteredClassifier fc = new FilteredClassifier();
+			
+			if (classifierName.equals(RF)) {
+				
+				RandomForest randomForest = new RandomForest();
+				fc.setClassifier(randomForest);
+				
+			}
+			
+			else if (classifierName.equals(NB)) {
+				
+				NaiveBayes naiveBayes = new NaiveBayes();
+				fc.setClassifier(naiveBayes);
+				
+			}
+			
+			else if (classifierName.equals(IB)) {
+				
+				IBk ibk = new IBk();
+				fc.setClassifier(ibk);
+
+			}
+			
+			else {	
+				
+				Log.errorLog("Errore nel nome del classificatore");
+				System.exit(-1);
+			}
+
+			
+			//---- over sampling ----
+			if (balancingMode.equals(OVER_SAMPLING)){
+				
+				Resample resample = new Resample();
+				
+				resample.setInputFormat(training);
+				resample.setNoReplacement(false);
+				resample.setBiasToUniformClass(0.1);
+				
+				double sizePerc = 2 * ( getSampleSizePerc(part,dim) );
+				//double y=2*(training.numInstances());
+				resample.setSampleSizePercent(sizePerc); //y/2 = %data appartenente a majority class
+				//majority class : numero d'istanze 
+				
+				String[] overOpts = new String[]{ "-B", "1.0", "-Z", "130.3"};
+				resample.setOptions(overOpts);
+				
+				fc.setFilter(resample);
+			}
+			
+			//---- under sampling ----
+			else if (balancingMode.equals(UNDER_SAMPLING)){
+							
+				SpreadSubsample  spreadSubsample = new SpreadSubsample();
+				String[] opts = new String[]{ "-M", "1.0"};
+				spreadSubsample.setOptions(opts);
+				
+				fc.setFilter(spreadSubsample);
+				
+			}
+			
+			//---- SMOTE ----
+			else if (balancingMode.equals(SMOTE)){
+				
+				weka.filters.supervised.instance.SMOTE smote = new weka.filters.supervised.instance.SMOTE();
+				smote.setInputFormat(training);
+				fc.setFilter(smote);
+
+			}
+			//param input è errato
+			else {
+				
+				Log.errorLog("Errore nella tecnica di balancing");
+				System.exit(-1);
+				
+			}
+			
+			
+			
+			return fc;
+
+		
+			
+		}
+		
+		public static double getSampleSizePerc(DatasetPart part, int dim) {
+			
+			//dim =  data.getNumInstances
+			double res;
+			
+			res=0;
+			double numBuggyClasses = part.getPercBugTraining();
+			int numBuggyClassesTemp = (int) (part.getPercBugTraining())*100;
+			
+			if (numBuggyClassesTemp > dim - numBuggyClassesTemp) {
+				
+				res=numBuggyClasses;	//majority
+			}
+			
+			else {
+				res = ((dim - numBuggyClasses)*100)/ (double) dim;
+					
+			}
+		
+			//System.out.println("\nSampleSizePerc :  "+res+"\n");	
+
+			return res;	
+		}
+		
+		
+		
+		public static Classifier chooseClassifier(String classifierName) {
+			
+			Classifier classifier = null;
+			
+			if (classifierName.equals(RF)) {
+				
+				classifier = new RandomForest();
+				
+			}
+			
+			else if (classifierName.equals(NB)) {
+				
+				classifier = new NaiveBayes();
+				
+			}
+			
+			else if (classifierName.equals(IB)) {
+				
+				classifier = new IBk();	
+
+			}
+			
+			else {	
+				
+				Log.errorLog("Errore nel nome del classificatore");
+				System.exit(-1);
+			}
+			
+			return classifier;
+
+		}
+		
+		public static void setValues( DatasetPart part, Evaluation eval, String classifierName, String featureSelection, String balancingMode, List<EvaluationData> dbEntryList) {
+			
 			double p =0;
 			double r =0;
 			double auc=0;
@@ -190,186 +367,91 @@ public class Classification{
 			int tn=0;
 			int fn=0;
 			
-			for (int i=0;i<parts.size();i++) {
-				
-				DatasetPart part = parts.get(i);
-				Instances training = part.getTraining();
-				Instances testing = part.getTesting();
-				
-				//create AttributeSelection object
-				AttributeSelection filter = new AttributeSelection();
-				
-				//create evaluator and search algorithm objects
-				CfsSubsetEval eval = new CfsSubsetEval();
-				GreedyStepwise search = new GreedyStepwise();
-				
-				//set the algorithm to search backward
-				search.setSearchBackwards(true);
-				
-				//set the filter to use the evaluator and search algorithm
-				filter.setEvaluator(eval);
-				filter.setSearch(search);
-				
-				//specify the dataset
-				filter.setInputFormat(training);
-				
-				//apply
-				Instances filteredTraining = Filter.useFilter(training, filter);
-				
-				int numAttrNoFilter = training.numAttributes();
-				training.setClassIndex(numAttrNoFilter - 1);
-				testing.setClassIndex(numAttrNoFilter - 1);
-				
-				int numAttrFiltered = filteredTraining.numAttributes();
-		
-				
-				System.out.println("No filter attr: "+ numAttrNoFilter);
-				System.out.println("Filtered attr: "+ numAttrFiltered);
+			p=eval.precision(1);
+			r=eval.recall(1);
+			auc=eval.areaUnderROC(1);
+			kappa =eval.kappa();
 			
-				// ------------------ RANDOM FOREST --------------------
-				
-				System.out.println("\n -------------------- FILTERED RANDOM FOREST:");
-				RandomForest classifier = new RandomForest();
-		
-				Evaluation eval1 = new Evaluation(testing);
-				
-				//evaluation with filtered
-				filteredTraining.setClassIndex(numAttrFiltered - 1);
-				Instances testingFiltered1 = Filter.useFilter(testing, filter);
-				testingFiltered1.setClassIndex(numAttrFiltered - 1);
-				classifier.buildClassifier(filteredTraining);
-				eval1.evaluateModel(classifier, testingFiltered1);
-				
-				p=eval1.precision(1);
-				r=eval1.recall(1);
-				auc=eval1.areaUnderROC(1);
-				kappa =eval1.kappa();
-				
-				tp=(int)eval1.numTruePositives(1);
-				fp=(int)eval1.numFalsePositives(1);
-				tn=(int)eval1.numTrueNegatives(1);
-				fn=(int)eval1.numFalseNegatives(1);
-				
-				System.out.println("precision = "+p);
-				System.out.println("recall = "+r);
-				System.out.println("AUC = "+ auc);
-				System.out.println("kappa = "+kappa);
-				System.out.println("TP = "+tp);
-				System.out.println("FP = "+fp);
-				System.out.println("TN = "+tn);
-				System.out.println("FN = "+fn);
-				
-				//set part
-				
-				part.setPrecisionRFfiltered(p);
-				part.setRecallRFfiltered(r);
-				part.setAucRFfiltered(auc);
-				part.setKappaRFfiltered(kappa);
-				
-				part.setTpRFfiltered(tp);
-				part.setFpRFfiltered(fp);
-				part.setTnRFfiltered(tn);
-				part.setFnRFfiltered(fn);
-				
-				
-				// -------------------- NAIVE BAYES --------------------
+			tp=(int)eval.numTruePositives(1);
+			fp=(int)eval.numFalsePositives(1);
+			tn=(int)eval.numTrueNegatives(1);
+			fn=(int)eval.numFalseNegatives(1);
+			
+			EvaluationData dbEntry = new EvaluationData();
+			
+			dbEntry.setTrainingRel(part.getTrainingRel());
+			dbEntry.setTestingRel(part.getTestingRel());
+			
+			dbEntry.setPercTraining(part.getPercTraining());
+			dbEntry.setPercBugTraining(part.getPercBugTraining());
+			dbEntry.setPercBugTesting(part.getPercBugTesting());
+			
+			dbEntry.setClassifier(classifierName);
 
-				System.out.println("\n -------------------- FILTERED NAIVE BAYES:");
-				NaiveBayes classifier2 = new NaiveBayes();	
-				Evaluation eval2 = new Evaluation(testing);
 				
-				//evaluation with filtered
-				filteredTraining.setClassIndex(numAttrFiltered - 1);
-				Instances testingFiltered2 = Filter.useFilter(testing, filter);
-				testingFiltered2.setClassIndex(numAttrFiltered - 1);
-				classifier2.buildClassifier(filteredTraining);
-				eval2.evaluateModel(classifier2, testingFiltered2);
+			if (featureSelection.equals(FILTERED_EVAL)) {
 				
-				p=eval2.precision(1);
-				r=eval2.recall(1);
-				auc=eval2.areaUnderROC(1);
-				kappa =eval2.kappa();
-				
-				tp=(int)eval2.numTruePositives(1);
-				fp=(int)eval2.numFalsePositives(1);
-				tn=(int)eval2.numTrueNegatives(1);
-				fn=(int)eval2.numFalseNegatives(1);
-				
-				System.out.println("precision = "+p);
-				System.out.println("recall = "+r);
-				System.out.println("AUC = "+ auc);
-				System.out.println("kappa = "+kappa);
-				System.out.println("TP = "+tp);
-				System.out.println("FP = "+fp);
-				System.out.println("TN = "+tn);
-				System.out.println("FN = "+fn);
-				
-				//set part
-				
-				part.setPrecisionNBfiltered(p);
-				part.setRecallNBfiltered(r);
-				part.setAucNBfiltered(auc);
-				part.setKappaNBfiltered(kappa);
-				
-				part.setTpNBfiltered(tp);
-				part.setFpNBfiltered(fp);
-				part.setTnNBfiltered(tn);
-				part.setFnNBfiltered(fn);
-		
-				
-				// -------------------- IBK --------------------
-				
-				System.out.println("\n -------------------- FILTERED IBK");
-				IBk classifier3 = new IBk();
-		
-				Evaluation eval3 = new Evaluation(testing);
-				
-				//evaluation with filtered
-				filteredTraining.setClassIndex(numAttrFiltered - 1);
-				Instances testingFiltered3 = Filter.useFilter(testing, filter);
-				testingFiltered3.setClassIndex(numAttrFiltered - 1);
-				classifier3.buildClassifier(filteredTraining);
-				eval3.evaluateModel(classifier3, testingFiltered3);
-				
-				p=eval3.precision(1);
-				r=eval3.recall(1);
-				auc=eval3.areaUnderROC(1);
-				kappa =eval3.kappa();
-				
-				tp=(int)eval3.numTruePositives(1);
-				fp=(int)eval3.numFalsePositives(1);
-				tn=(int)eval3.numTrueNegatives(1);
-				fn=(int)eval3.numFalseNegatives(1);
-				
-				System.out.println("precision = "+p);
-				System.out.println("recall = "+r);
-				System.out.println("AUC = "+ auc);
-				System.out.println("kappa = "+kappa);
-				System.out.println("TP = "+tp);
-				System.out.println("FP = "+fp);
-				System.out.println("TN = "+tn);
-				System.out.println("FN = "+fn);
-				
-				//set part
-				
-				part.setPrecisionIBfiltered(p);
-				part.setRecallIBfiltered(r);
-				part.setAucIBfiltered(auc);
-				part.setKappaIBfiltered(kappa);
-				
-				part.setTpIBfiltered(tp);
-				part.setFpIBfiltered(fp);
-				part.setTnIBfiltered(tn);
-				part.setFnIBfiltered(fn);
-		
-		
+				dbEntry.setFeatureSelection(FILTERED_EVAL);
+				//part.setFeatureSelection("Best First");
+				//da settare quelli con feat. selection
+			}
+			else {
+				dbEntry.setFeatureSelection(UNFILTERED_EVAL);
+				//part.setFeatureSelection("no");
 				
 			}
 			
-	
-	
-	}
+			if (balancingMode.equals(NO_SAMPLING)) {
+				dbEntry.setBalancing(NO_SAMPLING);
+				//part.setBalancing("no");
+			}
+			if (balancingMode.equals(OVER_SAMPLING)) {
+				dbEntry.setBalancing(OVER_SAMPLING);
+				//part.setBalancing(OVER_SAMPLING);
+			}
+			if (balancingMode.equals(UNDER_SAMPLING)) {
+				dbEntry.setBalancing(UNDER_SAMPLING);
+				//part.setBalancing(UNDER_SAMPLING);
+			}
+			if (balancingMode.equals(SMOTE)) {
+				dbEntry.setBalancing(SMOTE);
+				//part.setBalancing(SMOTE);
+			}
 			
+			System.out.println("\n"+classifierName+":");
+			dbEntry.setPrecision(p);
+			dbEntry.setPrecision(p);
+			dbEntry.setRecall(r);
+			dbEntry.setAuc(auc);
+			dbEntry.setKappa(kappa);
+			
+			dbEntry.setTp(tp);
+			dbEntry.setFp(fp);
+			dbEntry.setTn(tn);
+			dbEntry.setFn(fn);
+			
+			
+			System.out.println("balancing = "+dbEntry.getBalancing());
+			System.out.println("fs = "+dbEntry.getFeatureSelection());
+			System.out.println("precision = "+dbEntry.getPrecision());
+			System.out.println("recall = "+dbEntry.getRecall());
+			System.out.println("AUC = "+ dbEntry.getAuc());
+			System.out.println("kappa = "+dbEntry.getKappa());
+			System.out.println("TP = "+dbEntry.getTp());
+			System.out.println("FP = "+dbEntry.getFp());
+			System.out.println("TN = "+dbEntry.getTn());
+			System.out.println("FN = "+dbEntry.getFn());
+			
+			
+			dbEntryList.add(dbEntry);
 
-	
-}
+
+		}
+		
+		
+		
+		
+		
+		
+		
+	}
