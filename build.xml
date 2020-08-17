@@ -3,56 +3,66 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="bookkeeperISW2_D2M1">
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="trunk">
     <property environment="env"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="11"/>
-    <property name="source" value="11"/>
-    <path id="bookkeeperISW2_D2M1.classpath">
-        <pathelement location="bin"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/org.eclipse.jgit-5.7.0.202003110725-r.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/java-json.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/log4j-1.2.17.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/slf4j-api-1.7.30.jar"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="Maven Dependencies.libraryclasspath">
+        <pathelement location="C:/Users/Cecilia/.m2/repository/org/eclipse/jgit/org.eclipse.jgit/5.7.0.202003110725-r/org.eclipse.jgit-5.7.0.202003110725-r.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/jcraft/jsch/0.1.55/jsch-0.1.55.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/jcraft/jzlib/1.1.1/jzlib-1.1.1.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/googlecode/javaewah/JavaEWAH/1.1.7/JavaEWAH-1.1.7.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/org/slf4j/slf4j-api/1.7.2/slf4j-api-1.7.2.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/org/bouncycastle/bcpg-jdk15on/1.64/bcpg-jdk15on-1.64.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.64/bcprov-jdk15on-1.64.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.64/bcpkix-jdk15on-1.64.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/org/slf4j/slf4j-jdk14/1.7.5/slf4j-jdk14-1.7.5.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/nz/ac/waikato/cms/weka/weka-stable/3.8.0/weka-stable-3.8.0.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/nz/ac/waikato/cms/weka/thirdparty/java-cup-11b/2015.03.26/java-cup-11b-2015.03.26.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/nz/ac/waikato/cms/weka/thirdparty/java-cup-11b-runtime/2015.03.26/java-cup-11b-runtime-2015.03.26.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/nz/ac/waikato/cms/weka/thirdparty/bounce/0.18/bounce-0.18.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/googlecode/matrix-toolkits-java/mtj/1.0.4/mtj-1.0.4.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_ref-osx-x86_64/1.1/netlib-native_ref-osx-x86_64-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/native_ref-java/1.1/native_ref-java-1.1.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/jniloader/1.1/jniloader-1.1.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_ref-linux-x86_64/1.1/netlib-native_ref-linux-x86_64-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_ref-linux-i686/1.1/netlib-native_ref-linux-i686-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_ref-win-x86_64/1.1/netlib-native_ref-win-x86_64-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_ref-win-i686/1.1/netlib-native_ref-win-i686-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_ref-linux-armhf/1.1/netlib-native_ref-linux-armhf-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_system-osx-x86_64/1.1/netlib-native_system-osx-x86_64-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/native_system-java/1.1/native_system-java-1.1.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_system-linux-x86_64/1.1/netlib-native_system-linux-x86_64-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_system-linux-i686/1.1/netlib-native_system-linux-i686-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_system-linux-armhf/1.1/netlib-native_system-linux-armhf-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_system-win-x86_64/1.1/netlib-native_system-win-x86_64-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/netlib-native_system-win-i686/1.1/netlib-native_system-win-i686-1.1-natives.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/net/sourceforge/f2j/arpack_combined_all/0.1/arpack_combined_all-0.1.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/googlecode/netlib-java/netlib-java/1.1/netlib-java-1.1.jar"/>
+        <pathelement location="C:/Users/Cecilia/.m2/repository/com/github/fommil/netlib/core/1.1/core-1.1.jar"/>
     </path>
-    <path id="run.GetGitInfo (1).classpath">
-        <path refid="bookkeeperISW2_D2M1.classpath"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/org.eclipse.jgit-5.7.0.202003110725-r.jar"/>
+    <path id="trunk.classpath">
+        <pathelement location="target/classes"/>
+        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/SMOTE.jar"/>
+        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/weka-stable-3.8.0.jar"/>
         <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/java-json.jar"/>
         <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/log4j-1.2.17.jar"/>
+        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/org.eclipse.jgit-5.7.0.202003110725-r.jar"/>
         <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/slf4j-api-1.7.30.jar"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
     </path>
-    <path id="run.GetReleaseInfoFalessi.classpath">
-        <path refid="bookkeeperISW2_D2M1.classpath"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/org.eclipse.jgit-5.7.0.202003110725-r.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/java-json.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/log4j-1.2.17.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/slf4j-api-1.7.30.jar"/>
+    <path id="run.Main (4).classpath">
+        <path refid="trunk.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
     </path>
-    <path id="run.MainControl (2).classpath">
-        <path refid="bookkeeperISW2_D2M1.classpath"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/org.eclipse.jgit-5.7.0.202003110725-r.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/java-json.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/log4j-1.2.17.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/slf4j-api-1.7.30.jar"/>
-    </path>
-    <path id="run.Metrics.classpath">
-        <path refid="bookkeeperISW2_D2M1.classpath"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/org.eclipse.jgit-5.7.0.202003110725-r.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/java-json.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/log4j-1.2.17.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/slf4j-api-1.7.30.jar"/>
-    </path>
-    <path id="run.Release.classpath">
-        <path refid="bookkeeperISW2_D2M1.classpath"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/org.eclipse.jgit-5.7.0.202003110725-r.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/java-json.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/log4j-1.2.17.jar"/>
-        <pathelement location="C:/Users/Cecilia/eclipse-workspace/librerie/slf4j-api-1.7.30.jar"/>
+    <path id="run.MainControl (3).classpath">
+        <path refid="trunk.classpath"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
     </path>
     <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
+        <mkdir dir="target/classes"/>
+        <copy includeemptydirs="false" todir="target/classes">
             <fileset dir="src">
                 <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
@@ -60,16 +70,16 @@
         </copy>
     </target>
     <target name="clean">
-        <delete dir="bin"/>
+        <delete dir="target/classes"/>
     </target>
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+        <javac debug="true" debuglevel="${debuglevel}" destdir="target/classes" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
-            <classpath refid="bookkeeperISW2_D2M1.classpath"/>
+            <classpath refid="trunk.classpath"/>
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
@@ -86,29 +96,14 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="GetGitInfo (1)">
-        <java classname="project.bookkeeper.GetGitInfo" failonerror="true" fork="yes">
-            <classpath refid="run.GetGitInfo (1).classpath"/>
+    <target name="Main (4)">
+        <java classname="milestone.two.Main" failonerror="true" fork="yes">
+            <classpath refid="run.Main (4).classpath"/>
         </java>
     </target>
-    <target name="GetReleaseInfoFalessi">
-        <java classname="project.bookkeeper.GetReleaseInfoFalessi" failonerror="true" fork="yes">
-            <classpath refid="run.GetReleaseInfoFalessi.classpath"/>
-        </java>
-    </target>
-    <target name="MainControl (2)">
+    <target name="MainControl (3)">
         <java classname="project.bookkeeper.MainControl" failonerror="true" fork="yes">
-            <classpath refid="run.MainControl (2).classpath"/>
-        </java>
-    </target>
-    <target name="Metrics">
-        <java classname="project.bookkeeper.Metrics" failonerror="true" fork="yes">
-            <classpath refid="run.Metrics.classpath"/>
-        </java>
-    </target>
-    <target name="Release">
-        <java classname="project.bookkeeper.Release" failonerror="true" fork="yes">
-            <classpath refid="run.Release.classpath"/>
+            <classpath refid="run.MainControl (3).classpath"/>
         </java>
     </target>
 </project>
