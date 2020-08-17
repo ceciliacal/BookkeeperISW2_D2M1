@@ -1,11 +1,12 @@
 /*
-module bookkeeperISW2_D2M1 {
-	requires org.eclipse.jgit;
+module src {
+	exports project.bookkeeper;
+	exports milestone.two;
+
+	requires SMOTE;
 	requires java.json;
 	requires java.logging;
-	requires weka;
-	requires SMOTE;
+	requires org.eclipse.jgit;
 	requires weka.stable;
 }
 */
-
