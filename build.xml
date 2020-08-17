@@ -85,7 +85,6 @@
         <mkdir dir="target/classes"/>
         <copy includeemptydirs="false" todir="target/classes">
             <fileset dir="src">
-                <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
