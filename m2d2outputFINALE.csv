@@ -1,145 +1,145 @@
 Dataset,#TrainingRelease,%Training,%DefectiveTraining,%DefectiveTesting,Classifier,Balancing,FeatureSelection,TP,FP,TN,FN,Precision,Recall,AUC,Kappa
 bookkeeper,[1],0,08,0,42,0,24,Random Forest,No,No,38,36,194,33,0,51,0,54,0,85,0,37
-bookkeeper,[1],0,08,0,42,0,24,Random Forest,Under Sampling,No,48,49,181,23,0,49,0,68,0,84,0,41
-bookkeeper,[1],0,08,0,42,0,24,Random Forest,Over Sampling,No,54,58,172,17,0,48,0,76,0,84,0,42
-bookkeeper,[1],0,08,0,42,0,24,Random Forest,SMOTE,No,64,73,157,7,0,47,0,9,0,85,0,44
+bookkeeper,[1],0,08,0,42,0,24,Random Forest,Under Sampling,No,62,67,163,9,0,48,0,87,0,83,0,45
+bookkeeper,[1],0,08,0,42,0,24,Random Forest,Over Sampling,No,39,46,184,32,0,46,0,55,0,81,0,33
+bookkeeper,[1],0,08,0,42,0,24,Random Forest,SMOTE,No,65,70,160,6,0,48,0,92,0,86,0,47
 bookkeeper,[1],0,08,0,42,0,24,Random Forest,No,Best First,57,58,172,14,0,5,0,8,0,82,0,45
-bookkeeper,[1],0,08,0,42,0,24,Random Forest,Under Sampling,Best First,64,68,162,7,0,48,0,9,0,81,0,47
-bookkeeper,[1],0,08,0,42,0,24,Random Forest,Over Sampling,Best First,58,61,169,13,0,49,0,82,0,82,0,45
-bookkeeper,[1],0,08,0,42,0,24,Random Forest,SMOTE,Best First,67,83,147,4,0,45,0,94,0,84,0,42
+bookkeeper,[1],0,08,0,42,0,24,Random Forest,Under Sampling,Best First,64,69,161,7,0,48,0,9,0,81,0,46
+bookkeeper,[1],0,08,0,42,0,24,Random Forest,Over Sampling,Best First,57,56,174,14,0,5,0,8,0,82,0,46
+bookkeeper,[1],0,08,0,42,0,24,Random Forest,SMOTE,Best First,68,95,135,3,0,42,0,96,0,83,0,38
 bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,No,No,27,12,218,44,0,69,0,38,0,8,0,39
-bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,Under Sampling,No,29,14,216,42,0,67,0,41,0,79,0,4
-bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,Over Sampling,No,27,10,220,44,0,73,0,38,0,74,0,4
+bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,Under Sampling,No,27,11,219,44,0,71,0,38,0,78,0,4
+bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,Over Sampling,No,26,12,218,45,0,68,0,37,0,78,0,37
 bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,SMOTE,No,27,13,217,44,0,68,0,38,0,8,0,38
 bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,No,Best First,32,14,216,39,0,7,0,45,0,85,0,44
-bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,Under Sampling,Best First,34,18,212,37,0,65,0,48,0,84,0,44
-bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,Over Sampling,Best First,33,15,215,38,0,69,0,46,0,83,0,45
+bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,Under Sampling,Best First,32,13,217,39,0,71,0,45,0,84,0,45
+bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,Over Sampling,Best First,30,12,218,41,0,71,0,42,0,83,0,43
 bookkeeper,[1],0,08,0,42,0,24,Naive Bayes,SMOTE,Best First,35,15,215,36,0,7,0,49,0,84,0,48
 bookkeeper,[1],0,08,0,42,0,24,IBk,No,No,58,67,163,13,0,46,0,82,0,76,0,42
-bookkeeper,[1],0,08,0,42,0,24,IBk,Under Sampling,No,60,72,158,11,0,45,0,85,0,76,0,41
-bookkeeper,[1],0,08,0,42,0,24,IBk,Over Sampling,No,58,67,163,13,0,46,0,82,0,76,0,42
+bookkeeper,[1],0,08,0,42,0,24,IBk,Under Sampling,No,59,71,159,12,0,45,0,83,0,76,0,41
+bookkeeper,[1],0,08,0,42,0,24,IBk,Over Sampling,No,51,73,157,20,0,41,0,72,0,67,0,32
 bookkeeper,[1],0,08,0,42,0,24,IBk,SMOTE,No,58,69,161,13,0,46,0,82,0,76,0,41
 bookkeeper,[1],0,08,0,42,0,24,IBk,No,Best First,64,71,159,7,0,47,0,9,0,79,0,45
-bookkeeper,[1],0,08,0,42,0,24,IBk,Under Sampling,Best First,65,88,142,6,0,42,0,92,0,76,0,38
-bookkeeper,[1],0,08,0,42,0,24,IBk,Over Sampling,Best First,62,93,137,9,0,4,0,87,0,74,0,33
+bookkeeper,[1],0,08,0,42,0,24,IBk,Under Sampling,Best First,67,82,148,4,0,45,0,94,0,79,0,43
+bookkeeper,[1],0,08,0,42,0,24,IBk,Over Sampling,Best First,61,76,154,10,0,45,0,86,0,76,0,4
 bookkeeper,[1],0,08,0,42,0,24,IBk,SMOTE,Best First,65,75,155,6,0,46,0,92,0,79,0,44
 bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,No,No,9,90,330,10,0,09,0,47,0,68,0,09
-bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,Under Sampling,No,13,166,254,6,0,07,0,68,0,71,0,06
-bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,Over Sampling,No,11,154,266,8,0,07,0,58,0,66,0,05
-bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,SMOTE,No,11,137,283,8,0,07,0,58,0,68,0,06
+bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,Under Sampling,No,13,163,257,6,0,07,0,68,0,71,0,06
+bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,Over Sampling,No,11,156,264,8,0,07,0,58,0,67,0,04
+bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,SMOTE,No,11,135,285,8,0,08,0,58,0,68,0,06
 bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,No,Best First,7,67,353,12,0,09,0,37,0,72,0,09
-bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,Under Sampling,Best First,15,157,263,4,0,09,0,79,0,73,0,09
-bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,Over Sampling,Best First,11,150,270,8,0,07,0,58,0,65,0,05
-bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,SMOTE,Best First,12,140,280,7,0,08,0,63,0,69,0,07
+bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,Under Sampling,Best First,15,165,255,4,0,08,0,79,0,73,0,08
+bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,Over Sampling,Best First,12,153,267,7,0,07,0,63,0,63,0,06
+bookkeeper,[1, 2],0,17,0,32,0,04,Random Forest,SMOTE,Best First,11,137,283,8,0,07,0,58,0,68,0,06
 bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,No,No,8,80,340,11,0,09,0,42,0,7,0,08
-bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,Under Sampling,No,9,89,331,10,0,09,0,47,0,7,0,09
-bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,Over Sampling,No,8,74,346,11,0,1,0,42,0,69,0,09
+bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,Under Sampling,No,8,86,334,11,0,09,0,42,0,7,0,07
+bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,Over Sampling,No,8,91,329,11,0,08,0,42,0,71,0,07
 bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,SMOTE,No,8,86,334,11,0,09,0,42,0,7,0,07
 bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,No,Best First,8,86,334,11,0,09,0,42,0,7,0,07
-bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,Under Sampling,Best First,9,98,322,10,0,08,0,47,0,69,0,07
-bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,Over Sampling,Best First,8,87,333,11,0,08,0,42,0,68,0,07
+bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,Under Sampling,Best First,8,87,333,11,0,08,0,42,0,7,0,07
+bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,Over Sampling,Best First,9,97,323,10,0,08,0,47,0,65,0,08
 bookkeeper,[1, 2],0,17,0,32,0,04,Naive Bayes,SMOTE,Best First,9,91,329,10,0,09,0,47,0,7,0,08
 bookkeeper,[1, 2],0,17,0,32,0,04,IBk,No,No,7,121,299,12,0,05,0,37,0,54,0,02
-bookkeeper,[1, 2],0,17,0,32,0,04,IBk,Under Sampling,No,13,169,251,6,0,07,0,68,0,65,0,06
-bookkeeper,[1, 2],0,17,0,32,0,04,IBk,Over Sampling,No,11,139,281,8,0,07,0,58,0,6,0,06
+bookkeeper,[1, 2],0,17,0,32,0,04,IBk,Under Sampling,No,11,171,249,8,0,06,0,58,0,59,0,03
+bookkeeper,[1, 2],0,17,0,32,0,04,IBk,Over Sampling,No,9,164,256,10,0,05,0,47,0,54,0,02
 bookkeeper,[1, 2],0,17,0,32,0,04,IBk,SMOTE,No,7,124,296,12,0,05,0,37,0,54,0,02
 bookkeeper,[1, 2],0,17,0,32,0,04,IBk,No,Best First,9,143,277,10,0,06,0,47,0,57,0,03
-bookkeeper,[1, 2],0,17,0,32,0,04,IBk,Under Sampling,Best First,14,175,245,5,0,07,0,74,0,66,0,06
-bookkeeper,[1, 2],0,17,0,32,0,04,IBk,Over Sampling,Best First,11,151,269,8,0,07,0,58,0,57,0,05
+bookkeeper,[1, 2],0,17,0,32,0,04,IBk,Under Sampling,Best First,16,185,235,3,0,08,0,84,0,7,0,07
+bookkeeper,[1, 2],0,17,0,32,0,04,IBk,Over Sampling,Best First,10,164,256,9,0,06,0,53,0,56,0,03
 bookkeeper,[1, 2],0,17,0,32,0,04,IBk,SMOTE,Best First,10,154,266,9,0,06,0,53,0,58,0,03
 bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,No,No,2,0,380,57,1,0,03,0,8,0,06
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,Under Sampling,No,12,10,370,47,0,55,0,2,0,8,0,24
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,Over Sampling,No,7,6,374,52,0,54,0,12,0,78,0,15
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,SMOTE,No,2,1,379,57,0,67,0,03,0,8,0,05
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,Under Sampling,No,8,4,376,51,0,67,0,14,0,77,0,19
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,Over Sampling,No,11,7,373,48,0,61,0,19,0,79,0,24
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,SMOTE,No,3,1,379,56,0,75,0,05,0,8,0,08
 bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,No,Best First,18,0,380,41,1,0,31,0,78,0,43
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,Under Sampling,Best First,31,63,317,28,0,33,0,53,0,74,0,29
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,Over Sampling,Best First,27,37,343,32,0,42,0,46,0,76,0,35
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,SMOTE,Best First,18,1,379,41,0,95,0,31,0,79,0,42
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,No,No,0,0,380,59,0,0,0,8,0
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,Under Sampling,No,1,2,378,58,0,33,0,02,0,75,0,02
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,Over Sampling,No,0,1,379,59,0,0,0,77,-0
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,SMOTE,No,0,0,380,59,0,0,0,8,0
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,No,Best First,0,0,380,59,0,0,0,77,0
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,Under Sampling,Best First,0,0,380,59,0,0,0,72,0
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,Over Sampling,Best First,0,0,380,59,0,0,0,75,0
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,SMOTE,Best First,0,0,380,59,0,0,0,77,0
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,Under Sampling,Best First,35,64,316,24,0,35,0,59,0,77,0,33
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,Over Sampling,Best First,24,29,351,35,0,45,0,41,0,75,0,35
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Random Forest,SMOTE,Best First,20,2,378,39,0,91,0,34,0,78,0,45
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,No,No,0,0,380,59,NaN,0,0,8,0
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,Under Sampling,No,3,5,375,56,0,38,0,05,0,75,0,06
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,Over Sampling,No,0,1,379,59,0,0,0,74,-0
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,SMOTE,No,0,0,380,59,NaN,0,0,8,0
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,No,Best First,0,0,380,59,NaN,0,0,77,0
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,Under Sampling,Best First,0,0,380,59,NaN,0,0,75,0
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,Over Sampling,Best First,0,0,380,59,NaN,0,0,74,0
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,Naive Bayes,SMOTE,Best First,0,0,380,59,NaN,0,0,77,0
 bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,No,No,23,15,365,36,0,61,0,39,0,68,0,41
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,Under Sampling,No,27,64,316,32,0,3,0,46,0,67,0,24
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,Over Sampling,No,23,39,341,36,0,37,0,39,0,68,0,28
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,Under Sampling,No,25,57,323,34,0,3,0,42,0,66,0,24
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,Over Sampling,No,23,32,348,36,0,42,0,39,0,68,0,31
 bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,SMOTE,No,24,17,363,35,0,59,0,41,0,68,0,42
 bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,No,Best First,22,5,375,37,0,81,0,37,0,68,0,47
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,Under Sampling,Best First,33,65,315,26,0,34,0,56,0,7,0,3
-bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,Over Sampling,Best First,29,34,346,30,0,46,0,49,0,73,0,39
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,Under Sampling,Best First,35,66,314,24,0,35,0,59,0,73,0,32
+bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,Over Sampling,Best First,27,31,349,32,0,47,0,46,0,7,0,38
 bookkeeper,[1, 2, 3],0,32,0,19,0,13,IBk,SMOTE,Best First,23,6,374,36,0,79,0,39,0,69,0,48
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,No,No,51,4,145,389,0,93,0,12,0,67,0,05
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,Under Sampling,No,121,28,121,319,0,81,0,28,0,63,0,05
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,Over Sampling,No,64,9,140,376,0,88,0,15,0,65,0,05
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,SMOTE,No,54,4,145,386,0,93,0,12,0,68,0,05
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,Under Sampling,No,169,16,133,271,0,91,0,38,0,65,0,18
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,Over Sampling,No,61,7,142,379,0,9,0,14,0,68,0,05
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,SMOTE,No,52,3,146,388,0,95,0,12,0,66,0,05
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,No,Best First,55,4,145,385,0,93,0,12,0,67,0,05
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,Under Sampling,Best First,145,32,117,295,0,82,0,33,0,62,0,07
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,Over Sampling,Best First,64,10,139,376,0,86,0,15,0,67,0,04
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,Under Sampling,Best First,112,26,123,328,0,81,0,25,0,63,0,05
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,Over Sampling,Best First,89,9,140,351,0,91,0,2,0,68,0,08
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Random Forest,SMOTE,Best First,55,4,145,385,0,93,0,12,0,67,0,05
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,No,No,42,0,149,398,1,0,1,0,67,0,05
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,Under Sampling,No,76,3,146,364,0,96,0,17,0,69,0,08
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,Over Sampling,No,65,0,149,375,1,0,15,0,69,0,08
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,Under Sampling,No,10,2,147,430,0,83,0,02,0,59,0
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,Over Sampling,No,60,1,148,380,0,98,0,14,0,7,0,07
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,SMOTE,No,37,0,149,403,1,0,08,0,66,0,04
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,No,Best First,18,0,149,422,1,0,04,0,67,0,02
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,Under Sampling,Best First,36,3,146,404,0,92,0,08,0,62,0,03
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,Over Sampling,Best First,17,0,149,423,1,0,04,0,64,0,02
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,Under Sampling,Best First,30,3,146,410,0,91,0,07,0,61,0,03
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,Over Sampling,Best First,22,0,149,418,1,0,05,0,65,0,03
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,Naive Bayes,SMOTE,Best First,21,0,149,419,1,0,05,0,65,0,02
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,No,No,58,4,145,382,0,94,0,13,0,49,0,06
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,Under Sampling,No,155,30,119,285,0,84,0,35,0,57,0,1
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,Over Sampling,No,92,10,139,348,0,9,0,21,0,53,0,08
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,Under Sampling,No,136,29,120,304,0,82,0,31,0,57,0,07
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,Over Sampling,No,89,9,140,351,0,91,0,2,0,55,0,08
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,SMOTE,No,64,8,141,376,0,89,0,15,0,48,0,05
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,No,Best First,70,4,145,370,0,95,0,16,0,51,0,07
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,Under Sampling,Best First,163,35,114,277,0,82,0,37,0,56,0,09
-bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,Over Sampling,Best First,104,9,140,336,0,92,0,24,0,55,0,1
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,Under Sampling,Best First,171,30,119,269,0,85,0,39,0,57,0,12
+bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,Over Sampling,Best First,107,10,139,333,0,91,0,24,0,55,0,1
 bookkeeper,[1, 2, 3, 4],0,46,0,18,0,75,IBk,SMOTE,Best First,74,5,144,366,0,94,0,17,0,51,0,07
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,No,No,251,29,152,14,0,9,0,95,0,96,0,8
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,Under Sampling,No,263,59,122,2,0,82,0,99,0,93,0,7
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,Over Sampling,No,232,35,146,33,0,87,0,88,0,91,0,68
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,SMOTE,No,259,32,149,6,0,89,0,98,0,94,0,82
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,Under Sampling,No,263,55,126,2,0,83,0,99,0,92,0,72
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,Over Sampling,No,237,42,139,28,0,85,0,89,0,92,0,67
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,SMOTE,No,256,33,148,9,0,89,0,97,0,95,0,8
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,No,Best First,263,29,152,2,0,9,0,99,0,89,0,85
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,Under Sampling,Best First,265,44,137,0,0,86,1,0,87,0,79
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,Over Sampling,Best First,235,34,147,30,0,87,0,89,0,84,0,7
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,SMOTE,Best First,265,33,148,0,0,89,1,0,88,0,84
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,Under Sampling,Best First,263,39,142,2,0,87,0,99,0,83,0,8
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,Over Sampling,Best First,234,30,151,31,0,89,0,88,0,84,0,72
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Random Forest,SMOTE,Best First,264,33,148,1,0,89,1,0,88,0,84
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,No,No,6,9,172,259,0,4,0,02,0,73,-0,02
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,Under Sampling,No,6,8,173,259,0,43,0,02,0,7,-0,02
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,Over Sampling,No,5,7,174,260,0,42,0,02,0,72,-0,02
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,Under Sampling,No,6,7,174,259,0,46,0,02,0,7,-0,01
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,Over Sampling,No,35,22,159,230,0,61,0,13,0,7,0,01
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,SMOTE,No,13,13,168,252,0,5,0,05,0,73,-0,02
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,No,Best First,265,129,52,0,0,67,1,0,78,0,32
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,Under Sampling,Best First,265,181,0,0,0,59,1,0,77,0
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,Over Sampling,Best First,260,172,9,5,0,6,0,98,0,76,0,04
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,Under Sampling,Best First,265,181,0,0,0,59,1,0,74,0
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,Over Sampling,Best First,257,158,23,8,0,62,0,97,0,76,0,11
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,Naive Bayes,SMOTE,Best First,265,181,0,0,0,59,1,0,77,0
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,No,No,263,31,150,2,0,89,0,99,0,91,0,84
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,Under Sampling,No,263,42,139,2,0,86,0,99,0,88,0,79
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,Over Sampling,No,232,32,149,33,0,88,0,88,0,86,0,7
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,Under Sampling,No,263,43,138,2,0,86,0,99,0,87,0,78
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,Over Sampling,No,233,32,149,32,0,88,0,88,0,82,0,7
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,SMOTE,No,263,33,148,2,0,89,0,99,0,91,0,83
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,No,Best First,265,33,148,0,0,89,1,0,92,0,84
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,Under Sampling,Best First,265,44,137,0,0,86,1,0,91,0,79
-bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,Over Sampling,Best First,235,34,147,30,0,87,0,89,0,87,0,7
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,Under Sampling,Best First,265,52,129,0,0,84,1,0,89,0,75
+bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,Over Sampling,Best First,237,37,144,28,0,86,0,89,0,87,0,7
 bookkeeper,[1, 2, 3, 4, 5],0,65,0,34,0,59,IBk,SMOTE,Best First,265,33,148,0,0,89,1,0,91,0,84
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,No,No,418,64,145,27,0,87,0,94,0,93,0,66
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,Under Sampling,No,419,80,129,26,0,84,0,94,0,92,0,6
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,Over Sampling,No,411,80,129,34,0,84,0,92,0,91,0,57
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,SMOTE,No,420,75,134,25,0,85,0,94,0,95,0,62
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,Under Sampling,No,420,86,123,25,0,83,0,94,0,94,0,58
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,Over Sampling,No,412,82,127,33,0,83,0,93,0,91,0,57
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,SMOTE,No,419,75,134,26,0,85,0,94,0,95,0,62
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,No,Best First,408,5,204,37,0,99,0,92,0,95,0,86
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,Under Sampling,Best First,415,69,140,30,0,86,0,93,0,94,0,63
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,Over Sampling,Best First,406,68,141,39,0,86,0,91,0,91,0,61
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,Under Sampling,Best First,412,14,195,33,0,97,0,93,0,92,0,84
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,Over Sampling,Best First,382,13,196,63,0,97,0,86,0,91,0,75
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Random Forest,SMOTE,Best First,413,60,149,32,0,87,0,93,0,95,0,66
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,No,No,4,13,196,441,0,24,0,01,0,75,-0,03
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,Under Sampling,No,6,18,191,439,0,25,0,01,0,74,-0,05
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,Over Sampling,No,339,75,134,106,0,82,0,76,0,74,0,39
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,Under Sampling,No,3,6,203,442,0,33,0,01,0,77,-0,01
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,Over Sampling,No,3,6,203,442,0,33,0,01,0,74,-0,01
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,SMOTE,No,61,23,186,384,0,73,0,14,0,77,0,02
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,No,Best First,434,110,99,11,0,8,0,98,0,8,0,51
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,Under Sampling,Best First,443,169,40,2,0,72,1,0,83,0,24
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,Over Sampling,Best First,434,150,59,11,0,74,0,98,0,83,0,31
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,Under Sampling,Best First,444,202,7,1,0,69,1,0,85,0,04
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,Over Sampling,Best First,434,152,57,11,0,74,0,98,0,82,0,3
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,Naive Bayes,SMOTE,Best First,439,165,44,6,0,73,0,99,0,79,0,25
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,No,No,415,54,155,30,0,88,0,93,0,84,0,7
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,Under Sampling,No,417,65,144,28,0,87,0,94,0,81,0,66
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,Over Sampling,No,396,62,147,49,0,86,0,89,0,83,0,6
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,Under Sampling,No,415,65,144,30,0,86,0,93,0,81,0,65
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,Over Sampling,No,404,60,149,41,0,87,0,91,0,8,0,64
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,SMOTE,No,415,55,154,30,0,88,0,93,0,85,0,69
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,No,Best First,413,60,149,32,0,87,0,93,0,94,0,66
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,Under Sampling,Best First,415,69,140,30,0,86,0,93,0,93,0,63
-bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,Over Sampling,Best First,406,68,141,39,0,86,0,91,0,91,0,61
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,Under Sampling,Best First,417,74,135,28,0,85,0,94,0,92,0,62
+bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,Over Sampling,Best First,412,73,136,33,0,85,0,93,0,91,0,61
 bookkeeper,[1, 2, 3, 4, 5, 6],0,79,0,39,0,68,IBk,SMOTE,Best First,413,60,149,32,0,87,0,93,0,94,0,66
