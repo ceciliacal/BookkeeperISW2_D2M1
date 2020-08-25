@@ -7,8 +7,11 @@ addons:
     organization: "ceciliacal"
     token: "9dec0af2e72859868064557aad6dfe58c169a577" 
 
-script:
-  - ant build
-  - sonar-scanner
+    
+
+install: mvn clean install -q -DskipTests=true
+
+
+script:  mvn clean verify sonar:sonar -Dsonar.projectKey=ceciliacal_bookkeeperISW2_D2M1 
   
  
