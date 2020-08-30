@@ -29,7 +29,8 @@ public class Main {
 		  
 		   releases=MainControl.getReleases();
 		   
-		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetVirgole.csv";
+
+		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetVirgole VERSIONE FINALE.csv";
 		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetWeka.arff";
 
 		   csv2arff(csvPath,arffPath);
@@ -54,7 +55,7 @@ public class Main {
 		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetVirgole.csv";
 		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetWeka.arff";
 
-		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetVirgole.csv";
+		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetVirgole VERSIONE FINALE.csv";
 		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetWeka.arff";
 				   
 		   csv2arff(csvPath,arffPath);
