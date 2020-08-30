@@ -85,17 +85,19 @@ public class Metrics {
 			
 	}
 	
-	public static void computeNAuth(RevCommit commit, List<PersonIdent> authors) {
-		
-		if (!authors.contains(commit.getAuthorIdent())) {
-			authors.add(commit.getAuthorIdent());
+
+	public static void addAuthorName(RevCommit commit,List<String> autoriStringhe) {
+	
+		if (!autoriStringhe.contains(commit.getAuthorIdent().getName())) {
+			autoriStringhe.add(commit.getAuthorIdent().getName());
 		}
 	}
 	
-	public static void getNumFiles(List<String> numFiles, DiffEntry diffEntry) {
+	public static void addFileName(List<String> numFiles, DiffEntry diffEntry) {
 			
 		//prendo i path tutti i file toccati dal commit 
 		//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
+		
 		if (diffEntry.getChangeType().toString().equals("DELETE")) {
 			numFiles.add(diffEntry.getOldPath());
 		}
@@ -121,21 +123,21 @@ public class Metrics {
 		int locTouched;
 		int locDeleted; 
 		int churn;
-		int chgGetSize;	
+		int chgSetSize;	
 		int locAddedOnce;
 		int churnOnce;
-		int chgGetSizeOnce;	
+		int chgSetSizeOnce;	
 		Integer max;
 		int avg;
 		
-		ProportionMethod computeAvg = new ProportionMethod();
+		ProportionMethod computeAvg = new ProportionMethod();	//lo uso successivamente per il calcolo delle medie (AVG)
 		
 		List<RevCommit> comList;
 		List<Integer> churnList=  new ArrayList <>();
 		List<Integer> locAddedList = new ArrayList <>();
-		List<String> numFiles = new ArrayList <>();
 		List<Integer> chgSetSizeList = new ArrayList <>();
-		List<PersonIdent> authors = new ArrayList <>();
+		List<String> authorsName = new ArrayList <>();
+		List<String> filesNamesList;							//lista stringhe con nomi dei files toccati dal commit
 		
 		RevWalk rw = new RevWalk(repository);
 		
@@ -143,12 +145,12 @@ public class Metrics {
 		nr = 0;
 		locAdded = 0;
 		locDeleted = 0;
-		chgGetSize = 0;
+		chgSetSize = 0;
 
 		
 		comList=dbEntry.getRelease().getCommitsOfRelease();
 
-		//per ogni file nella release
+		//per ogni commit nella release
 		for(int j = 0;j<comList.size();j++) {
 			
 			DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);	
@@ -158,6 +160,7 @@ public class Metrics {
 			
 			List<DiffEntry> entries=MainControl.getEntryList(rw, df, comList.get(j));
 
+			filesNamesList = new ArrayList <>();
 					
 					
 			//differenze tra il commit e il parent
@@ -174,8 +177,8 @@ public class Metrics {
 						nr++;
 						
 			   			//se la lista di autori non contiene l'autore del commit corrente, lo aggiungo
-						
-    	    			computeNAuth(comList.get(j),authors);
+						    	    			
+    	    			addAuthorName(comList.get(j),authorsName);
     	    	
     	    			
 						//per ogni modifica (edit) presente nel file    			
@@ -185,40 +188,49 @@ public class Metrics {
 								locAdded += edit.getEndB() - edit.getBeginB();
 								locAddedList.add(locAddedOnce);
 	
-								locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB
-								
-								churnOnce = locAdded- locDeleted;
-								churnList.add(churnOnce);
+								locDeleted += edit.getEndA() - edit.getBeginA();	//endA=BeginB								
+					
 								
 						}
 						
+						churnOnce = locAdded- locDeleted;
+						churnList.add(churnOnce);
 						
-						//prendo i path tutti i file toccati dal commit 
-						//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
-						 getNumFiles(numFiles,diffEntry);
-					
+		
 					
 				
-					}
+				}
 				
-				} //end entries
+				//prendo i path di tutti i file toccati dal commit 
+				//cosi se contengono il file che sto esaminando, vedo quanti ne ho committati con lui
+				 addFileName(filesNamesList,diffEntry);
+			
+				
+			} //end entries
+			
+			//ho guardato tutto il commit singolo e ora voglio vedere quanti file, in quello specifico commit, sono stati
+			//committati con file x . Quest lo devo fare per tutti i commit della release
 
-			if (numFiles.contains(dbEntry.getFilename())) {
+			
+			//numFiles è lista stringhe con nomi dei files toccati dal commit
+			if (filesNamesList.contains(dbEntry.getFilename())) {
+				chgSetSizeOnce = filesNamesList.size()-1;			//per fare MAX e AVG
 				
-				chgGetSize = chgGetSize+numFiles.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
+		
+				chgSetSize = chgSetSize+filesNamesList.size()-1;	//numero dei file commitati insieme al file "dbEntry.get(i).getFilename()"
 				
-				chgGetSizeOnce = numFiles.size()-1;
-				chgSetSizeList.add(chgGetSizeOnce);
+				chgSetSizeList.add(chgSetSizeOnce);			//aggiungo il numero di file (int) toccati IN QUESTO ULTIMO COMMIT con il mio file x
 			}
+			
+			
 				
 
 		} //end comList
 		
-		dbEntry.setNr(nr);
-		dbEntry.setnAuth(authors.size());
+		dbEntry.setNr(nr);		
+		dbEntry.setnAuth(authorsName.size());
 		
-		//prendo loc touched per un file (dbEntry.get(i).getFilename) in un commit di una release, e vado agli altri 
-		//commit della stessa release per vedere le modifiche apportate sempre a quello stesso file
+		
 
 		//dopo che ho scorso tutti i commit di una release che contengono un certo file, calcolo :
 
@@ -234,34 +246,39 @@ public class Metrics {
 		dbEntry.setLocTouched(locTouched);
 		
 		// ============= CHURN, MAX&AVG
-		churn = locAdded- locDeleted;
 		
+
+		
+		churn=sumElement(churnList);	
 		max = maxElement(churnList);
-		avg= computeAvg.calculateAverage(locAddedList);
+		avg= computeAvg.calculateAverage(churnList);
 		
 		dbEntry.setChurn(churn);
 		dbEntry.setMaxChurn(max);
 		dbEntry.setAvgChurn(avg);
 
+
 		
 		// ============= chgSetSize, MAX&AVG
+		
+		
 		max = maxElement(chgSetSizeList);
 		avg= computeAvg.calculateAverage(chgSetSizeList);
 		
-		dbEntry.setChgSetSize(chgGetSize);
+		dbEntry.setChgSetSize(chgSetSize);
 		dbEntry.setMaxChgSetSize(max);
 		dbEntry.setAvgChgSetSize(avg);
+		
+
 		
 		// ============= CLEAR LISTS =============
 		
 		locAddedList.clear();
 		churnList.clear();
 		chgSetSizeList.clear();
-		numFiles.clear();
-		authors.clear();
+		authorsName.clear();
 		
 		
-	//} //end release -> cambio file
 			
 }
 
@@ -285,6 +302,28 @@ public class Metrics {
 
 		
 	}
+	
+	public static int sumElement(List<Integer> list) {
+		
+		int sum=0;
+		
+		
+		if (!list.isEmpty()) {
+			
+			for (int i=0;i<list.size();i++) {
+				
+				sum=sum+list.get(i);
+				
+			}
+			return sum;
+		}
+		else {
+			return 0;
+		}
+
+		
+	}
+	
 	
 	
 

@@ -51,9 +51,12 @@ public class Main {
 		  
 		   releases=MainControl.getReleases();
 		   
-		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetVirgole.csv";
-		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetWeka.arff";
+		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetVirgole.csv";
+		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetWeka.arff";
 
+		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetVirgole.csv";
+		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetWeka.arff";
+				   
 		   csv2arff(csvPath,arffPath);
 		   
 		   parts = walkForward(arffPath);

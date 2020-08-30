@@ -25,7 +25,7 @@ public class MainControl {
 	protected static List<Ticket> ticketlist;
 	protected static List<RevCommit> myCommitsList;	//lista dei commit relativi ai ticket
 	protected static List <Release> releases;
-	protected static List<Data> entries;
+	protected static List<Data> entries;			//lista di output
 	protected static List<Rename> renameList;
 	
 	public static final String PROJECTNAME="bookkeeper";

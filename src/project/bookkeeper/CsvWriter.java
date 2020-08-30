@@ -3,6 +3,7 @@ package project.bookkeeper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CsvWriter {	
@@ -15,7 +16,7 @@ public class CsvWriter {
 	
 	public static void write (List<Data> list) {
 		
-		try (PrintWriter writer = new PrintWriter(new File("datasetVirgole.csv"))) {
+		try (PrintWriter writer = new PrintWriter(new File("datasetVirgole VERSIONE FINALE.csv"))) {
 
 		      StringBuilder sb = new StringBuilder();
 		      sb.append("Release");
@@ -86,7 +87,7 @@ public class CsvWriter {
 				      sb.append(',');
 				      sb.append(list.get(i).getMaxLocAdded());	
 				      sb.append(',');
-				      sb.append(list.get(i).getAvgLocAdded());	
+				      sb.append((int)list.get(i).getAvgLocAdded());	
 				      sb.append(',');
 				      sb.append(list.get(i).getChurn());	
 				      sb.append(',');
@@ -98,7 +99,7 @@ public class CsvWriter {
 				      sb.append(',');
 				      sb.append(list.get(i).getMaxChgSetSize());	
 				      sb.append(',');
-				      sb.append(list.get(i).getAvgChgSetSize());	
+				      sb.append((int)(list.get(i).getAvgChgSetSize()));	
 				      sb.append(',');
 				      sb.append(list.get(i).getBuggy());	
 				      sb.append('\n');
@@ -114,4 +115,6 @@ public class CsvWriter {
 		    }
 		
 	}
+	
+	
 }
