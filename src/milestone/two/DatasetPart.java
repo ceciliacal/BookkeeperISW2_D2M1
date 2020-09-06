@@ -25,6 +25,13 @@ public class DatasetPart {
 		this.testing=test;
 		this.initTrainingRel();
 	}
+	
+	public DatasetPart( Instances train, Instances test) {
+		this.run=run;
+		this.training=train;
+		this.testing=test;
+		this.initTrainingRel();
+	}
 
 	public void initTrainingRel() {
 		
