@@ -29,8 +29,8 @@ public class MainControl {
 	protected static List<Data> entries;			//lista di output
 	protected static List<Rename> renameList;
 	
-	//public static final String PROJECTNAME="bookkeeper";
-	public static final String PROJECTNAME="zookeeper";
+	public static final String PROJECTNAME="bookkeeper";
+	//public static final String PROJECTNAME="zookeeper";
 	protected static final String RENAME="RENAME";
 	public static int lastRelease;
 	public static int halfRelease;

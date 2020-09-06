@@ -22,7 +22,8 @@ import org.json.JSONArray;
 public class GetJiraInfo {
 
 		private static final String FIELDS = "fields";
-		private static final String projName = "ZOOKEEPER";
+		//private static final String projName = "ZOOKEEPER";
+		private static final String projName = "BOOKKEEPER";
 		
 		
 	
@@ -40,7 +41,6 @@ public class GetJiraInfo {
 			List<LocalDateTime> releases;
 			
 			List<Release> myReleases = new ArrayList<>();
-			//String projName ="BOOKKEEPER ";
 			int j;
 			int i;
 			

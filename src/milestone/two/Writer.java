@@ -26,7 +26,7 @@ public class Writer {
 	
 	public static void write (List<EvaluationData> list) throws FileNotFoundException {
 		
-		try (PrintWriter writer = new PrintWriter(new File("csv\\m2d2outputFINALE.csv"))) {
+		try (PrintWriter writer = new PrintWriter(new File("csv\\m2d2outputFINALE2.csv"))) {
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("Dataset");
