@@ -257,6 +257,16 @@ public class Metrics {
 		dbEntry.setMaxChurn(max);
 		dbEntry.setAvgChurn(avg);
 
+		/*
+		
+		System.out.println("\n"+dbEntry.getFilename()+"   nr= "+dbEntry.getNr()+
+							"  churn= "+dbEntry.getChurn()+
+							"  max= "+dbEntry.getMaxChurn()+
+							"  avg= "+dbEntry.getAvgChurn()+
+							"  sizeLista= "+churnList.size()+
+							"  "+churnList);
+		 */
+		
 
 		
 		// ============= chgSetSize, MAX&AVG
@@ -269,6 +279,16 @@ public class Metrics {
 		dbEntry.setMaxChgSetSize(max);
 		dbEntry.setAvgChgSetSize(avg);
 		
+		/*
+		System.out.println("\n"+dbEntry.getFilename()+"   nr= "+dbEntry.getNr()+
+				"  chgSetSize= "+dbEntry.getChgSetSize()+
+				"  max= "+dbEntry.getMaxChgSetSize()+
+				"  avg= "+dbEntry.getAvgChgSetSize()+
+				"  sizeLista= "+chgSetSizeList.size()+
+				"  "+chgSetSizeList);
+		
+		System.out.println("----------------------------------------------------");
+		*/
 
 		
 		// ============= CLEAR LISTS =============

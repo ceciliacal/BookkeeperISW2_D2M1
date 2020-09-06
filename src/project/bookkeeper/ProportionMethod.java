@@ -21,8 +21,10 @@ public class ProportionMethod {
 			
 			//se ticket ha data creazione > data fix, allora dati non sono consistenti
 			if (ticketlist.get(i).getCreatedDate().compareTo(ticketlist.get(i).getResolutionDate())>0) {
-				Log.infoLog("Errore: date inconsistenti");
-				return;
+				
+				Log.infoLog("-------------Errore: date inconsistenti");
+				//return
+				i++;
 			 }
 			
 			if  (ticketlist.get(i).getOV()==1) {	// IV=1
@@ -122,10 +124,11 @@ public class ProportionMethod {
 		
 		//calcolo 1% dei difetti
 		perc= numDefects*0.01;		
-		
+
 		dim= (int) Math.round(perc);	//dimensione della moving window: arrotondamento di perc (può essere sia x difetto, sia x eccesso)
 		
-		
+		 System.out.println("\n\n ========= DIM moving window= "+dim+"\n");
+
 		Collections.reverse(mytickets);
 		Collections.reverse(noIv);
 		
@@ -192,7 +195,9 @@ public class ProportionMethod {
 					 calculatePredictedIV(noIv.get(i));
 					 
 					 if(!checkVersions(noIv.get(i).getIV(), noIv.get(i).getOV(), noIv.get(i).getFV())){
-						 return;
+						 System.out.println("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
+
+						 //return;
 						 
 					 }
 					 				 
@@ -213,7 +218,9 @@ public class ProportionMethod {
 				 calculatePredictedIV(noIv.get(i));
 				 
 				 if(!checkVersions(noIv.get(i).getIV(), noIv.get(i).getOV(), noIv.get(i).getFV())){
-					 return;
+					 System.out.println("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
+
+					 //return;
 					 
 				 }
 				

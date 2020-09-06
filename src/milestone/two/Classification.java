@@ -53,7 +53,6 @@ public class Classification {
 			
 			DatasetPart part = parts.get(i);
 			
-			//System.out.println("\n\n------------------ run "+part.getRun()+"      tr: "+part.getTrainingRel()+"       test: "+part.getTestingRel()+" ------------------------");
 			
 			for (int j=0;j<classifierNames.size();j++) {
 				
@@ -77,7 +76,6 @@ public class Classification {
 		balancingOptions.add(OVER_SAMPLING);		
 		balancingOptions.add(SMOTE);	
 		
-		//System.out.println(" \nsize fs: "+featureSelOptions.size()+"     bal size:"+balancingOptions.size());	
 		
 		for (int i=0;i<featureSelOptions.size();i++) {
 			
@@ -103,7 +101,6 @@ public class Classification {
 			training.setClassIndex(numAttr - 1);
 			testing.setClassIndex(numAttr - 1);
 			
-			//System.out.println("\n------ in evaluation possibilities -----   balancing = "+balancingMode+"     fs = "+featureSelection);
 			
 			// evaluation SENZA feature selection
 			if (featureSelection.equals(UNFILTERED_EVAL)) {		
@@ -126,7 +123,6 @@ public class Classification {
 					eval = new Evaluation(testing);	
 					eval.evaluateModel(fc, testing);
 					
-					//System.out.println("\n---- in evaluation2 --- train: "+part.getTrainingRel()+"  balancing = "+balancingMode+"     fs = "+featureSelection+"   pr="+eval.precision(1)+"     recall="+eval.recall(1)+"     auc="+eval.areaUnderROC(1)+"     recall="+eval.kappa());
 
 					
 				}
@@ -253,7 +249,7 @@ public class Classification {
 				resample.setBiasToUniformClass(0.1);
 				
 				double sizePerc = 2 * ( getSampleSizePerc(part,dim) );
-				//double y=2*(training.numInstances());
+
 				resample.setSampleSizePercent(sizePerc); //y/2 = %data appartenente a majority class
 				//majority class : numero d'istanze 
 				
@@ -300,10 +296,8 @@ public class Classification {
 		
 		public static double getSampleSizePerc(DatasetPart part, int dim) {
 			
-			//dim =  data.getNumInstances
 			double res;
 			
-			res=0;
 			double numBuggyClasses = part.getPercBugTraining();
 			int numBuggyClassesTemp = (int) (part.getPercBugTraining())*100;
 			
@@ -317,7 +311,6 @@ public class Classification {
 					
 			}
 		
-			//System.out.println("\nSampleSizePerc :  "+res+"\n");	
 
 			return res;	
 		}
@@ -392,30 +385,24 @@ public class Classification {
 			if (featureSelection.equals(FILTERED_EVAL)) {
 				
 				dbEntry.setFeatureSelection(FILTERED_EVAL);
-				//part.setFeatureSelection("Best First");
 				//da settare quelli con feat. selection
 			}
 			else {
 				dbEntry.setFeatureSelection(UNFILTERED_EVAL);
-				//part.setFeatureSelection("no");
 				
 			}
 			
 			if (balancingMode.equals(NO_SAMPLING)) {
 				dbEntry.setBalancing(NO_SAMPLING);
-				//part.setBalancing("no");
 			}
 			if (balancingMode.equals(OVER_SAMPLING)) {
 				dbEntry.setBalancing(OVER_SAMPLING);
-				//part.setBalancing(OVER_SAMPLING);
 			}
 			if (balancingMode.equals(UNDER_SAMPLING)) {
 				dbEntry.setBalancing(UNDER_SAMPLING);
-				//part.setBalancing(UNDER_SAMPLING);
 			}
 			if (balancingMode.equals(SMOTE)) {
 				dbEntry.setBalancing(SMOTE);
-				//part.setBalancing(SMOTE);
 			}
 			
 			System.out.println("\n"+classifierName+":");

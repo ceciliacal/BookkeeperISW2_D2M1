@@ -29,9 +29,11 @@ public class Main {
 		  
 		   releases=MainControl.getReleases();
 		   
-
-		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetVirgole VERSIONE FINALE.csv";
-		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetWeka.arff";
+		   csvPath= "D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetVirgole VERSIONE FINALE.csv";
+		   arffPath= "D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetWeka.arff";
+		   
+		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetVirgole VERSIONE FINALE.csv";
+		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetWeka.arff";
 
 		   csv2arff(csvPath,arffPath);
 		   
@@ -52,11 +54,11 @@ public class Main {
 		  
 		   releases=MainControl.getReleases();
 		   
-		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetVirgole.csv";
-		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1.git\\trunk\\datasetWeka.arff";
-
-		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetVirgole VERSIONE FINALE.csv";
-		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetWeka.arff";
+		   csvPath= "D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetVirgole VERSIONE FINALE.csv";
+		   arffPath= "D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetWeka.arff";
+		   
+		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\csv\\datasetVirgole VERSIONE FINALE.csv";
+		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\csv\\datasetWeka.arff";
 				   
 		   csv2arff(csvPath,arffPath);
 		   
@@ -101,8 +103,7 @@ public class Main {
 			   if (i<=endTraining) {	
 				   
 				   if (instance.value(0)==releases.get(i)) {
-						//System.out.println("La release dell'istanza "+j+" è 1");	
-						//System.out.println("----> The "+j+" instance is: "+ instance.toString());
+						
 						numTraining++;
 					}
 				   
@@ -112,8 +113,7 @@ public class Main {
 			   else {
 				
 				if (instance.value(0)==releases.get(i)) {
-					//System.out.println("La release dell'istanza "+j+" è 1");	
-					//System.out.println("----> The "+j+" instance is: "+ instance.toString());
+					
 					numTesting++;
 				}
 			   
@@ -130,19 +130,176 @@ public class Main {
 		   
 	   }
 	   
-	   public static int getDatasetSize(String arffPath) throws Exception {
+	   public static int getDatasetSize(String arffPath) {
 		   
-		    DataSource source = new DataSource(arffPath);
-			Instances data = source.getDataSet();
+		   Instances data = null;
+		   
+		    DataSource source;
+			try {
+				source = new DataSource(arffPath);
+				data = source.getDataSet();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		    int numInst = data.numInstances();
 		    
-		    System.out.println("dataset size : "+ numInst);
 			
 		    return numInst;
 		   
 	   }
 	   
+	
+	 
+	   
 	   public static List <DatasetPart> walkForward(String arffPath) throws Exception {
+
+		    
+		    List <DatasetPart> parts = new ArrayList<>();
+			DataSource source = new DataSource(arffPath);
+			Instances data = source.getDataSet();
+		    
+			if (data.classIndex() == -1) {
+		       data.setClassIndex(data.numAttributes() - 1);
+		    }
+		    
+		    int numInst = data.numInstances();
+		    int firstRun = releases.get(0);					//1
+		    int lastRun = releases.get(releases.size()-1);	//7
+		    
+		    int nRun = firstRun;
+		    
+		   //run 1 -> non la uso
+		   //run 2 -> rel 1 training, rel 2 testing
+		   //run 3 -> rel 1,2 training, rel 3 testing
+		   //run 4 -> rel 1,2,3 training, rel 4 testing
+		   //run 5 -> rel 1,2,3,4 training, rel 5 testing
+		   //run 6 -> rel 1,2,3,4,5 training, rel 6 testing
+		   //run 7 -> rel 1,2,3,4,5,6 training, rel 7 testing
+		    
+		    while (nRun<=lastRun) {
+		    	
+		    	calculateTraining( nRun, firstRun, numInst,parts,  data ) ;
+		    	nRun++;
+			    
+
+		    } //end while (runs)
+		    
+		  parts.remove(0);		 
+		  return parts;
+		   
+	   }
+	   
+	   public static void calculateTraining(int nRun, int firstRun, int numInst, List <DatasetPart> parts, Instances data ) {
+	   
+
+	    	int endTraining = nRun-1;	//l'ultima release su cui faccio training è la nRun-1
+		    int testingRelease = nRun;	//la release su cui faccio testing coincide con il nRun
+		   
+		    int numTraining=0;			//conta quante istanze devo prendere per costruire training set
+		    int numTesting=0;			//conta quante istante devo prendere per costruire testing set 
+	    	
+		    int bugsTraining=0;
+		    int bugsTesting=0;
+		    
+		    List<Integer>  trainingReleases = new ArrayList<>();
+		    
+	    	//se sto alla run1, passo alla run 2 e inizio a creare training e testing set
+		    
+		    if (nRun>firstRun) { 
+   			    		
+	    		//per ogni run, scorro le release
+	    		
+	    		 for (int i=0; i<testingRelease; i++) {	
+	    			 
+					 trainingReleases.add(releases.get(i));
+
+	    			 for (int j = 0; j < numInst; j++) {
+					   
+	    				 Instance instance = data.instance(j);
+							    				 
+	    				 //training
+	    				 if (i<endTraining) {
+	    					 
+		   
+						   if (instance.value(0)==releases.get(i)) {								
+								numTraining++;
+								   if (instance.stringValue(data.numAttributes()-1).equals("Y")) {
+									   bugsTraining++;		   
+								   }
+								
+							}
+							
+						   
+	    				 }
+					   
+	    				 //testing
+	    				 else {				 
+							   
+	    					 	    					 
+	    					 if (instance.value(0)==testingRelease) {
+	    						 numTesting++;
+	    						 if (instance.stringValue(data.numAttributes()-1).contentEquals("Y")) {
+									 bugsTesting++;		   
+								 }
+	    					
+	    					 }
+	    					 
+	    					 			   
+					   
+	    				 }
+	    				 
+					   
+	    			 }
+		
+				}
+	    		 
+	    		 	
+	    		 trainingReleases.remove(trainingReleases.size()-1);
+
+	    	} //end if (run >1)
+	    	
+	    	Instances training = new Instances(data, 0, numTraining);
+		    Instances testing = new Instances(data, numTraining, numTesting);
+		    
+		    
+		    DatasetPart part = new DatasetPart (nRun, training, testing);
+			
+		    double percTraining=numTraining/(float)numInst;
+		    double bugTrain=0;
+		    double bugTest=0;
+		    
+		    if (numTraining!=0 && numTesting!=0 ) {
+		    	 bugTrain=bugsTraining/(float)numTraining;
+		    	 bugTest=bugsTesting/(float)(numTesting);
+		    }
+			
+		    part.setTrainingRel(trainingReleases);
+		    part.setTestingRel(testingRelease);
+		    part.setPercTraining(percTraining);
+		    part.setPercBugTraining(bugTrain);
+		    part.setPercBugTesting(bugTest);
+		    parts.add(part);
+	    	
+		    
+		    
+			
+	   
+	}
+	   
+	   public static void bho (int numTesting, int bugsTesting, int testingRelease, Instance instance,  Instances data ) {
+		   
+		   if (instance.value(0)==testingRelease) {
+				 numTesting++;
+				 if (instance.stringValue(data.numAttributes()-1).contentEquals("Y")) {
+					 bugsTesting++;		   
+				 }
+			 }	
+		   
+	   }
+	   
+	   
+	   public static List <DatasetPart> walkForward2(String arffPath) throws Exception {
 
 		    
 		    List <DatasetPart> parts = new ArrayList<>();
@@ -190,7 +347,7 @@ public class Main {
 		    	//se sto alla run1, passo alla run 2 e inizio a creare training e testing set
 			    //System.out.println("\n\n=======================================================");
 			    //System.out.println("nRun: "+ nRun+"        endTraining: "+endTraining+"       testingRelease: "+testingRelease);
-    
+   
 			    if (nRun>firstRun) { 
 	    			    		
 		    		//per ogni run, scorro le release
@@ -198,14 +355,17 @@ public class Main {
 		    		 for (int i=0; i<testingRelease; i++) {	
 		    			 
 		    			 //System.out.println("i= "+i+"      trainingReleases dim= "+trainingReleases.size());	
-    					 trainingReleases.add(releases.get(i));
+   					 trainingReleases.add(releases.get(i));
 
 		    			 for (int j = 0; j < numInst; j++) {
 						   
 		    				 Instance instance = data.instance(j);
 							
+		    				 
 		    				 //training
 		    				 if (i<endTraining) {
+		    					 
+		    					 //calculateTraining( i,  numTraining,  bugsTraining,  data,  instance  );
 	
 							   
 							   if (instance.value(0)==releases.get(i)) {								
@@ -216,21 +376,27 @@ public class Main {
 									   }
 									
 								}
+								
 							   
 		    				 }
 						   
 		    				 //testing
 		    				 else {				 
 								   
+		    					 //calculateTesting ( instance , testingRelease,  numTesting,  bugsTesting,  data);
+		    					 
+		    					 
 		    					 if (instance.value(0)==testingRelease) {
 		    						 //System.out.println("TESTING ----> The "+j+" instance is: "+ instance.toString());
 		    						 numTesting++;
 		    						 if (instance.stringValue(data.numAttributes()-1).contentEquals("Y")) {
 										 bugsTesting++;		   
 									 }
-		    					 }					   
+		    					 }	
+		    					 			   
 						   
 		    				 }
+		    				 
 						   
 		    			 }
 			
@@ -259,7 +425,8 @@ public class Main {
 			    parts.add(part);
 		    	
 			    nRun++;
-		    	
+			    
+			    
 
 		    } //end while (runs)
 		    
@@ -284,12 +451,18 @@ public class Main {
 			
 		 }
 		
-		*/
-		  
+		
+		   */
 		 
 		  return parts;
 		   
-	   }	
+	   }
 	   
+	   
+	  
+	   
+	  
+	   
+	  
 	 
 }

@@ -26,7 +26,7 @@ public class Writer {
 	
 	public static void write (List<EvaluationData> list) throws FileNotFoundException {
 		
-		try (PrintWriter writer = new PrintWriter(new File("m2d2outputFINALE.csv"))) {
+		try (PrintWriter writer = new PrintWriter(new File("csv\\m2d2outputFINALE.csv"))) {
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("Dataset");
@@ -79,12 +79,9 @@ public class Writer {
 		
 			for (int i=0;i<list.size();i++) {
 				
-				//List <Integer> sublist = list.get(i).getTrainingRel().subList(0, i+1);
-				
 				
 				sb.append(MainControl.PROJECTNAME);
 				sb.append(',');
-				//sb.append(sublist);
 				sb.append(list.get(i).getTrainingRel());
 				sb.append(',');
 				

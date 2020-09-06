@@ -11,12 +11,14 @@ public class CsvWriter {
 	private CsvWriter() {
 	    throw new IllegalStateException("Utility class");
 	  }
+	
+	public static final int halfRelease = MainControl.halfRelease;
 
 
 	
 	public static void write (List<Data> list) {
 		
-		try (PrintWriter writer = new PrintWriter(new File("datasetVirgole VERSIONE FINALE.csv"))) {
+		try (PrintWriter writer = new PrintWriter(new File("D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetVirgole VERSIONE FINALE.csv"))) {
 
 		      StringBuilder sb = new StringBuilder();
 		      sb.append("Release");
@@ -69,7 +71,12 @@ public class CsvWriter {
 
 		      for (int i=0;i<list.size();i++) {	  
 		    	  
-		    	  if(list.get(i).getRelease().getIndex()<8) {
+		    	  if (list.get(i).getRelease().getIndex()>halfRelease){
+		    		  break;		    		  
+		    	  }
+		    	  else {
+		    	  
+		    	  //if(list.get(i).getRelease().getIndex()<halfRelease) {
 		      
 				      sb.append(list.get(i).getRelease().getIndex());	//release index
 				      sb.append(',');
@@ -87,7 +94,7 @@ public class CsvWriter {
 				      sb.append(',');
 				      sb.append(list.get(i).getMaxLocAdded());	
 				      sb.append(',');
-				      sb.append((int)list.get(i).getAvgLocAdded());	
+				      sb.append((int)(list.get(i).getAvgLocAdded()));	
 				      sb.append(',');
 				      sb.append(list.get(i).getChurn());	
 				      sb.append(',');

@@ -1,6 +1,7 @@
 package project.bookkeeper;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,11 @@ public class MainControl {
 	protected static List<Data> entries;			//lista di output
 	protected static List<Rename> renameList;
 	
-	public static final String PROJECTNAME="bookkeeper";
+	//public static final String PROJECTNAME="bookkeeper";
+	public static final String PROJECTNAME="zookeeper";
 	protected static final String RENAME="RENAME";
+	public static int lastRelease;
+	public static int halfRelease;
 	
 	
 	
@@ -37,7 +41,7 @@ public class MainControl {
 	public static void main(String[] args) throws Exception {
 		
 		int numDefects;
-		int halfRelease;
+		//int halfRelease;
 		Repository repository;
 		String path ="D:\\Cecilia\\Desktop\\"+PROJECTNAME;
 
@@ -54,10 +58,16 @@ public class MainControl {
     	
     	releases=GetJiraInfo.getReleaseInfo();
     	//halfRelease=setHalfRelease();
+    	//write();
+    	
+    	lastRelease=releases.get(releases.size()-1).getIndex();
+    	
+    	
     	
     	ticketlist= GetJiraInfo.getTicketInfo( releases);	//ticketList viene inizializzata in getTicketInfo
     	numDefects=ticketlist.size();
     	
+    	//write();
 
     	setOvFvIv();
     	GetGitInfo.getFilesPerRelease(git, entries, repository);
@@ -70,10 +80,18 @@ public class MainControl {
     	addJavaFiles (repository);
 
     	halfRelease=releases.size()/2;
+    	// write();
+    	finalPrintTickets(ticketlist);
     	
     	ProportionMethod proportionMethod = new ProportionMethod();
     	proportionMethod.checkDates(good, wrong);
+		 System.out.println("\n\n =========== GOOD ============\n");
+
+    	finalPrintTickets(good);
+    	 System.out.println("\n\n =========== WRONG ============\n");
+    	finalPrintTickets(wrong);
     	proportionMethod.proportion(good, wrong, numDefects);
+    	System.out.println("\n\n =========== FINE PROPORTION ============\n");
     	proportionMethod.defineAV(halfRelease);
 
     	bugsPerRelease();
@@ -85,6 +103,48 @@ public class MainControl {
     	milestone.two.Main.run();
 
 	
+	}
+	
+	public static void write() {
+		//String projName ="BOOKKEEPER ";
+		int i;
+		FileWriter fileWriter = null;
+		try {
+	            fileWriter = null;
+	            
+	            String outname = PROJECTNAME + "VersionInfo.csv";
+	            
+					    //Name of CSV for output
+					    fileWriter = new FileWriter(outname);
+	            fileWriter.append("Index;Version ID;Version Name;Date");
+	            fileWriter.append("\n");
+	            //numVersions = releases.size();
+	            for ( i = 0; i < releases.size(); i++) {
+	               Integer index = i + 1;
+	               fileWriter.append(index.toString());
+	               fileWriter.append(";");
+	               fileWriter.append(releases.get(i).getVersionID());
+	               fileWriter.append(";");
+	               fileWriter.append(releases.get(i).getVersionName());
+	               fileWriter.append(";");
+	               fileWriter.append(releases.get(i).getDate().toString());
+	               fileWriter.append("\n");
+	            }
+
+	         } catch (Exception e) {
+	            System.out.println("Error in csv writer");
+	            e.printStackTrace();
+	         } finally {
+	            try {
+	               fileWriter.flush();
+	               fileWriter.close();
+	            } catch (IOException e) {
+	               System.out.println("Error while flushing/closing fileWriter !!!");
+	               e.printStackTrace();
+	            }
+	         }
+	         return;
+		
 	}
 	
 	public static List<RevCommit> getCommitList (Git git) throws GitAPIException {
@@ -393,6 +453,7 @@ public class MainControl {
 		
 		int i;
 		int j;
+		List<Integer> currAvList;
 		
 		
 		
@@ -404,6 +465,8 @@ public class MainControl {
 			for (j=0;j<releases.size();j++) {
 				
 				//se created < releaseDate (viene prima), assegno OV = releaseDate
+				//perche quella buggy è dalla successiva in cui l'ho notato in poi
+				
 				if (ticketlist.get(i).getCreatedDate().compareTo(releases.get(j).getDate().toLocalDate())<0) {
 					
 					ticketlist.get(i).setOV(releases.get(j).getIndex());
@@ -428,22 +491,78 @@ public class MainControl {
 				
 			}
 						
-			//IV
-			ticketlist.get(i).setIV(ticketlist.get(i).getAV().get(0));	
-
+			//IV -> prendi un AV che sia minore di OV e che sia la prima possibile (escluso -1)
+			//per quanto riguarda ordinamento, dovrei ordinare VersionInfo per DATE e mettere
+			//gli interi in base a quello
+			ticketlist.get(i).setIV(minElement(ticketlist.get(i).getAV()));	
+			//ho FV=0 e OV=0 per ticket di GIUGNO 2020 !!!! della release non ancora uscita
 			
+			checkFvOvBecauseOfLastRelease(ticketlist.get(i));
+
 		}
+		
+		checkFvOvNotZero();
 
 	}
 	
+	public static void checkFvOvBecauseOfLastRelease(Ticket myTicket) {
+		
+		if (myTicket.getOV()==0) {
+			myTicket.setOV(lastRelease);
+		}
+		
+		if (myTicket.getFV()==0) {
+			myTicket.setFV(lastRelease);
+		}
+		
+	}
+	
+	public static void checkFvOvNotZero() {
+			
+		for (int i=0;i<ticketlist.size();i++) {
+			
+			Ticket myTicket = ticketlist.get(i);
+			
+			if (myTicket.getOV()==0 || myTicket.getFV()==0) {
+				 Log.infoLog("IV o FV sono nulli !");
+				 return;		
+			}
+			
 
-	public static void finalPrintTickets() {
+		}
+			
+			
+		}
+
+	public static int minElement(List<Integer> list) {
+		
+		if (!list.isEmpty()) {
+			int min=list.get(0);
+			
+			for (int i=0;i<list.size();i++) {
+				
+				if (list.get(i)<min) {
+					min=list.get(i);
+				}
+				
+			}
+			return min;
+		}
+		else {
+			return 0;
+		}
+
+		
+	}
+	
+
+	public static void finalPrintTickets(List<Ticket> list) {
 		
 		int i;
 		
-		for (i=0;i<ticketlist.size();i++) {
-			
-			Log.infoLog(ticketlist.get(i).getTicketID()+"            IV: "+ ticketlist.get(i).getIV()+"           OV : "+ticketlist.get(i).getOV()+"             FV: "+ticketlist.get(i).getFV()+"             AV: "+ticketlist.get(i).getAV());
+		for (i=0;i<list.size();i++) {
+			System.out.println(list.get(i).getTicketID()+"            IV: "+ list.get(i).getIV()+"           OV : "+list.get(i).getOV()+"             FV: "+list.get(i).getFV()+"             AV: "+list.get(i).getAV());
+			//Log.infoLog(ticketlist.get(i).getTicketID()+"            IV: "+ ticketlist.get(i).getIV()+"           OV : "+ticketlist.get(i).getOV()+"             FV: "+ticketlist.get(i).getFV()+"             AV: "+ticketlist.get(i).getAV());
 			
 		}
 	}

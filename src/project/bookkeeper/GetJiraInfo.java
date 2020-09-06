@@ -1,5 +1,6 @@
 package project.bookkeeper;
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +22,9 @@ import org.json.JSONArray;
 public class GetJiraInfo {
 
 		private static final String FIELDS = "fields";
+		private static final String projName = "ZOOKEEPER";
+		
+		
 	
 		private GetJiraInfo() {
 	     throw new IllegalStateException("Utility class");
@@ -36,7 +40,7 @@ public class GetJiraInfo {
 			List<LocalDateTime> releases;
 			
 			List<Release> myReleases = new ArrayList<>();
-			String projName ="BOOKKEEPER ";
+			//String projName ="BOOKKEEPER ";
 			int j;
 			int i;
 			
@@ -99,7 +103,7 @@ public class GetJiraInfo {
 
 		   List<Ticket> ticketList = new ArrayList<>();
 		   
-	  	   String projName ="BOOKKEEPER";	  	   
+	  	   //String projName ="BOOKKEEPER";	  	   
 		   Integer i=0; //inizio index da cui prendo file json
 		   Integer j=0; //fine index del file json
 		   Integer total=1; 
@@ -156,7 +160,8 @@ public class GetJiraInfo {
 		   int len;
 		   int i;
 		   
-		   
+		   int index;
+		   		   
 		   len=ver.length();
 		   
 		   if (len==0) {
@@ -165,15 +170,27 @@ public class GetJiraInfo {
 		   else {
 			   for (i=0;i<len;i++) {
 				   
-				   av.add( indexConversion(ver.getJSONObject(i).get("name").toString(),  rel ));
-				   
+				   index=indexConversion(ver.getJSONObject(i).get("name").toString(), rel );
+				   if (index>-1) {
+					   av.add(index);
+				   }
 			   }
 		   }
+		   
+		 //se AV[0] > OV, butta AV
+		   
+		   if (av.isEmpty()) {
+			   av.add(0);
+		   }
+		 
 		   
 		return av;
 		   
 		   
 	   }
+	   
+
+	   
 	   
 	   public static int indexConversion(String name, List<Release> rel ) {
 		   int res;
@@ -188,7 +205,7 @@ public class GetJiraInfo {
 			   }
 		   }
 		   
-		   res=-1;
+		   res=-1;		//in questo caso, AV di Jira NON è VALIDA! controllo lo faccio in metodo setIvOvFv
 		   return res;
 	   
 	   }
@@ -252,5 +269,7 @@ public class GetJiraInfo {
 		      return sb.toString();
 		   }
 
+	   
+		
 	
 }
