@@ -1,7 +1,6 @@
 package project.bookkeeper;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +31,8 @@ public class MainControl {
 	//public static final String PROJECTNAME="bookkeeper";
 	public static final String PROJECTNAME="zookeeper";
 	protected static final String RENAME="RENAME";
-	public static int lastRelease;
-	public static int halfRelease;
+	protected static int lastRelease;
+	protected static int halfRelease;
 	
 	
 	
@@ -117,7 +116,7 @@ public class MainControl {
 		RevCommit parent = null;
 		
 		if(commit.getParentCount() !=0) {
-			parent = (RevCommit)commit.getParent(0);
+			parent =commit.getParent(0);
 		}
 			
 		

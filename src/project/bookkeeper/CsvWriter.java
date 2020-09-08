@@ -11,14 +11,14 @@ public class CsvWriter {
 	    throw new IllegalStateException("Utility class");
 	  }
 	
-	public static final int halfRelease = MainControl.halfRelease;
+	private static final int HALFRELEASE = MainControl.halfRelease;
+	private static final String PROJECTNAME = MainControl.PROJECTNAME;
 
 
 	
 	public static void write (List<Data> list) {
 		
-		//try (PrintWriter writer = new PrintWriter(new File("outputFinali\\bookkeeper_BuggyDataset_outputD2M1.csv"))) {
-		try (PrintWriter writer = new PrintWriter(new File("outputFinali\\zookeeper_BuggyDataset_outputD2M1.csv"))) {
+		try (PrintWriter writer = new PrintWriter(new File("outputFinali\\"+PROJECTNAME+"_BuggyDataset_outputD2M1.csv"))) {
 
 		      StringBuilder sb = new StringBuilder();
 		      sb.append("Release");
@@ -71,7 +71,7 @@ public class CsvWriter {
 
 		      for (int i=0;i<list.size();i++) {	  
 		    	  
-		    	  if (list.get(i).getRelease().getIndex()>halfRelease){
+		    	  if (list.get(i).getRelease().getIndex()>HALFRELEASE){
 		    		  break;		    		  
 		    	  }
 		    	  else {
