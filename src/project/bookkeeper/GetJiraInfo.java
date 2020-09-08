@@ -204,7 +204,7 @@ public class GetJiraInfo {
 			   }
 		   }
 		   
-		   res=-1;		//in questo caso, AV di Jira NON è VALIDA! controllo lo faccio in metodo setIvOvFv
+		   res=-1;		//in questo caso, AV di Jira NON e VALIDA! controllo lo faccio in metodo setIvOvFv
 		   return res;
 	   
 	   }

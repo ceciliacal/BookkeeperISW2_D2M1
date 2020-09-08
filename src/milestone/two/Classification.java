@@ -341,7 +341,7 @@ public class Classification {
 					fc.setFilter(smote);
 
 				}
-				//param input è errato
+				//param input errato
 				else {
 					
 					Log.errorLog("Errore nella tecnica di balancing");

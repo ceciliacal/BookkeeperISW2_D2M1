@@ -83,7 +83,7 @@ public class GetGitInfo {
 			
 			if (commitDate.compareTo(releaseDate)<0) {
 				
-				//il commit viene prima della data della release res, quindi è dopo la release che ha superato e me lo ritrovo in quella successiva
+				//il commit viene prima della data della release res, quindi sta dopo la release che ha superato e me lo ritrovo in quella successiva
 				
 				releases.get(i).getCommitsOfRelease().add(commit);
 
