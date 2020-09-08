@@ -6,9 +6,9 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class CsvWriter {	
+public class CsvWriterBoundary {	
 	
-	private CsvWriter() {
+	private CsvWriterBoundary() {
 	    throw new IllegalStateException("Utility class");
 	  }
 	
@@ -18,7 +18,8 @@ public class CsvWriter {
 	
 	public static void write (List<Data> list) {
 		
-		try (PrintWriter writer = new PrintWriter(new File("D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetVirgole VERSIONE FINALE.csv"))) {
+		//try (PrintWriter writer = new PrintWriter(new File("outputFinali\\bookkeeper_BuggyDataset_outputD2M1.csv"))) {
+		try (PrintWriter writer = new PrintWriter(new File("outputFinali\\zookeeper_BuggyDataset_outputD2M1.csv"))) {
 
 		      StringBuilder sb = new StringBuilder();
 		      sb.append("Release");

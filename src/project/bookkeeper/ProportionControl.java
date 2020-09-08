@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ProportionMethod {
+public class ProportionControl {
 	
 	public static final List<Ticket> ticketlist= MainControl.ticketlist;
 	private static final String INCONSISTENT_VERSIONS = "ERRORE: versioni inconsistenti.";
@@ -35,7 +35,7 @@ public class ProportionMethod {
 					
 			}
 			
-			//questi hanno l'AV	(???)
+			//questi hanno l'AV	
 			else {	
 				
 				//se ticket ha IV>OV o IV>FV, significa che AV presa da Jira non è affidabile e quindi la ricalcolo usando proportion
@@ -127,8 +127,6 @@ public class ProportionMethod {
 
 		dim= (int) Math.round(perc);	//dimensione della moving window: arrotondamento di perc (può essere sia x difetto, sia x eccesso)
 		
-		 System.out.println("\n\n ========= DIM moving window= "+dim+"\n");
-
 		Collections.reverse(mytickets);
 		Collections.reverse(noIv);
 		

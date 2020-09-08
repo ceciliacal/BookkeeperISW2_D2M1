@@ -1,0 +1,33 @@
+﻿Open(
+	"D:\Cecilia\Desktop\bookkeeperISW2_D2M1\bookkeeperISW2_D2M1\grafici\bookkeeper_WekaDataset_m2d2output.jmp"
+);
+Graph Builder(
+	Size( 1539, 917 ),
+	Variables(
+		X( :FeatureSelection ),
+		Y( :Precision ),
+		Y( :Precision, Position( 1 ) ),
+		Y( :Recall, Position( 1 ) ),
+		Y( :AUC, Position( 1 ) ),
+		Y( :Kappa, Position( 1 ) ),
+		Group X( :Classifier ),
+		Group Y( :Balancing )
+	),
+	Elements( Box Plot( X, Y( 1 ), Y( 3 ), Y( 4 ), Y( 5 ), Legend( 7 ) ) ),
+	SendToReport(
+		Dispatch(
+			{},
+			"graph title",
+			TextEditBox,
+			{Set Text(
+				"Precision & Recall & AUC & Kappa rispetto a FeatureSelection"
+			)}
+		),
+		Dispatch(
+			{},
+			"Y title",
+			TextEditBox,
+			{Set Text( "Precision & Recall & AUC & Kappa" )}
+		)
+	)
+);

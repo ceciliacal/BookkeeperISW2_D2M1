@@ -17,12 +17,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
-public class Metrics {
+public class MetricsCalculatorControl {
 
 	public static final List<RevCommit> commitList= MainControl.myCommitsList;
 	protected static final List<String> classesList= MainControl.classesList;
 	
-	private Metrics() {
+	private MetricsCalculatorControl() {
 	    throw new IllegalStateException("Utility class");
 	 }
 	
@@ -130,7 +130,7 @@ public class Metrics {
 		Integer max;
 		int avg;
 		
-		ProportionMethod computeAvg = new ProportionMethod();	//lo uso successivamente per il calcolo delle medie (AVG)
+		ProportionControl computeAvg = new ProportionControl();	//lo uso successivamente per il calcolo delle medie (AVG)
 		
 		List<RevCommit> comList;
 		List<Integer> churnList=  new ArrayList <>();
@@ -141,7 +141,7 @@ public class Metrics {
 		
 		RevWalk rw = new RevWalk(repository);
 		
-		//mi prendo tutti i commit nella release e mi calcolo le metriche per ogni file della release			
+		// prendo tutti i commit nella release e calcolo le metriche per ogni file della release			
 		nr = 0;
 		locAdded = 0;
 		locDeleted = 0;
@@ -257,16 +257,6 @@ public class Metrics {
 		dbEntry.setMaxChurn(max);
 		dbEntry.setAvgChurn(avg);
 
-		/*
-		
-		System.out.println("\n"+dbEntry.getFilename()+"   nr= "+dbEntry.getNr()+
-							"  churn= "+dbEntry.getChurn()+
-							"  max= "+dbEntry.getMaxChurn()+
-							"  avg= "+dbEntry.getAvgChurn()+
-							"  sizeLista= "+churnList.size()+
-							"  "+churnList);
-		 */
-		
 
 		
 		// ============= chgSetSize, MAX&AVG
@@ -279,16 +269,6 @@ public class Metrics {
 		dbEntry.setMaxChgSetSize(max);
 		dbEntry.setAvgChgSetSize(avg);
 		
-		/*
-		System.out.println("\n"+dbEntry.getFilename()+"   nr= "+dbEntry.getNr()+
-				"  chgSetSize= "+dbEntry.getChgSetSize()+
-				"  max= "+dbEntry.getMaxChgSetSize()+
-				"  avg= "+dbEntry.getAvgChgSetSize()+
-				"  sizeLista= "+chgSetSizeList.size()+
-				"  "+chgSetSizeList);
-		
-		System.out.println("----------------------------------------------------");
-		*/
 
 		
 		// ============= CLEAR LISTS =============

@@ -18,14 +18,14 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 
-public class GetGitInfo {
+public class GetGitInfoBoundary {
 	
 	public static final List <Release> releases= MainControl.releases;
 	public static final List <String> classesList= MainControl.classesList;
 
 	
 	 
-	private GetGitInfo() {
+	private GetGitInfoBoundary() {
 		    throw new IllegalStateException("Utility class");
 	 }
 	
@@ -113,7 +113,7 @@ public class GetGitInfo {
 				releases.get(i).setLastCommit(releases.get(i-1).getLastCommit());
 			}
 			else {
-				// Collections.sort(commitList, (o1, o2) ->  o1.compareTo(o2)); ---------> QUI MI SBAGLIA IL DATASET
+
 				Collections.sort(commitList, (c1, c2) -> Instant.ofEpochSecond(c1.getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDateTime().compareTo(Instant.ofEpochSecond(c2.getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDateTime()));
 				
 				for (int j=0;j<commitList.size();j++){
@@ -157,7 +157,7 @@ public class GetGitInfo {
             		count++;
             		
             		Data dbEntry=new Data(releases.get(i), treeWalk.getPathString());
-            		fileLoc= Metrics.loc(treeWalk, repository);
+            		fileLoc= MetricsCalculatorControl.loc(treeWalk, repository);
             		dbEntry.setLoc(fileLoc);
             		dbEntries.add(dbEntry);
          

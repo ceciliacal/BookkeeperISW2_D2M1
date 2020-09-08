@@ -29,8 +29,8 @@ public class MainControl {
 	protected static List<Data> entries;			//lista di output
 	protected static List<Rename> renameList;
 	
-	public static final String PROJECTNAME="bookkeeper";
-	//public static final String PROJECTNAME="zookeeper";
+	//public static final String PROJECTNAME="bookkeeper";
+	public static final String PROJECTNAME="zookeeper";
 	protected static final String RENAME="RENAME";
 	public static int lastRelease;
 	public static int halfRelease;
@@ -41,12 +41,11 @@ public class MainControl {
 	public static void main(String[] args) throws Exception {
 		
 		int numDefects;
-		//int halfRelease;
 		Repository repository;
 		String path ="D:\\Cecilia\\Desktop\\"+PROJECTNAME;
 
-		List <Ticket> good = new ArrayList<>();			//tickets con AV regolare che utilizzo per calcolare proportion
-		List <Ticket> wrong = new ArrayList<>();		//tickets senza IV (AV), e quindi di cui calcolo predictedIV
+		List <Ticket> ticketsWithAV = new ArrayList<>();			//tickets con AV regolare che utilizzo per calcolare proportion
+		List <Ticket> ticketsNoAV = new ArrayList<>();		//tickets senza IV (AV), e quindi di cui calcolo predictedIV
 		
 		classesList = new ArrayList<>();
 		entries= new ArrayList<>();
@@ -56,57 +55,47 @@ public class MainControl {
 		Git git= Git.open(new File(path));
     	repository=git.getRepository();
     	
-    	releases=GetJiraInfo.getReleaseInfo();
-    	//halfRelease=setHalfRelease();
-    	//write();
-    	
+    	//recupero release
+    	releases=GetJiraInfoBoundary.getReleaseInfo(); 	
     	lastRelease=releases.get(releases.size()-1).getIndex();
-    	
-    	
-    	
-    	ticketlist= GetJiraInfo.getTicketInfo( releases);	//ticketList viene inizializzata in getTicketInfo
+    	  	
+    	//recupero tickets
+    	ticketlist= GetJiraInfoBoundary.getTicketInfo( releases);	//ticketList viene inizializzata in getTicketInfo
     	numDefects=ticketlist.size();
-    	
-    	//write();
-
     	setOvFvIv();
-    	GetGitInfo.getFilesPerRelease(git, entries, repository);
+    	
+    	//prendo tutti i file presenti in ogni release
+    	GetGitInfoBoundary.getFilesPerRelease(git, entries, repository);
     	
     	
     	//mi salvo tutti i commits del log di bookkeeper in commitsIDlist e intanto li aggiungo ai relativi ticket
-    	myCommitsList=GetGitInfo.getCommitsID(git, ticketlist );	//va dopo getTicketInfo perché senno non conosco ticketID
+    	myCommitsList=GetGitInfoBoundary.getCommitsID(git, ticketlist );	//va dopo getTicketInfo perché senno non conosco ticketID
  	
     	renameList=checkRename(entries, git, repository);
     	addJavaFiles (repository);
 
     	halfRelease=releases.size()/2;
-    	// write();
-    	finalPrintTickets(ticketlist);
-    	
-    	ProportionMethod proportionMethod = new ProportionMethod();
-    	proportionMethod.checkDates(good, wrong);
-		 System.out.println("\n\n =========== GOOD ============\n");
-
-    	finalPrintTickets(good);
-    	 System.out.println("\n\n =========== WRONG ============\n");
-    	finalPrintTickets(wrong);
-    	proportionMethod.proportion(good, wrong, numDefects);
-    	System.out.println("\n\n =========== FINE PROPORTION ============\n");
+   
+    	//calcolo Proportion
+    	ProportionControl proportionMethod = new ProportionControl();
+    	proportionMethod.checkDates(ticketsWithAV, ticketsNoAV); 	
+    	proportionMethod.proportion(ticketsWithAV, ticketsNoAV, numDefects);
     	proportionMethod.defineAV(halfRelease);
 
+    	//calcolo buggyness
     	bugsPerRelease();
  
+    	//calcolo metriche
+    	MetricsCalculatorControl.calculate(repository);
     	
-    	Metrics.calculate(repository);
-    	CsvWriter.write(entries);
+    	CsvWriterBoundary.write(entries);
     	
-    	milestone.two.Main.run();
+    	
 
 	
 	}
 	
 	public static void write() {
-		//String projName ="BOOKKEEPER ";
 		int i;
 		FileWriter fileWriter = null;
 		try {
@@ -349,7 +338,7 @@ public class MainControl {
 
     public static List<Integer> getReleases() throws IOException, JSONException {
 
-    	List<Release> releases= GetJiraInfo.getReleaseInfo();
+    	List<Release> releases= GetJiraInfoBoundary.getReleaseInfo();
     	List<Integer> myReleases = new ArrayList<>();
     	
     	for (int i=0;i<releases.size()/2;i++) {
@@ -460,7 +449,6 @@ public class MainControl {
 		for (i=0;i<ticketlist.size();i++) {
 			
 			
-			
 			//OV
 			for (j=0;j<releases.size();j++) {
 				
@@ -476,6 +464,25 @@ public class MainControl {
 				
 				
 			}
+			
+			/*
+			
+			//OV
+			for (j=1;j<releases.size();j++) {
+				
+				//se created < releaseDate (viene prima), assegno OV = releaseDate
+				//perche quella buggy è dalla successiva in cui l'ho notato in poi
+				
+				if (ticketlist.get(i).getCreatedDate().compareTo(releases.get(j).getDate().toLocalDate())<0) {
+					
+					ticketlist.get(i).setOV(releases.get(j-1).getIndex());
+					
+					break;
+				}
+				
+				
+			}
+			*/
 			
 			//FV
 			for (j=0;j<releases.size();j++) {
@@ -505,6 +512,7 @@ public class MainControl {
 
 	}
 	
+
 	public static void checkFvOvBecauseOfLastRelease(Ticket myTicket) {
 		
 		if (myTicket.getOV()==0) {
@@ -587,7 +595,7 @@ public class MainControl {
 		int i;
 		for(i=0;i<entries.size();i++) {
 			
-			if (entries.get(i).getRelease().getIndex()==myRelease && entries.get(i).getFilename().contains(myFileName) ) { //ci dovrei mettere contais per RENAME
+			if (entries.get(i).getRelease().getIndex()==myRelease && entries.get(i).getFilename().contains(myFileName) ) { 
 				
 				entries.get(i).setBuggy("Y");
 				

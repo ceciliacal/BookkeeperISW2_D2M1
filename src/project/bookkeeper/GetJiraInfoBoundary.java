@@ -19,21 +19,21 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 
-public class GetJiraInfo {
+public class GetJiraInfoBoundary {
 
 		private static final String FIELDS = "fields";
-		//private static final String projName = "ZOOKEEPER";
-		private static final String projName = "BOOKKEEPER";
+		private static final String projName = "ZOOKEEPER";
+		//private static final String projName = "BOOKKEEPER";
 		
 		
 	
-		private GetJiraInfo() {
+		private GetJiraInfoBoundary() {
 	     throw new IllegalStateException("Utility class");
 		}
 
 	
-		//get Release Info: popola liste su release (attributi di questa classe)
-		//ex createCsvReleaseInfo
+		//get Release Info: popola liste su release 
+
 		public static List<Release> getReleaseInfo()  throws IOException, JSONException {
 			
 			Map<LocalDateTime, String> releaseNames;
@@ -103,7 +103,6 @@ public class GetJiraInfo {
 
 		   List<Ticket> ticketList = new ArrayList<>();
 		   
-	  	   //String projName ="BOOKKEEPER";	  	   
 		   Integer i=0; //inizio index da cui prendo file json
 		   Integer j=0; //fine index del file json
 		   Integer total=1; 
