@@ -3,7 +3,7 @@ package milestone.two;
 import java.util.ArrayList;
 import java.util.List;
 
-//import project.bookkeeper.Log;
+import project.bookkeeper.Log;
 import weka.attributeSelection.CfsSubsetEval;
 import weka.attributeSelection.GreedyStepwise;
 import weka.classifiers.Classifier;
@@ -79,7 +79,7 @@ public class Classification {
 		return dbEntryList;
 	}
 	
-	public static void setEvalOptions(DatasetPart part, String classifierName, List<EvaluationData> dbEntryList) throws Exception {
+	public static void setEvalOptions(DatasetPart part, String classifierName, List<EvaluationData> dbEntryList)  {
 		
 
 		List<String> featureSelOptions = new ArrayList<>();
@@ -163,7 +163,7 @@ public class Classification {
 				
 				else {	
 					
-					//Log.errorLog("Errore nella scelta della Feature Selection");
+					Log.errorLog("Errore nella scelta della Feature Selection");
 					System.exit(-1);
 				}
 				
@@ -171,9 +171,7 @@ public class Classification {
 				setValues(part, eval, classifierName, featureSelection, balancingMode, dbEntryList);
 				 
 				
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
+			} catch (Exception e  ) {
 				e.printStackTrace();
 			}
 			
@@ -208,7 +206,7 @@ public class Classification {
 							
 				
 				if (balancingMode.isEmpty()) {			
-					//Log.errorLog("Errore nella Feature Selection");
+					Log.errorLog("Errore nella Feature Selection");
 					System.exit(-1);		
 				}
 				
@@ -282,7 +280,7 @@ public class Classification {
 			
 			else {	
 				
-				//Log.errorLog("Errore nel nome del classificatore");
+				Log.errorLog("Errore nel nome del classificatore");
 				System.exit(-1);
 			}
 
@@ -344,7 +342,7 @@ public class Classification {
 				//param input errato
 				else {
 					
-					//Log.errorLog("Errore nella tecnica di balancing");
+					Log.errorLog("Errore nella tecnica di balancing");
 					System.exit(-1);
 					
 				}
@@ -409,7 +407,7 @@ public class Classification {
 			
 			else {	
 				
-				//Log.errorLog("Errore nel nome del classificatore");
+				Log.errorLog("Errore nel nome del classificatore");
 				System.exit(-1);
 			}
 			

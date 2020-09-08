@@ -12,7 +12,7 @@ import project.bookkeeper.MainControl;
 
 public class Writer {
 
-	
+	private static final String PROJECTNAME=project.bookkeeper.MainControl.PROJECTNAME;
 	private Writer() {
 	    throw new IllegalStateException("Utility class");
 	  }
@@ -28,8 +28,8 @@ public class Writer {
 	
 	public static void write (List<EvaluationData> list) throws FileNotFoundException {
 		
-		//try (PrintWriter writer = new PrintWriter(new File("outputFinali\\bookkeeper_WekaDataset_m2d2output.csv"))) {
-		try (PrintWriter writer = new PrintWriter(new File("outputFinali\\zookeeper_WekaDataset_m2d2output.csv"))) {
+		
+		try (PrintWriter writer = new PrintWriter(new File("outputFinali\\"+PROJECTNAME+"_WekaDataset_m2d2output.csv"))) {
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("Dataset");
