@@ -1,0 +1,433 @@
+Dataset,#TrainingRelease,%Training,%DefectiveTraining,%DefectiveTesting,Classifier,Balancing,FeatureSelection,TP,FP,TN,FN,Precision,Recall,AUC,Kappa
+zookeeper,1,2.98,3.17,3.12,Random Forest,No,No,0,0,186,6,NaN,0,1,0
+zookeeper,1,2.98,3.17,3.12,Random Forest,Under Sampling,No,0,0,186,6,NaN,0,0.97,0
+zookeeper,1,2.98,3.17,3.12,Random Forest,Over Sampling,No,0,0,186,6,NaN,0,1,0
+zookeeper,1,2.98,3.17,3.12,Random Forest,SMOTE,No,0,0,186,6,NaN,0,1,0
+zookeeper,1,2.98,3.17,3.12,Random Forest,No,Best First,0,0,186,6,NaN,0,0.83,0
+zookeeper,1,2.98,3.17,3.12,Random Forest,Under Sampling,Best First,1,14,172,5,0.07,0.17,0.77,0.05
+zookeeper,1,2.98,3.17,3.12,Random Forest,Over Sampling,Best First,0,0,186,6,NaN,0,0.84,0
+zookeeper,1,2.98,3.17,3.12,Random Forest,SMOTE,Best First,0,0,186,6,NaN,0,0.89,0
+zookeeper,1,2.98,3.17,3.12,Naive Bayes,No,No,2,0,186,4,1,0.33,0.94,0.49
+zookeeper,1,2.98,3.17,3.12,Naive Bayes,Under Sampling,No,2,1,185,4,0.67,0.33,0.94,0.43
+zookeeper,1,2.98,3.17,3.12,Naive Bayes,Over Sampling,No,2,0,186,4,1,0.33,0.98,0.49
+zookeeper,1,2.98,3.17,3.12,Naive Bayes,SMOTE,No,2,0,186,4,1,0.33,0.94,0.49
+zookeeper,1,2.98,3.17,3.12,Naive Bayes,No,Best First,1,0,186,5,1,0.17,0.84,0.28
+zookeeper,1,2.98,3.17,3.12,Naive Bayes,Under Sampling,Best First,0,0,186,6,NaN,0,0.86,0
+zookeeper,1,2.98,3.17,3.12,Naive Bayes,Over Sampling,Best First,2,2,184,4,0.5,0.33,0.84,0.38
+zookeeper,1,2.98,3.17,3.12,Naive Bayes,SMOTE,Best First,0,0,186,6,NaN,0,0.84,0
+zookeeper,1,2.98,3.17,3.12,IBk,No,No,2,0,186,4,1,0.33,0.71,0.49
+zookeeper,1,2.98,3.17,3.12,IBk,Under Sampling,No,2,0,186,4,1,0.33,0.67,0.49
+zookeeper,1,2.98,3.17,3.12,IBk,Over Sampling,No,2,0,186,4,1,0.33,0.7,0.49
+zookeeper,1,2.98,3.17,3.12,IBk,SMOTE,No,3,0,186,3,1,0.5,0.78,0.66
+zookeeper,1,2.98,3.17,3.12,IBk,No,Best First,0,0,186,6,NaN,0,0.54,0
+zookeeper,1,2.98,3.17,3.12,IBk,Under Sampling,Best First,2,6,180,4,0.25,0.33,0.65,0.26
+zookeeper,1,2.98,3.17,3.12,IBk,Over Sampling,Best First,0,0,186,6,NaN,0,0.59,0
+zookeeper,1,2.98,3.17,3.12,IBk,SMOTE,Best First,0,0,186,6,NaN,0,0.54,0
+zookeeper,2,6.01,3.15,2.63,Random Forest,No,No,6,0,222,0,1,1,1,1
+zookeeper,2,6.01,3.15,2.63,Random Forest,Under Sampling,No,6,21,201,0,0.22,1,1,0.34
+zookeeper,2,6.01,3.15,2.63,Random Forest,Over Sampling,No,6,6,216,0,0.5,1,1,0.65
+zookeeper,2,6.01,3.15,2.63,Random Forest,SMOTE,No,6,0,222,0,1,1,1,1
+zookeeper,2,6.01,3.15,2.63,Random Forest,No,Best First,4,7,215,2,0.36,0.67,0.98,0.45
+zookeeper,2,6.01,3.15,2.63,Random Forest,Under Sampling,Best First,6,49,173,0,0.11,1,0.95,0.16
+zookeeper,2,6.01,3.15,2.63,Random Forest,Over Sampling,Best First,6,10,212,0,0.38,1,0.99,0.53
+zookeeper,2,6.01,3.15,2.63,Random Forest,SMOTE,Best First,4,11,211,2,0.27,0.67,0.97,0.36
+zookeeper,2,6.01,3.15,2.63,Naive Bayes,No,No,5,6,216,1,0.45,0.83,0.98,0.57
+zookeeper,2,6.01,3.15,2.63,Naive Bayes,Under Sampling,No,2,1,221,4,0.67,0.33,0.98,0.43
+zookeeper,2,6.01,3.15,2.63,Naive Bayes,Over Sampling,No,5,5,217,1,0.5,0.83,0.99,0.61
+zookeeper,2,6.01,3.15,2.63,Naive Bayes,SMOTE,No,5,6,216,1,0.45,0.83,0.98,0.57
+zookeeper,2,6.01,3.15,2.63,Naive Bayes,No,Best First,2,6,216,4,0.25,0.33,0.88,0.26
+zookeeper,2,6.01,3.15,2.63,Naive Bayes,Under Sampling,Best First,5,27,195,1,0.16,0.83,0.89,0.23
+zookeeper,2,6.01,3.15,2.63,Naive Bayes,Over Sampling,Best First,5,20,202,1,0.2,0.83,0.87,0.29
+zookeeper,2,6.01,3.15,2.63,Naive Bayes,SMOTE,Best First,2,7,215,4,0.22,0.33,0.88,0.24
+zookeeper,2,6.01,3.15,2.63,IBk,No,No,6,0,222,0,1,1,1,1
+zookeeper,2,6.01,3.15,2.63,IBk,Under Sampling,No,6,111,111,0,0.05,1,0.75,0.05
+zookeeper,2,6.01,3.15,2.63,IBk,Over Sampling,No,6,3,219,0,0.67,1,1,0.79
+zookeeper,2,6.01,3.15,2.63,IBk,SMOTE,No,6,0,222,0,1,1,1,1
+zookeeper,2,6.01,3.15,2.63,IBk,No,Best First,3,2,220,3,0.6,0.5,0.8,0.53
+zookeeper,2,6.01,3.15,2.63,IBk,Under Sampling,Best First,6,97,125,0,0.06,1,0.78,0.06
+zookeeper,2,6.01,3.15,2.63,IBk,Over Sampling,Best First,3,10,212,3,0.23,0.5,0.77,0.29
+zookeeper,2,6.01,3.15,2.63,IBk,SMOTE,Best First,5,10,212,1,0.33,0.83,0.91,0.46
+zookeeper,3,9.61,2.96,2.63,Random Forest,No,No,6,0,222,0,1,1,1,1
+zookeeper,3,9.61,2.96,2.63,Random Forest,Under Sampling,No,6,15,207,0,0.29,1,1,0.42
+zookeeper,3,9.61,2.96,2.63,Random Forest,Over Sampling,No,6,0,222,0,1,1,1,1
+zookeeper,3,9.61,2.96,2.63,Random Forest,SMOTE,No,6,0,222,0,1,1,1,1
+zookeeper,3,9.61,2.96,2.63,Random Forest,No,Best First,4,2,220,2,0.67,0.67,0.99,0.66
+zookeeper,3,9.61,2.96,2.63,Random Forest,Under Sampling,Best First,6,47,175,0,0.11,1,0.95,0.16
+zookeeper,3,9.61,2.96,2.63,Random Forest,Over Sampling,Best First,5,6,216,1,0.45,0.83,0.98,0.57
+zookeeper,3,9.61,2.96,2.63,Random Forest,SMOTE,Best First,4,2,220,2,0.67,0.67,0.99,0.66
+zookeeper,3,9.61,2.96,2.63,Naive Bayes,No,No,5,6,216,1,0.45,0.83,0.97,0.57
+zookeeper,3,9.61,2.96,2.63,Naive Bayes,Under Sampling,No,5,11,211,1,0.31,0.83,0.95,0.43
+zookeeper,3,9.61,2.96,2.63,Naive Bayes,Over Sampling,No,5,7,215,1,0.42,0.83,0.99,0.54
+zookeeper,3,9.61,2.96,2.63,Naive Bayes,SMOTE,No,5,7,215,1,0.42,0.83,0.98,0.54
+zookeeper,3,9.61,2.96,2.63,Naive Bayes,No,Best First,2,6,216,4,0.25,0.33,0.86,0.26
+zookeeper,3,9.61,2.96,2.63,Naive Bayes,Under Sampling,Best First,4,9,213,2,0.31,0.67,0.87,0.4
+zookeeper,3,9.61,2.96,2.63,Naive Bayes,Over Sampling,Best First,5,20,202,1,0.2,0.83,0.86,0.29
+zookeeper,3,9.61,2.96,2.63,Naive Bayes,SMOTE,Best First,2,6,216,4,0.25,0.33,0.86,0.26
+zookeeper,3,9.61,2.96,2.63,IBk,No,No,6,0,222,0,1,1,1,1
+zookeeper,3,9.61,2.96,2.63,IBk,Under Sampling,No,6,46,176,0,0.12,1,0.9,0.17
+zookeeper,3,9.61,2.96,2.63,IBk,Over Sampling,No,6,6,216,0,0.5,1,1,0.65
+zookeeper,3,9.61,2.96,2.63,IBk,SMOTE,No,6,0,222,0,1,1,1,1
+zookeeper,3,9.61,2.96,2.63,IBk,No,Best First,4,5,217,2,0.44,0.67,0.93,0.52
+zookeeper,3,9.61,2.96,2.63,IBk,Under Sampling,Best First,6,48,174,0,0.11,1,0.86,0.16
+zookeeper,3,9.61,2.96,2.63,IBk,Over Sampling,Best First,4,8,214,2,0.33,0.67,0.91,0.42
+zookeeper,3,9.61,2.96,2.63,IBk,SMOTE,Best First,4,8,214,2,0.33,0.67,0.92,0.42
+zookeeper,4,13.21,2.87,2.16,Random Forest,No,No,6,0,272,0,1,1,1,1
+zookeeper,4,13.21,2.87,2.16,Random Forest,Under Sampling,No,6,36,236,0,0.14,1,1,0.22
+zookeeper,4,13.21,2.87,2.16,Random Forest,Over Sampling,No,6,0,272,0,1,1,1,1
+zookeeper,4,13.21,2.87,2.16,Random Forest,SMOTE,No,6,0,272,0,1,1,1,1
+zookeeper,4,13.21,2.87,2.16,Random Forest,No,Best First,2,9,263,4,0.18,0.33,0.89,0.21
+zookeeper,4,13.21,2.87,2.16,Random Forest,Under Sampling,Best First,6,48,224,0,0.11,1,0.97,0.17
+zookeeper,4,13.21,2.87,2.16,Random Forest,Over Sampling,Best First,2,9,263,4,0.18,0.33,0.96,0.21
+zookeeper,4,13.21,2.87,2.16,Random Forest,SMOTE,Best First,2,11,261,4,0.15,0.33,0.87,0.19
+zookeeper,4,13.21,2.87,2.16,Naive Bayes,No,No,5,6,266,1,0.45,0.83,0.98,0.58
+zookeeper,4,13.21,2.87,2.16,Naive Bayes,Under Sampling,No,2,5,267,4,0.29,0.33,0.96,0.29
+zookeeper,4,13.21,2.87,2.16,Naive Bayes,Over Sampling,No,6,7,265,0,0.46,1,0.99,0.62
+zookeeper,4,13.21,2.87,2.16,Naive Bayes,SMOTE,No,5,6,266,1,0.45,0.83,0.98,0.58
+zookeeper,4,13.21,2.87,2.16,Naive Bayes,No,Best First,4,9,263,2,0.31,0.67,0.86,0.4
+zookeeper,4,13.21,2.87,2.16,Naive Bayes,Under Sampling,Best First,5,25,247,1,0.17,0.83,0.86,0.25
+zookeeper,4,13.21,2.87,2.16,Naive Bayes,Over Sampling,Best First,5,27,245,1,0.16,0.83,0.86,0.24
+zookeeper,4,13.21,2.87,2.16,Naive Bayes,SMOTE,Best First,5,13,259,1,0.28,0.83,0.86,0.4
+zookeeper,4,13.21,2.87,2.16,IBk,No,No,6,0,272,0,1,1,1,1
+zookeeper,4,13.21,2.87,2.16,IBk,Under Sampling,No,6,152,120,0,0.04,1,0.72,0.03
+zookeeper,4,13.21,2.87,2.16,IBk,Over Sampling,No,6,0,272,0,1,1,1,1
+zookeeper,4,13.21,2.87,2.16,IBk,SMOTE,No,6,0,272,0,1,1,1,1
+zookeeper,4,13.21,2.87,2.16,IBk,No,Best First,1,7,265,5,0.12,0.17,0.88,0.12
+zookeeper,4,13.21,2.87,2.16,IBk,Under Sampling,Best First,6,51,221,0,0.11,1,0.9,0.16
+zookeeper,4,13.21,2.87,2.16,IBk,Over Sampling,Best First,2,9,263,4,0.18,0.33,0.78,0.21
+zookeeper,4,13.21,2.87,2.16,IBk,SMOTE,Best First,2,11,261,4,0.15,0.33,0.88,0.19
+zookeeper,5,17.6,2.69,2.14,Random Forest,No,No,6,0,275,0,1,1,1,1
+zookeeper,5,17.6,2.69,2.14,Random Forest,Under Sampling,No,6,14,261,0,0.3,1,1,0.44
+zookeeper,5,17.6,2.69,2.14,Random Forest,Over Sampling,No,6,3,272,0,0.67,1,1,0.79
+zookeeper,5,17.6,2.69,2.14,Random Forest,SMOTE,No,6,0,275,0,1,1,1,1
+zookeeper,5,17.6,2.69,2.14,Random Forest,No,Best First,4,0,275,2,1,0.67,0.91,0.8
+zookeeper,5,17.6,2.69,2.14,Random Forest,Under Sampling,Best First,6,80,195,0,0.07,1,0.93,0.09
+zookeeper,5,17.6,2.69,2.14,Random Forest,Over Sampling,Best First,5,9,266,1,0.36,0.83,0.98,0.48
+zookeeper,5,17.6,2.69,2.14,Random Forest,SMOTE,Best First,4,6,269,2,0.4,0.67,0.9,0.49
+zookeeper,5,17.6,2.69,2.14,Naive Bayes,No,No,5,8,267,1,0.38,0.83,0.98,0.51
+zookeeper,5,17.6,2.69,2.14,Naive Bayes,Under Sampling,No,2,9,266,4,0.18,0.33,0.95,0.21
+zookeeper,5,17.6,2.69,2.14,Naive Bayes,Over Sampling,No,5,11,264,1,0.31,0.83,0.99,0.44
+zookeeper,5,17.6,2.69,2.14,Naive Bayes,SMOTE,No,5,12,263,1,0.29,0.83,0.98,0.42
+zookeeper,5,17.6,2.69,2.14,Naive Bayes,No,Best First,3,8,267,3,0.27,0.5,0.85,0.33
+zookeeper,5,17.6,2.69,2.14,Naive Bayes,Under Sampling,Best First,5,32,243,1,0.14,0.83,0.84,0.2
+zookeeper,5,17.6,2.69,2.14,Naive Bayes,Over Sampling,Best First,5,23,252,1,0.18,0.83,0.85,0.27
+zookeeper,5,17.6,2.69,2.14,Naive Bayes,SMOTE,Best First,4,9,266,2,0.31,0.67,0.85,0.4
+zookeeper,5,17.6,2.69,2.14,IBk,No,No,6,0,275,0,1,1,1,1
+zookeeper,5,17.6,2.69,2.14,IBk,Under Sampling,No,6,148,127,0,0.04,1,0.73,0.04
+zookeeper,5,17.6,2.69,2.14,IBk,Over Sampling,No,6,2,273,0,0.75,1,1,0.85
+zookeeper,5,17.6,2.69,2.14,IBk,SMOTE,No,6,0,275,0,1,1,1,1
+zookeeper,5,17.6,2.69,2.14,IBk,No,Best First,3,7,268,3,0.3,0.5,0.93,0.36
+zookeeper,5,17.6,2.69,2.14,IBk,Under Sampling,Best First,6,87,188,0,0.06,1,0.81,0.08
+zookeeper,5,17.6,2.69,2.14,IBk,Over Sampling,Best First,4,10,265,2,0.29,0.67,0.9,0.38
+zookeeper,5,17.6,2.69,2.14,IBk,SMOTE,Best First,4,9,266,2,0.31,0.67,0.93,0.4
+zookeeper,6,22.03,2.58,2.83,Random Forest,No,No,6,0,275,2,1,0.75,0.85,0.85
+zookeeper,6,22.03,2.58,2.83,Random Forest,Under Sampling,No,6,20,255,2,0.23,0.75,0.97,0.32
+zookeeper,6,22.03,2.58,2.83,Random Forest,Over Sampling,No,6,2,273,2,0.75,0.75,0.8,0.74
+zookeeper,6,22.03,2.58,2.83,Random Forest,SMOTE,No,6,0,275,2,1,0.75,0.78,0.85
+zookeeper,6,22.03,2.58,2.83,Random Forest,No,Best First,3,1,274,5,0.75,0.38,0.86,0.49
+zookeeper,6,22.03,2.58,2.83,Random Forest,Under Sampling,Best First,7,27,248,1,0.21,0.88,0.96,0.3
+zookeeper,6,22.03,2.58,2.83,Random Forest,Over Sampling,Best First,5,4,271,3,0.56,0.62,0.86,0.58
+zookeeper,6,22.03,2.58,2.83,Random Forest,SMOTE,Best First,6,3,272,2,0.67,0.75,0.86,0.7
+zookeeper,6,22.03,2.58,2.83,Naive Bayes,No,No,5,9,266,3,0.36,0.62,0.95,0.43
+zookeeper,6,22.03,2.58,2.83,Naive Bayes,Under Sampling,No,6,21,254,2,0.22,0.75,0.95,0.31
+zookeeper,6,22.03,2.58,2.83,Naive Bayes,Over Sampling,No,6,19,256,2,0.24,0.75,0.93,0.34
+zookeeper,6,22.03,2.58,2.83,Naive Bayes,SMOTE,No,5,10,265,3,0.33,0.62,0.95,0.41
+zookeeper,6,22.03,2.58,2.83,Naive Bayes,No,Best First,3,8,267,5,0.27,0.38,0.86,0.29
+zookeeper,6,22.03,2.58,2.83,Naive Bayes,Under Sampling,Best First,6,25,250,2,0.19,0.75,0.84,0.28
+zookeeper,6,22.03,2.58,2.83,Naive Bayes,Over Sampling,Best First,6,24,251,2,0.2,0.75,0.86,0.28
+zookeeper,6,22.03,2.58,2.83,Naive Bayes,SMOTE,Best First,4,9,266,4,0.31,0.5,0.86,0.36
+zookeeper,6,22.03,2.58,2.83,IBk,No,No,6,0,275,2,1,0.75,0.88,0.85
+zookeeper,6,22.03,2.58,2.83,IBk,Under Sampling,No,7,32,243,1,0.18,0.88,0.88,0.26
+zookeeper,6,22.03,2.58,2.83,IBk,Over Sampling,No,6,2,273,2,0.75,0.75,0.8,0.74
+zookeeper,6,22.03,2.58,2.83,IBk,SMOTE,No,6,0,275,2,1,0.75,0.88,0.85
+zookeeper,6,22.03,2.58,2.83,IBk,No,Best First,3,1,274,5,0.75,0.38,0.89,0.49
+zookeeper,6,22.03,2.58,2.83,IBk,Under Sampling,Best First,8,59,216,0,0.12,1,0.87,0.17
+zookeeper,6,22.03,2.58,2.83,IBk,Over Sampling,Best First,5,5,270,3,0.5,0.62,0.87,0.54
+zookeeper,6,22.03,2.58,2.83,IBk,SMOTE,Best First,5,3,272,3,0.62,0.62,0.91,0.61
+zookeeper,7,26.5,2.62,3.46,Random Forest,No,No,7,0,335,5,1,0.58,0.93,0.73
+zookeeper,7,26.5,2.62,3.46,Random Forest,Under Sampling,No,9,34,301,3,0.21,0.75,0.89,0.29
+zookeeper,7,26.5,2.62,3.46,Random Forest,Over Sampling,No,8,2,333,4,0.8,0.67,0.89,0.72
+zookeeper,7,26.5,2.62,3.46,Random Forest,SMOTE,No,7,0,335,5,1,0.58,0.92,0.73
+zookeeper,7,26.5,2.62,3.46,Random Forest,No,Best First,2,3,332,10,0.4,0.17,0.78,0.22
+zookeeper,7,26.5,2.62,3.46,Random Forest,Under Sampling,Best First,10,39,296,2,0.2,0.83,0.84,0.29
+zookeeper,7,26.5,2.62,3.46,Random Forest,Over Sampling,Best First,6,4,331,6,0.6,0.5,0.78,0.53
+zookeeper,7,26.5,2.62,3.46,Random Forest,SMOTE,Best First,3,5,330,9,0.38,0.25,0.73,0.28
+zookeeper,7,26.5,2.62,3.46,Naive Bayes,No,No,7,8,327,5,0.47,0.58,0.96,0.5
+zookeeper,7,26.5,2.62,3.46,Naive Bayes,Under Sampling,No,5,9,326,7,0.36,0.42,0.94,0.36
+zookeeper,7,26.5,2.62,3.46,Naive Bayes,Over Sampling,No,9,19,316,3,0.32,0.75,0.97,0.42
+zookeeper,7,26.5,2.62,3.46,Naive Bayes,SMOTE,No,7,9,326,5,0.44,0.58,0.95,0.48
+zookeeper,7,26.5,2.62,3.46,Naive Bayes,No,Best First,5,9,326,7,0.36,0.42,0.87,0.36
+zookeeper,7,26.5,2.62,3.46,Naive Bayes,Under Sampling,Best First,7,26,309,5,0.21,0.58,0.87,0.27
+zookeeper,7,26.5,2.62,3.46,Naive Bayes,Over Sampling,Best First,7,28,307,5,0.2,0.58,0.87,0.26
+zookeeper,7,26.5,2.62,3.46,Naive Bayes,SMOTE,Best First,6,9,326,6,0.4,0.5,0.87,0.42
+zookeeper,7,26.5,2.62,3.46,IBk,No,No,8,0,335,4,1,0.67,0.83,0.79
+zookeeper,7,26.5,2.62,3.46,IBk,Under Sampling,No,8,72,263,4,0.1,0.67,0.73,0.12
+zookeeper,7,26.5,2.62,3.46,IBk,Over Sampling,No,8,1,334,4,0.89,0.67,0.8,0.75
+zookeeper,7,26.5,2.62,3.46,IBk,SMOTE,No,8,0,335,4,1,0.67,0.83,0.79
+zookeeper,7,26.5,2.62,3.46,IBk,No,Best First,0,3,332,12,0,0,0.86,-0.01
+zookeeper,7,26.5,2.62,3.46,IBk,Under Sampling,Best First,9,38,297,3,0.19,0.75,0.82,0.26
+zookeeper,7,26.5,2.62,3.46,IBk,Over Sampling,Best First,5,6,329,7,0.45,0.42,0.86,0.42
+zookeeper,7,26.5,2.62,3.46,IBk,SMOTE,Best First,2,4,331,10,0.33,0.17,0.87,0.2
+zookeeper,8,31.98,2.76,3.39,Random Forest,No,No,8,0,342,4,1,0.67,1,0.79
+zookeeper,8,31.98,2.76,3.39,Random Forest,Under Sampling,No,11,26,316,1,0.3,0.92,0.98,0.42
+zookeeper,8,31.98,2.76,3.39,Random Forest,Over Sampling,No,11,1,341,1,0.92,0.92,0.99,0.91
+zookeeper,8,31.98,2.76,3.39,Random Forest,SMOTE,No,8,0,342,4,1,0.67,1,0.79
+zookeeper,8,31.98,2.76,3.39,Random Forest,No,Best First,7,1,341,5,0.88,0.58,0.91,0.69
+zookeeper,8,31.98,2.76,3.39,Random Forest,Under Sampling,Best First,11,50,292,1,0.18,0.92,0.93,0.26
+zookeeper,8,31.98,2.76,3.39,Random Forest,Over Sampling,Best First,10,13,329,2,0.43,0.83,0.9,0.55
+zookeeper,8,31.98,2.76,3.39,Random Forest,SMOTE,Best First,8,5,337,4,0.62,0.67,0.91,0.63
+zookeeper,8,31.98,2.76,3.39,Naive Bayes,No,No,7,9,333,5,0.44,0.58,0.97,0.48
+zookeeper,8,31.98,2.76,3.39,Naive Bayes,Under Sampling,No,5,1,341,7,0.83,0.42,0.97,0.55
+zookeeper,8,31.98,2.76,3.39,Naive Bayes,Over Sampling,No,12,13,329,0,0.48,1,0.99,0.63
+zookeeper,8,31.98,2.76,3.39,Naive Bayes,SMOTE,No,8,11,331,4,0.42,0.67,0.97,0.5
+zookeeper,8,31.98,2.76,3.39,Naive Bayes,No,Best First,7,14,328,5,0.33,0.58,0.86,0.4
+zookeeper,8,31.98,2.76,3.39,Naive Bayes,Under Sampling,Best First,10,56,286,2,0.15,0.83,0.83,0.21
+zookeeper,8,31.98,2.76,3.39,Naive Bayes,Over Sampling,Best First,12,328,14,0,0.04,1,0.84,0
+zookeeper,8,31.98,2.76,3.39,Naive Bayes,SMOTE,Best First,7,21,321,5,0.25,0.58,0.86,0.32
+zookeeper,8,31.98,2.76,3.39,IBk,No,No,11,0,342,1,1,0.92,0.96,0.96
+zookeeper,8,31.98,2.76,3.39,IBk,Under Sampling,No,12,56,286,0,0.18,1,0.92,0.26
+zookeeper,8,31.98,2.76,3.39,IBk,Over Sampling,No,11,3,339,1,0.79,0.92,0.97,0.84
+zookeeper,8,31.98,2.76,3.39,IBk,SMOTE,No,11,0,342,1,1,0.92,0.96,0.96
+zookeeper,8,31.98,2.76,3.39,IBk,No,Best First,7,1,341,5,0.88,0.58,0.87,0.69
+zookeeper,8,31.98,2.76,3.39,IBk,Under Sampling,Best First,11,57,285,1,0.16,0.92,0.87,0.23
+zookeeper,8,31.98,2.76,3.39,IBk,Over Sampling,Best First,10,12,330,2,0.45,0.83,0.85,0.57
+zookeeper,8,31.98,2.76,3.39,IBk,SMOTE,Best First,8,5,337,4,0.62,0.67,0.87,0.63
+zookeeper,9,37.56,2.86,2.5,Random Forest,No,No,9,0,546,5,1,0.64,0.92,0.78
+zookeeper,9,37.56,2.86,2.5,Random Forest,Under Sampling,No,12,43,503,2,0.22,0.86,0.92,0.32
+zookeeper,9,37.56,2.86,2.5,Random Forest,Over Sampling,No,11,2,544,3,0.85,0.79,0.87,0.81
+zookeeper,9,37.56,2.86,2.5,Random Forest,SMOTE,No,10,0,546,4,1,0.71,0.89,0.83
+zookeeper,9,37.56,2.86,2.5,Random Forest,No,Best First,4,2,544,10,0.67,0.29,0.84,0.39
+zookeeper,9,37.56,2.86,2.5,Random Forest,Under Sampling,Best First,11,58,488,3,0.16,0.79,0.93,0.23
+zookeeper,9,37.56,2.86,2.5,Random Forest,Over Sampling,Best First,7,13,533,7,0.35,0.5,0.84,0.39
+zookeeper,9,37.56,2.86,2.5,Random Forest,SMOTE,Best First,6,7,539,8,0.46,0.43,0.88,0.43
+zookeeper,9,37.56,2.86,2.5,Naive Bayes,No,No,9,16,530,5,0.36,0.64,0.93,0.44
+zookeeper,9,37.56,2.86,2.5,Naive Bayes,Under Sampling,No,9,23,523,5,0.28,0.64,0.93,0.37
+zookeeper,9,37.56,2.86,2.5,Naive Bayes,Over Sampling,No,11,32,514,3,0.26,0.79,0.88,0.36
+zookeeper,9,37.56,2.86,2.5,Naive Bayes,SMOTE,No,10,18,528,4,0.36,0.71,0.93,0.46
+zookeeper,9,37.56,2.86,2.5,Naive Bayes,No,Best First,9,19,527,5,0.32,0.64,0.86,0.41
+zookeeper,9,37.56,2.86,2.5,Naive Bayes,Under Sampling,Best First,9,45,501,5,0.17,0.64,0.86,0.23
+zookeeper,9,37.56,2.86,2.5,Naive Bayes,Over Sampling,Best First,14,376,170,0,0.04,1,0.87,0.02
+zookeeper,9,37.56,2.86,2.5,Naive Bayes,SMOTE,Best First,9,23,523,5,0.28,0.64,0.86,0.37
+zookeeper,9,37.56,2.86,2.5,IBk,No,No,10,2,544,4,0.83,0.71,0.86,0.76
+zookeeper,9,37.56,2.86,2.5,IBk,Under Sampling,No,12,124,422,2,0.09,0.86,0.81,0.12
+zookeeper,9,37.56,2.86,2.5,IBk,Over Sampling,No,10,4,542,4,0.71,0.71,0.86,0.71
+zookeeper,9,37.56,2.86,2.5,IBk,SMOTE,No,10,2,544,4,0.83,0.71,0.86,0.76
+zookeeper,9,37.56,2.86,2.5,IBk,No,Best First,4,1,545,10,0.8,0.29,0.75,0.41
+zookeeper,9,37.56,2.86,2.5,IBk,Under Sampling,Best First,11,43,503,3,0.2,0.79,0.9,0.3
+zookeeper,9,37.56,2.86,2.5,IBk,Over Sampling,Best First,7,13,533,7,0.35,0.5,0.8,0.39
+zookeeper,9,37.56,2.86,2.5,IBk,SMOTE,Best First,6,4,542,8,0.6,0.43,0.78,0.49
+zookeeper,10,46.4,2.79,4.8,Random Forest,No,No,10,1,336,7,0.91,0.59,0.99,0.7
+zookeeper,10,46.4,2.79,4.8,Random Forest,Under Sampling,No,17,37,300,0,0.31,1,0.99,0.44
+zookeeper,10,46.4,2.79,4.8,Random Forest,Over Sampling,No,13,2,335,4,0.87,0.76,0.97,0.8
+zookeeper,10,46.4,2.79,4.8,Random Forest,SMOTE,No,10,1,336,7,0.91,0.59,0.98,0.7
+zookeeper,10,46.4,2.79,4.8,Random Forest,No,Best First,5,0,337,12,1,0.29,0.81,0.44
+zookeeper,10,46.4,2.79,4.8,Random Forest,Under Sampling,Best First,12,26,311,5,0.32,0.71,0.92,0.4
+zookeeper,10,46.4,2.79,4.8,Random Forest,Over Sampling,Best First,7,6,331,10,0.54,0.41,0.85,0.44
+zookeeper,10,46.4,2.79,4.8,Random Forest,SMOTE,Best First,6,4,333,11,0.6,0.35,0.83,0.42
+zookeeper,10,46.4,2.79,4.8,Naive Bayes,No,No,9,10,327,8,0.47,0.53,0.9,0.47
+zookeeper,10,46.4,2.79,4.8,Naive Bayes,Under Sampling,No,9,6,331,8,0.6,0.53,0.96,0.54
+zookeeper,10,46.4,2.79,4.8,Naive Bayes,Over Sampling,No,15,25,312,2,0.38,0.88,0.92,0.49
+zookeeper,10,46.4,2.79,4.8,Naive Bayes,SMOTE,No,10,11,326,7,0.48,0.59,0.9,0.5
+zookeeper,10,46.4,2.79,4.8,Naive Bayes,No,Best First,9,11,326,8,0.45,0.53,0.82,0.46
+zookeeper,10,46.4,2.79,4.8,Naive Bayes,Under Sampling,Best First,10,16,321,7,0.38,0.59,0.82,0.43
+zookeeper,10,46.4,2.79,4.8,Naive Bayes,Over Sampling,Best First,12,37,300,5,0.24,0.71,0.82,0.31
+zookeeper,10,46.4,2.79,4.8,Naive Bayes,SMOTE,Best First,10,16,321,7,0.38,0.59,0.82,0.43
+zookeeper,10,46.4,2.79,4.8,IBk,No,No,12,1,336,5,0.92,0.71,0.85,0.79
+zookeeper,10,46.4,2.79,4.8,IBk,Under Sampling,No,16,59,278,1,0.21,0.94,0.88,0.29
+zookeeper,10,46.4,2.79,4.8,IBk,Over Sampling,No,13,3,334,4,0.81,0.76,0.88,0.78
+zookeeper,10,46.4,2.79,4.8,IBk,SMOTE,No,12,1,336,5,0.92,0.71,0.85,0.79
+zookeeper,10,46.4,2.79,4.8,IBk,No,Best First,5,1,336,12,0.83,0.29,0.87,0.42
+zookeeper,10,46.4,2.79,4.8,IBk,Under Sampling,Best First,13,39,298,4,0.25,0.76,0.83,0.33
+zookeeper,10,46.4,2.79,4.8,IBk,Over Sampling,Best First,9,8,329,8,0.53,0.53,0.87,0.51
+zookeeper,10,46.4,2.79,4.8,IBk,SMOTE,Best First,7,4,333,10,0.64,0.41,0.88,0.48
+zookeeper,11,51.99,3.01,4.2,Random Forest,No,No,9,0,342,6,1,0.6,0.92,0.74
+zookeeper,11,51.99,3.01,4.2,Random Forest,Under Sampling,No,12,68,274,3,0.15,0.8,0.89,0.2
+zookeeper,11,51.99,3.01,4.2,Random Forest,Over Sampling,No,10,3,339,5,0.77,0.67,0.94,0.7
+zookeeper,11,51.99,3.01,4.2,Random Forest,SMOTE,No,9,0,342,6,1,0.6,0.95,0.74
+zookeeper,11,51.99,3.01,4.2,Random Forest,No,Best First,4,2,340,11,0.67,0.27,0.84,0.37
+zookeeper,11,51.99,3.01,4.2,Random Forest,Under Sampling,Best First,12,43,299,3,0.22,0.8,0.88,0.3
+zookeeper,11,51.99,3.01,4.2,Random Forest,Over Sampling,Best First,7,10,332,8,0.41,0.47,0.86,0.41
+zookeeper,11,51.99,3.01,4.2,Random Forest,SMOTE,Best First,5,4,338,10,0.56,0.33,0.83,0.4
+zookeeper,11,51.99,3.01,4.2,Naive Bayes,No,No,12,30,312,3,0.29,0.8,0.92,0.38
+zookeeper,11,51.99,3.01,4.2,Naive Bayes,Under Sampling,No,8,21,321,7,0.28,0.53,0.89,0.33
+zookeeper,11,51.99,3.01,4.2,Naive Bayes,Over Sampling,No,12,39,303,3,0.24,0.8,0.91,0.32
+zookeeper,11,51.99,3.01,4.2,Naive Bayes,SMOTE,No,12,34,308,3,0.26,0.8,0.91,0.35
+zookeeper,11,51.99,3.01,4.2,Naive Bayes,No,Best First,7,15,327,8,0.32,0.47,0.79,0.35
+zookeeper,11,51.99,3.01,4.2,Naive Bayes,Under Sampling,Best First,9,22,320,6,0.29,0.6,0.84,0.35
+zookeeper,11,51.99,3.01,4.2,Naive Bayes,Over Sampling,Best First,9,34,308,6,0.21,0.6,0.79,0.26
+zookeeper,11,51.99,3.01,4.2,Naive Bayes,SMOTE,Best First,8,17,325,7,0.32,0.53,0.81,0.37
+zookeeper,11,51.99,3.01,4.2,IBk,No,No,11,2,340,4,0.85,0.73,0.86,0.78
+zookeeper,11,51.99,3.01,4.2,IBk,Under Sampling,No,13,105,237,2,0.11,0.87,0.78,0.13
+zookeeper,11,51.99,3.01,4.2,IBk,Over Sampling,No,11,4,338,4,0.73,0.73,0.83,0.72
+zookeeper,11,51.99,3.01,4.2,IBk,SMOTE,No,11,2,340,4,0.85,0.73,0.86,0.78
+zookeeper,11,51.99,3.01,4.2,IBk,No,Best First,3,2,340,12,0.6,0.2,0.78,0.28
+zookeeper,11,51.99,3.01,4.2,IBk,Under Sampling,Best First,11,37,305,4,0.23,0.73,0.82,0.3
+zookeeper,11,51.99,3.01,4.2,IBk,Over Sampling,Best First,5,13,329,10,0.28,0.33,0.81,0.27
+zookeeper,11,51.99,3.01,4.2,IBk,SMOTE,Best First,6,3,339,9,0.67,0.4,0.82,0.48
+zookeeper,12,57.62,3.12,4.2,Random Forest,No,No,10,5,337,5,0.67,0.67,0.99,0.65
+zookeeper,12,57.62,3.12,4.2,Random Forest,Under Sampling,No,14,43,299,1,0.25,0.93,0.95,0.35
+zookeeper,12,57.62,3.12,4.2,Random Forest,Over Sampling,No,12,7,335,3,0.63,0.8,0.98,0.69
+zookeeper,12,57.62,3.12,4.2,Random Forest,SMOTE,No,10,5,337,5,0.67,0.67,0.99,0.65
+zookeeper,12,57.62,3.12,4.2,Random Forest,No,Best First,5,2,340,10,0.71,0.33,0.89,0.44
+zookeeper,12,57.62,3.12,4.2,Random Forest,Under Sampling,Best First,12,41,301,3,0.23,0.8,0.91,0.31
+zookeeper,12,57.62,3.12,4.2,Random Forest,Over Sampling,Best First,10,12,330,5,0.45,0.67,0.88,0.52
+zookeeper,12,57.62,3.12,4.2,Random Forest,SMOTE,Best First,8,3,339,7,0.73,0.53,0.85,0.6
+zookeeper,12,57.62,3.12,4.2,Naive Bayes,No,No,10,12,330,5,0.45,0.67,0.96,0.52
+zookeeper,12,57.62,3.12,4.2,Naive Bayes,Under Sampling,No,4,1,341,11,0.8,0.27,0.9,0.39
+zookeeper,12,57.62,3.12,4.2,Naive Bayes,Over Sampling,No,13,18,324,2,0.42,0.87,0.98,0.54
+zookeeper,12,57.62,3.12,4.2,Naive Bayes,SMOTE,No,12,16,326,3,0.43,0.8,0.96,0.53
+zookeeper,12,57.62,3.12,4.2,Naive Bayes,No,Best First,7,15,327,8,0.32,0.47,0.71,0.35
+zookeeper,12,57.62,3.12,4.2,Naive Bayes,Under Sampling,Best First,7,13,329,8,0.35,0.47,0.71,0.37
+zookeeper,12,57.62,3.12,4.2,Naive Bayes,Over Sampling,Best First,9,95,247,6,0.09,0.6,0.71,0.08
+zookeeper,12,57.62,3.12,4.2,Naive Bayes,SMOTE,Best First,7,24,318,8,0.23,0.47,0.71,0.26
+zookeeper,12,57.62,3.12,4.2,IBk,No,No,12,6,336,3,0.67,0.8,0.89,0.71
+zookeeper,12,57.62,3.12,4.2,IBk,Under Sampling,No,15,14,328,0,0.52,1,0.98,0.66
+zookeeper,12,57.62,3.12,4.2,IBk,Over Sampling,No,12,7,335,3,0.63,0.8,0.84,0.69
+zookeeper,12,57.62,3.12,4.2,IBk,SMOTE,No,12,6,336,3,0.67,0.8,0.89,0.71
+zookeeper,12,57.62,3.12,4.2,IBk,No,Best First,5,3,339,10,0.62,0.33,0.91,0.42
+zookeeper,12,57.62,3.12,4.2,IBk,Under Sampling,Best First,13,47,295,2,0.22,0.87,0.88,0.3
+zookeeper,12,57.62,3.12,4.2,IBk,Over Sampling,Best First,10,12,330,5,0.45,0.67,0.89,0.52
+zookeeper,12,57.62,3.12,4.2,IBk,SMOTE,Best First,8,4,338,7,0.67,0.53,0.91,0.58
+zookeeper,13,63.26,3.22,5.63,Random Forest,No,No,15,0,369,7,1,0.68,0.97,0.8
+zookeeper,13,63.26,3.22,5.63,Random Forest,Under Sampling,No,19,37,332,3,0.34,0.86,0.94,0.44
+zookeeper,13,63.26,3.22,5.63,Random Forest,Over Sampling,No,18,6,363,4,0.75,0.82,0.97,0.77
+zookeeper,13,63.26,3.22,5.63,Random Forest,SMOTE,No,15,0,369,7,1,0.68,0.97,0.8
+zookeeper,13,63.26,3.22,5.63,Random Forest,No,Best First,4,3,366,18,0.57,0.18,0.69,0.26
+zookeeper,13,63.26,3.22,5.63,Random Forest,Under Sampling,Best First,11,56,313,11,0.16,0.5,0.8,0.18
+zookeeper,13,63.26,3.22,5.63,Random Forest,Over Sampling,Best First,6,18,351,16,0.25,0.27,0.7,0.21
+zookeeper,13,63.26,3.22,5.63,Random Forest,SMOTE,Best First,4,6,363,18,0.4,0.18,0.69,0.22
+zookeeper,13,63.26,3.22,5.63,Naive Bayes,No,No,13,17,352,9,0.43,0.59,0.92,0.47
+zookeeper,13,63.26,3.22,5.63,Naive Bayes,Under Sampling,No,9,10,359,13,0.47,0.41,0.9,0.41
+zookeeper,13,63.26,3.22,5.63,Naive Bayes,Over Sampling,No,21,97,272,1,0.18,0.95,0.95,0.23
+zookeeper,13,63.26,3.22,5.63,Naive Bayes,SMOTE,No,16,19,350,6,0.46,0.73,0.92,0.53
+zookeeper,13,63.26,3.22,5.63,Naive Bayes,No,Best First,9,17,352,13,0.35,0.41,0.74,0.33
+zookeeper,13,63.26,3.22,5.63,Naive Bayes,Under Sampling,Best First,11,19,350,11,0.37,0.5,0.72,0.38
+zookeeper,13,63.26,3.22,5.63,Naive Bayes,Over Sampling,Best First,14,96,273,8,0.13,0.64,0.74,0.13
+zookeeper,13,63.26,3.22,5.63,Naive Bayes,SMOTE,Best First,9,18,351,13,0.33,0.41,0.74,0.33
+zookeeper,13,63.26,3.22,5.63,IBk,No,No,15,1,368,7,0.94,0.68,0.8,0.78
+zookeeper,13,63.26,3.22,5.63,IBk,Under Sampling,No,20,150,219,2,0.12,0.91,0.74,0.12
+zookeeper,13,63.26,3.22,5.63,IBk,Over Sampling,No,15,9,360,7,0.62,0.68,0.86,0.63
+zookeeper,13,63.26,3.22,5.63,IBk,SMOTE,No,15,2,367,7,0.88,0.68,0.8,0.76
+zookeeper,13,63.26,3.22,5.63,IBk,No,Best First,6,3,366,16,0.67,0.27,0.74,0.37
+zookeeper,13,63.26,3.22,5.63,IBk,Under Sampling,Best First,12,51,318,10,0.19,0.55,0.67,0.22
+zookeeper,13,63.26,3.22,5.63,IBk,Over Sampling,Best First,7,22,347,15,0.24,0.32,0.73,0.22
+zookeeper,13,63.26,3.22,5.63,IBk,SMOTE,Best First,6,6,363,16,0.5,0.27,0.74,0.33
+zookeeper,14,69.43,3.43,6.12,Random Forest,No,No,22,0,368,2,1,0.92,0.97,0.95
+zookeeper,14,69.43,3.43,6.12,Random Forest,Under Sampling,No,22,41,327,2,0.35,0.92,0.98,0.46
+zookeeper,14,69.43,3.43,6.12,Random Forest,Over Sampling,No,23,5,363,1,0.82,0.96,0.98,0.88
+zookeeper,14,69.43,3.43,6.12,Random Forest,SMOTE,No,22,0,368,2,1,0.92,0.97,0.95
+zookeeper,14,69.43,3.43,6.12,Random Forest,No,Best First,10,1,367,14,0.91,0.42,0.91,0.55
+zookeeper,14,69.43,3.43,6.12,Random Forest,Under Sampling,Best First,18,67,301,6,0.21,0.75,0.85,0.26
+zookeeper,14,69.43,3.43,6.12,Random Forest,Over Sampling,Best First,20,28,340,4,0.42,0.83,0.91,0.52
+zookeeper,14,69.43,3.43,6.12,Random Forest,SMOTE,Best First,10,3,365,14,0.77,0.42,0.94,0.52
+zookeeper,14,69.43,3.43,6.12,Naive Bayes,No,No,18,16,352,6,0.53,0.75,0.95,0.59
+zookeeper,14,69.43,3.43,6.12,Naive Bayes,Under Sampling,No,11,13,355,13,0.46,0.46,0.93,0.42
+zookeeper,14,69.43,3.43,6.12,Naive Bayes,Over Sampling,No,23,29,339,1,0.44,0.96,0.97,0.57
+zookeeper,14,69.43,3.43,6.12,Naive Bayes,SMOTE,No,21,26,342,3,0.45,0.88,0.95,0.56
+zookeeper,14,69.43,3.43,6.12,Naive Bayes,No,Best First,9,15,353,15,0.38,0.38,0.75,0.33
+zookeeper,14,69.43,3.43,6.12,Naive Bayes,Under Sampling,Best First,10,18,350,14,0.36,0.42,0.79,0.34
+zookeeper,14,69.43,3.43,6.12,Naive Bayes,Over Sampling,Best First,24,368,0,0,0.06,1,0.75,0
+zookeeper,14,69.43,3.43,6.12,Naive Bayes,SMOTE,Best First,10,18,350,14,0.36,0.42,0.75,0.34
+zookeeper,14,69.43,3.43,6.12,IBk,No,No,22,0,368,2,1,0.92,0.96,0.95
+zookeeper,14,69.43,3.43,6.12,IBk,Under Sampling,No,23,125,243,1,0.16,0.96,0.77,0.18
+zookeeper,14,69.43,3.43,6.12,IBk,Over Sampling,No,22,2,366,2,0.92,0.92,0.97,0.91
+zookeeper,14,69.43,3.43,6.12,IBk,SMOTE,No,22,0,368,2,1,0.92,0.96,0.95
+zookeeper,14,69.43,3.43,6.12,IBk,No,Best First,9,0,368,15,1,0.38,0.97,0.53
+zookeeper,14,69.43,3.43,6.12,IBk,Under Sampling,Best First,19,53,315,5,0.26,0.79,0.86,0.33
+zookeeper,14,69.43,3.43,6.12,IBk,Over Sampling,Best First,20,28,340,4,0.42,0.83,0.96,0.52
+zookeeper,14,69.43,3.43,6.12,IBk,SMOTE,Best First,9,2,366,15,0.82,0.38,0.97,0.49
+zookeeper,15,75.62,3.65,5.91,Random Forest,No,No,21,0,382,3,1,0.88,1,0.93
+zookeeper,15,75.62,3.65,5.91,Random Forest,Under Sampling,No,24,48,334,0,0.33,1,1,0.45
+zookeeper,15,75.62,3.65,5.91,Random Forest,Over Sampling,No,23,5,377,1,0.82,0.96,1,0.88
+zookeeper,15,75.62,3.65,5.91,Random Forest,SMOTE,No,22,1,381,2,0.96,0.92,1,0.93
+zookeeper,15,75.62,3.65,5.91,Random Forest,No,Best First,23,0,382,1,1,0.96,1,0.98
+zookeeper,15,75.62,3.65,5.91,Random Forest,Under Sampling,Best First,24,37,345,0,0.39,1,1,0.52
+zookeeper,15,75.62,3.65,5.91,Random Forest,Over Sampling,Best First,24,6,376,0,0.8,1,1,0.88
+zookeeper,15,75.62,3.65,5.91,Random Forest,SMOTE,Best First,23,1,381,1,0.96,0.96,1,0.96
+zookeeper,15,75.62,3.65,5.91,Naive Bayes,No,No,20,23,359,4,0.47,0.83,0.96,0.56
+zookeeper,15,75.62,3.65,5.91,Naive Bayes,Under Sampling,No,24,340,42,0,0.07,1,0.96,0.01
+zookeeper,15,75.62,3.65,5.91,Naive Bayes,Over Sampling,No,24,37,345,0,0.39,1,0.98,0.52
+zookeeper,15,75.62,3.65,5.91,Naive Bayes,SMOTE,No,24,34,348,0,0.41,1,0.97,0.55
+zookeeper,15,75.62,3.65,5.91,Naive Bayes,No,Best First,9,8,374,15,0.53,0.38,0.97,0.41
+zookeeper,15,75.62,3.65,5.91,Naive Bayes,Under Sampling,Best First,12,22,360,12,0.35,0.5,0.95,0.37
+zookeeper,15,75.62,3.65,5.91,Naive Bayes,Over Sampling,Best First,20,14,368,4,0.59,0.83,0.98,0.67
+zookeeper,15,75.62,3.65,5.91,Naive Bayes,SMOTE,Best First,10,9,373,14,0.53,0.42,0.97,0.44
+zookeeper,15,75.62,3.65,5.91,IBk,No,No,24,3,379,0,0.89,1,1,0.94
+zookeeper,15,75.62,3.65,5.91,IBk,Under Sampling,No,24,143,239,0,0.14,1,0.8,0.16
+zookeeper,15,75.62,3.65,5.91,IBk,Over Sampling,No,24,5,377,0,0.83,1,1,0.9
+zookeeper,15,75.62,3.65,5.91,IBk,SMOTE,No,24,3,379,0,0.89,1,1,0.94
+zookeeper,15,75.62,3.65,5.91,IBk,No,Best First,21,0,382,3,1,0.88,1,0.93
+zookeeper,15,75.62,3.65,5.91,IBk,Under Sampling,Best First,24,56,326,0,0.3,1,0.95,0.41
+zookeeper,15,75.62,3.65,5.91,IBk,Over Sampling,Best First,23,1,381,1,0.96,0.96,0.98,0.96
+zookeeper,15,75.62,3.65,5.91,IBk,SMOTE,Best First,21,0,382,3,1,0.88,1,0.93
+zookeeper,16,82.02,3.83,4.72,Random Forest,No,No,15,1,342,2,0.94,0.88,1,0.9
+zookeeper,16,82.02,3.83,4.72,Random Forest,Under Sampling,No,17,38,305,0,0.31,1,1,0.43
+zookeeper,16,82.02,3.83,4.72,Random Forest,Over Sampling,No,17,3,340,0,0.85,1,1,0.91
+zookeeper,16,82.02,3.83,4.72,Random Forest,SMOTE,No,15,1,342,2,0.94,0.88,1,0.9
+zookeeper,16,82.02,3.83,4.72,Random Forest,No,Best First,14,1,342,3,0.93,0.82,1,0.87
+zookeeper,16,82.02,3.83,4.72,Random Forest,Under Sampling,Best First,17,35,308,0,0.33,1,0.99,0.45
+zookeeper,16,82.02,3.83,4.72,Random Forest,Over Sampling,Best First,16,2,341,1,0.89,0.94,1,0.91
+zookeeper,16,82.02,3.83,4.72,Random Forest,SMOTE,Best First,14,1,342,3,0.93,0.82,1,0.87
+zookeeper,16,82.02,3.83,4.72,Naive Bayes,No,No,14,20,323,3,0.41,0.82,0.98,0.52
+zookeeper,16,82.02,3.83,4.72,Naive Bayes,Under Sampling,No,7,3,340,10,0.7,0.41,0.97,0.5
+zookeeper,16,82.02,3.83,4.72,Naive Bayes,Over Sampling,No,17,29,314,0,0.37,1,0.99,0.51
+zookeeper,16,82.02,3.83,4.72,Naive Bayes,SMOTE,No,17,34,309,0,0.33,1,0.98,0.46
+zookeeper,16,82.02,3.83,4.72,Naive Bayes,No,Best First,9,6,337,8,0.6,0.53,0.97,0.54
+zookeeper,16,82.02,3.83,4.72,Naive Bayes,Under Sampling,Best First,9,21,322,8,0.3,0.53,0.95,0.34
+zookeeper,16,82.02,3.83,4.72,Naive Bayes,Over Sampling,Best First,15,11,332,2,0.58,0.88,0.99,0.68
+zookeeper,16,82.02,3.83,4.72,Naive Bayes,SMOTE,Best First,9,7,336,8,0.56,0.53,0.98,0.52
+zookeeper,16,82.02,3.83,4.72,IBk,No,No,17,2,341,0,0.89,1,1,0.94
+zookeeper,16,82.02,3.83,4.72,IBk,Under Sampling,No,17,86,257,0,0.17,1,0.87,0.22
+zookeeper,16,82.02,3.83,4.72,IBk,Over Sampling,No,17,3,340,0,0.85,1,0.99,0.91
+zookeeper,16,82.02,3.83,4.72,IBk,SMOTE,No,17,2,341,0,0.89,1,1,0.94
+zookeeper,16,82.02,3.83,4.72,IBk,No,Best First,13,1,342,4,0.93,0.76,0.99,0.83
+zookeeper,16,82.02,3.83,4.72,IBk,Under Sampling,Best First,17,50,293,0,0.25,1,0.94,0.36
+zookeeper,16,82.02,3.83,4.72,IBk,Over Sampling,Best First,15,2,341,2,0.88,0.88,0.97,0.88
+zookeeper,16,82.02,3.83,4.72,IBk,SMOTE,Best First,13,1,342,4,0.93,0.76,0.99,0.83
+zookeeper,17,87.71,3.89,5.77,Random Forest,No,No,24,1,391,0,0.96,1,1,0.98
+zookeeper,17,87.71,3.89,5.77,Random Forest,Under Sampling,No,24,52,340,0,0.32,1,1,0.43
+zookeeper,17,87.71,3.89,5.77,Random Forest,Over Sampling,No,24,8,384,0,0.75,1,1,0.85
+zookeeper,17,87.71,3.89,5.77,Random Forest,SMOTE,No,24,1,391,0,0.96,1,1,0.98
+zookeeper,17,87.71,3.89,5.77,Random Forest,No,Best First,11,3,389,13,0.79,0.46,0.92,0.56
+zookeeper,17,87.71,3.89,5.77,Random Forest,Under Sampling,Best First,22,72,320,2,0.23,0.92,0.92,0.31
+zookeeper,17,87.71,3.89,5.77,Random Forest,Over Sampling,Best First,18,33,359,6,0.35,0.75,0.94,0.44
+zookeeper,17,87.71,3.89,5.77,Random Forest,SMOTE,Best First,11,6,386,13,0.65,0.46,0.92,0.51
+zookeeper,17,87.71,3.89,5.77,Naive Bayes,No,No,21,29,363,3,0.42,0.88,0.96,0.53
+zookeeper,17,87.71,3.89,5.77,Naive Bayes,Under Sampling,No,9,16,376,15,0.36,0.38,0.94,0.33
+zookeeper,17,87.71,3.89,5.77,Naive Bayes,Over Sampling,No,24,110,282,0,0.18,1,0.97,0.23
+zookeeper,17,87.71,3.89,5.77,Naive Bayes,SMOTE,No,24,37,355,0,0.39,1,0.96,0.53
+zookeeper,17,87.71,3.89,5.77,Naive Bayes,No,Best First,12,25,367,12,0.32,0.5,0.74,0.35
+zookeeper,17,87.71,3.89,5.77,Naive Bayes,Under Sampling,Best First,24,391,1,0,0.06,1,0.74,0
+zookeeper,17,87.71,3.89,5.77,Naive Bayes,Over Sampling,Best First,24,390,2,0,0.06,1,0.74,0
+zookeeper,17,87.71,3.89,5.77,Naive Bayes,SMOTE,Best First,15,47,345,9,0.24,0.62,0.74,0.29
+zookeeper,17,87.71,3.89,5.77,IBk,No,No,24,2,390,0,0.92,1,1,0.96
+zookeeper,17,87.71,3.89,5.77,IBk,Under Sampling,No,24,114,278,0,0.17,1,0.82,0.22
+zookeeper,17,87.71,3.89,5.77,IBk,Over Sampling,No,24,2,390,0,0.92,1,1,0.96
+zookeeper,17,87.71,3.89,5.77,IBk,SMOTE,No,24,2,390,0,0.92,1,1,0.96
+zookeeper,17,87.71,3.89,5.77,IBk,No,Best First,11,3,389,13,0.79,0.46,0.95,0.56
+zookeeper,17,87.71,3.89,5.77,IBk,Under Sampling,Best First,22,78,314,2,0.22,0.92,0.87,0.29
+zookeeper,17,87.71,3.89,5.77,IBk,Over Sampling,Best First,19,34,358,5,0.36,0.79,0.94,0.45
+zookeeper,17,87.71,3.89,5.77,IBk,SMOTE,Best First,11,5,387,13,0.69,0.46,0.95,0.53
+zookeeper,18,94.27,4.02,4.68,Random Forest,No,No,16,1,345,1,0.94,0.94,1,0.94
+zookeeper,18,94.27,4.02,4.68,Random Forest,Under Sampling,No,17,29,317,0,0.37,1,1,0.51
+zookeeper,18,94.27,4.02,4.68,Random Forest,Over Sampling,No,17,2,344,0,0.89,1,1,0.94
+zookeeper,18,94.27,4.02,4.68,Random Forest,SMOTE,No,16,1,345,1,0.94,0.94,1,0.94
+zookeeper,18,94.27,4.02,4.68,Random Forest,No,Best First,9,0,346,8,1,0.53,0.99,0.68
+zookeeper,18,94.27,4.02,4.68,Random Forest,Under Sampling,Best First,16,66,280,1,0.2,0.94,0.93,0.27
+zookeeper,18,94.27,4.02,4.68,Random Forest,Over Sampling,Best First,17,33,313,0,0.34,1,0.98,0.47
+zookeeper,18,94.27,4.02,4.68,Random Forest,SMOTE,Best First,12,1,345,5,0.92,0.71,0.98,0.79
+zookeeper,18,94.27,4.02,4.68,Naive Bayes,No,No,15,13,333,2,0.54,0.88,0.98,0.65
+zookeeper,18,94.27,4.02,4.68,Naive Bayes,Under Sampling,No,5,1,345,12,0.83,0.29,0.96,0.42
+zookeeper,18,94.27,4.02,4.68,Naive Bayes,Over Sampling,No,17,28,318,0,0.38,1,0.99,0.52
+zookeeper,18,94.27,4.02,4.68,Naive Bayes,SMOTE,No,17,27,319,0,0.39,1,0.98,0.53
+zookeeper,18,94.27,4.02,4.68,Naive Bayes,No,Best First,8,27,319,9,0.23,0.47,0.71,0.26
+zookeeper,18,94.27,4.02,4.68,Naive Bayes,Under Sampling,Best First,11,81,265,6,0.12,0.65,0.71,0.13
+zookeeper,18,94.27,4.02,4.68,Naive Bayes,Over Sampling,Best First,17,346,0,0,0.05,1,0.72,0
+zookeeper,18,94.27,4.02,4.68,Naive Bayes,SMOTE,Best First,10,46,300,7,0.18,0.59,0.71,0.22
+zookeeper,18,94.27,4.02,4.68,IBk,No,No,17,0,346,0,1,1,1,1
+zookeeper,18,94.27,4.02,4.68,IBk,Under Sampling,No,17,76,270,0,0.18,1,0.89,0.25
+zookeeper,18,94.27,4.02,4.68,IBk,Over Sampling,No,17,0,346,0,1,1,1,1
+zookeeper,18,94.27,4.02,4.68,IBk,SMOTE,No,17,0,346,0,1,1,1,1
+zookeeper,18,94.27,4.02,4.68,IBk,No,Best First,9,0,346,8,1,0.53,0.99,0.68
+zookeeper,18,94.27,4.02,4.68,IBk,Under Sampling,Best First,16,64,282,1,0.2,0.94,0.92,0.27
+zookeeper,18,94.27,4.02,4.68,IBk,Over Sampling,Best First,17,33,313,0,0.34,1,0.98,0.47
+zookeeper,18,94.27,4.02,4.68,IBk,SMOTE,Best First,12,1,345,5,0.92,0.71,0.98,0.79

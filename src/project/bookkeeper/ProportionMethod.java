@@ -35,11 +35,11 @@ public class ProportionMethod {
 					
 			}
 			
-			//questi hanno l'AV	(???)
+			//questi hanno l'AV	
 			else {	
 				
-				//se ticket ha IV>OV o IV>FV, significa che AV presa da Jira non è affidabile e quindi la ricalcolo usando proportion
-				//pertanto imposto IV=0 ed è come se AV non fosse presente (ignoro AV di Jira)
+				//se ticket ha IV>OV o IV>FV, significa che AV presa da Jira non e affidabile e quindi la ricalcolo usando proportion
+				//pertanto imposto IV=0 ed e come se AV non fosse presente (ignoro AV di Jira)
 			
 				if ((ticketlist.get(i).getIV()>ticketlist.get(i).getOV()) || (ticketlist.get(i).getIV() >ticketlist.get(i).getFV())) {
 					
@@ -59,7 +59,7 @@ public class ProportionMethod {
 		for (i=0;i<ticketlist.size();i++){
 			
 
-			//se OV==FV e IV=0 (IV=0 se: 1. il ticket non ha AV da Jira 2. se AV presa da Jira è inconsistente (cioè IV>OV || IV>FV)
+			//se OV==FV e IV=0 (IV=0 se: 1. il ticket non ha AV da Jira 2. se AV presa da Jira e inconsistente (cioe IV>OV || IV>FV)
 
 			//Questi li rimuovo perche OV=FV
 
@@ -90,7 +90,7 @@ public class ProportionMethod {
 			
 			if (ticketlist.get(i).getIV()!=0) {
 
-				//FV!=IV && FV!=OV -> sennò P=0
+				//FV!=IV && FV!=OV -> altrimenti P=0
 				if ((ticketlist.get(i).getFV()!=ticketlist.get(i).getIV()) && (ticketlist.get(i).getFV()!=ticketlist.get(i).getOV())&&(ticketlist.get(i).getIV()<=ticketlist.get(i).getOV())){
 					
 						goodProp.add(ticketlist.get(i));
@@ -125,10 +125,8 @@ public class ProportionMethod {
 		//calcolo 1% dei difetti
 		perc= numDefects*0.01;		
 
-		dim= (int) Math.round(perc);	//dimensione della moving window: arrotondamento di perc (può essere sia x difetto, sia x eccesso)
+		dim= (int) Math.round(perc);	//dimensione della moving window: arrotondamento di perc (puo essere sia x difetto, sia x eccesso)
 		
-		 System.out.println("\n\n ========= DIM moving window= "+dim+"\n");
-
 		Collections.reverse(mytickets);
 		Collections.reverse(noIv);
 		
@@ -195,9 +193,8 @@ public class ProportionMethod {
 					 calculatePredictedIV(noIv.get(i));
 					 
 					 if(!checkVersions(noIv.get(i).getIV(), noIv.get(i).getOV(), noIv.get(i).getFV())){
-						 System.out.println("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
+						 Log.errorLog("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
 
-						 //return;
 						 
 					 }
 					 				 
@@ -218,9 +215,9 @@ public class ProportionMethod {
 				 calculatePredictedIV(noIv.get(i));
 				 
 				 if(!checkVersions(noIv.get(i).getIV(), noIv.get(i).getOV(), noIv.get(i).getFV())){
-					 System.out.println("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
+					 Log.errorLog("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
 
-					 //return;
+					 
 					 
 				 }
 				

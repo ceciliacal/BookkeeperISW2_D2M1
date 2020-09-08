@@ -1,7 +1,6 @@
 package project.bookkeeper;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +28,11 @@ public class MainControl {
 	protected static List<Data> entries;			//lista di output
 	protected static List<Rename> renameList;
 	
-	public static final String PROJECTNAME="bookkeeper";
-	//public static final String PROJECTNAME="zookeeper";
+	//public static final String PROJECTNAME="bookkeeper";
+	public static final String PROJECTNAME="zookeeper";
 	protected static final String RENAME="RENAME";
-	public static int lastRelease;
-	public static int halfRelease;
+	protected static int lastRelease;
+	protected static int halfRelease;
 	
 	
 	
@@ -41,12 +40,11 @@ public class MainControl {
 	public static void main(String[] args) throws Exception {
 		
 		int numDefects;
-		//int halfRelease;
 		Repository repository;
 		String path ="D:\\Cecilia\\Desktop\\"+PROJECTNAME;
 
-		List <Ticket> good = new ArrayList<>();			//tickets con AV regolare che utilizzo per calcolare proportion
-		List <Ticket> wrong = new ArrayList<>();		//tickets senza IV (AV), e quindi di cui calcolo predictedIV
+		List <Ticket> ticketsWithAV = new ArrayList<>();			//tickets con AV regolare che utilizzo per calcolare proportion
+		List <Ticket> ticketsNoAV = new ArrayList<>();		//tickets senza IV (AV), e quindi di cui calcolo predictedIV
 		
 		classesList = new ArrayList<>();
 		entries= new ArrayList<>();
@@ -56,20 +54,16 @@ public class MainControl {
 		Git git= Git.open(new File(path));
     	repository=git.getRepository();
     	
-    	releases=GetJiraInfo.getReleaseInfo();
-    	//halfRelease=setHalfRelease();
-    	//write();
-    	
+    	//recupero release
+    	releases=GetJiraInfo.getReleaseInfo(); 	
     	lastRelease=releases.get(releases.size()-1).getIndex();
-    	
-    	
-    	
+    	  	
+    	//recupero tickets
     	ticketlist= GetJiraInfo.getTicketInfo( releases);	//ticketList viene inizializzata in getTicketInfo
     	numDefects=ticketlist.size();
-    	
-    	//write();
-
     	setOvFvIv();
+    	
+    	//prendo tutti i file presenti in ogni release
     	GetGitInfo.getFilesPerRelease(git, entries, repository);
     	
     	
@@ -80,72 +74,27 @@ public class MainControl {
     	addJavaFiles (repository);
 
     	halfRelease=releases.size()/2;
-    	// write();
-    	finalPrintTickets(ticketlist);
-    	
+   
+    	//calcolo Proportion
     	ProportionMethod proportionMethod = new ProportionMethod();
-    	proportionMethod.checkDates(good, wrong);
-		 System.out.println("\n\n =========== GOOD ============\n");
-
-    	finalPrintTickets(good);
-    	 System.out.println("\n\n =========== WRONG ============\n");
-    	finalPrintTickets(wrong);
-    	proportionMethod.proportion(good, wrong, numDefects);
-    	System.out.println("\n\n =========== FINE PROPORTION ============\n");
+    	proportionMethod.checkDates(ticketsWithAV, ticketsNoAV); 	
+    	proportionMethod.proportion(ticketsWithAV, ticketsNoAV, numDefects);
     	proportionMethod.defineAV(halfRelease);
 
+    	//calcolo buggyness
     	bugsPerRelease();
  
-    	
+    	//calcolo metriche
     	Metrics.calculate(repository);
+    	
     	CsvWriter.write(entries);
     	
-    	milestone.two.Main.run();
+    	
 
 	
 	}
 	
-	public static void write() {
-		//String projName ="BOOKKEEPER ";
-		int i;
-		FileWriter fileWriter = null;
-		try {
-	            fileWriter = null;
-	            
-	            String outname = PROJECTNAME + "VersionInfo.csv";
-	            
-					    //Name of CSV for output
-					    fileWriter = new FileWriter(outname);
-	            fileWriter.append("Index;Version ID;Version Name;Date");
-	            fileWriter.append("\n");
-	            //numVersions = releases.size();
-	            for ( i = 0; i < releases.size(); i++) {
-	               Integer index = i + 1;
-	               fileWriter.append(index.toString());
-	               fileWriter.append(";");
-	               fileWriter.append(releases.get(i).getVersionID());
-	               fileWriter.append(";");
-	               fileWriter.append(releases.get(i).getVersionName());
-	               fileWriter.append(";");
-	               fileWriter.append(releases.get(i).getDate().toString());
-	               fileWriter.append("\n");
-	            }
-
-	         } catch (Exception e) {
-	            System.out.println("Error in csv writer");
-	            e.printStackTrace();
-	         } finally {
-	            try {
-	               fileWriter.flush();
-	               fileWriter.close();
-	            } catch (IOException e) {
-	               System.out.println("Error while flushing/closing fileWriter !!!");
-	               e.printStackTrace();
-	            }
-	         }
-	         return;
-		
-	}
+	
 	
 	public static List<RevCommit> getCommitList (Git git) throws GitAPIException {
 		
@@ -167,7 +116,7 @@ public class MainControl {
 		RevCommit parent = null;
 		
 		if(commit.getParentCount() !=0) {
-			parent = (RevCommit)commit.getParent(0);
+			parent =commit.getParent(0);
 		}
 			
 		
@@ -453,12 +402,10 @@ public class MainControl {
 		
 		int i;
 		int j;
-		List<Integer> currAvList;
 		
 		
 		
 		for (i=0;i<ticketlist.size();i++) {
-			
 			
 			
 			//OV
@@ -476,6 +423,8 @@ public class MainControl {
 				
 				
 			}
+			
+			
 			
 			//FV
 			for (j=0;j<releases.size();j++) {
@@ -505,6 +454,7 @@ public class MainControl {
 
 	}
 	
+
 	public static void checkFvOvBecauseOfLastRelease(Ticket myTicket) {
 		
 		if (myTicket.getOV()==0) {
@@ -561,8 +511,7 @@ public class MainControl {
 		int i;
 		
 		for (i=0;i<list.size();i++) {
-			System.out.println(list.get(i).getTicketID()+"            IV: "+ list.get(i).getIV()+"           OV : "+list.get(i).getOV()+"             FV: "+list.get(i).getFV()+"             AV: "+list.get(i).getAV());
-			//Log.infoLog(ticketlist.get(i).getTicketID()+"            IV: "+ ticketlist.get(i).getIV()+"           OV : "+ticketlist.get(i).getOV()+"             FV: "+ticketlist.get(i).getFV()+"             AV: "+ticketlist.get(i).getAV());
+			Log.infoLog(ticketlist.get(i).getTicketID()+"            IV: "+ ticketlist.get(i).getIV()+"           OV : "+ticketlist.get(i).getOV()+"             FV: "+ticketlist.get(i).getFV()+"             AV: "+ticketlist.get(i).getAV());
 			
 		}
 	}
@@ -587,7 +536,7 @@ public class MainControl {
 		int i;
 		for(i=0;i<entries.size();i++) {
 			
-			if (entries.get(i).getRelease().getIndex()==myRelease && entries.get(i).getFilename().contains(myFileName) ) { //ci dovrei mettere contais per RENAME
+			if (entries.get(i).getRelease().getIndex()==myRelease && entries.get(i).getFilename().contains(myFileName) ) { 
 				
 				entries.get(i).setBuggy("Y");
 				
