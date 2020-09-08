@@ -3,7 +3,7 @@ package milestone.two;
 import java.util.ArrayList;
 import java.util.List;
 
-//import project.bookkeeper.Log;
+import project.bookkeeper.Log;
 import weka.attributeSelection.CfsSubsetEval;
 import weka.attributeSelection.GreedyStepwise;
 import weka.classifiers.Classifier;
@@ -13,6 +13,7 @@ import weka.classifiers.lazy.IBk;
 import weka.classifiers.meta.FilteredClassifier;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Instances;
+import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.AttributeSelection;
 import weka.filters.supervised.instance.Resample;
@@ -39,10 +40,25 @@ public class Classification {
 	}
 	
 	//metodo per classificazione di ogni parte del dataset (parti definite da walk forward)
-	public static List<EvaluationData> startEvaluation(List <DatasetPart> parts, int numInstances) throws Exception {
+	public static List<EvaluationData> startEvaluation(List <DatasetPart> parts, String arffPath) throws Exception {
 		
 		dbEntryList = new ArrayList<>();
-		dim=numInstances;
+		
+		Instances data = null;
+		   
+	    DataSource source;
+		
+	    try {
+			
+			source = new DataSource(arffPath);
+			data = source.getDataSet();
+			dim= data.numInstances();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		
 		List<String> classifierNames = new ArrayList<>();
 		classifierNames.add(RF);		//RANDOM FOREST
@@ -89,7 +105,7 @@ public class Classification {
 		
 	}
 		
-		public static void evaluation(DatasetPart part, String featureSelection, String balancingMode, String classifierName, List<EvaluationData> dbEntryList)  {
+		public static void evaluation(DatasetPart part, String featureSelection, String balancingMode, String classifierName, List<EvaluationData> dbEntryList) throws Exception {
 			
 			Classifier classifier = null;
 			Evaluation eval = null;
@@ -102,143 +118,111 @@ public class Classification {
 			testing.setClassIndex(numAttr - 1);
 			
 			
-			try {
-				// evaluation SENZA feature selection
-				if (featureSelection.equals(UNFILTERED_EVAL)) {		
+			// evaluation SENZA feature selection
+			if (featureSelection.equals(UNFILTERED_EVAL)) {		
+				
+				//no balancing
+				if (balancingMode.equals(NO_SAMPLING)) {
 					
-					//no balancing
-					if (balancingMode.equals(NO_SAMPLING)) {
-						
-						
-								
-						classifier = chooseClassifier(classifierName);
-						
-						classifier.buildClassifier(training);
-						
-						eval = new Evaluation(testing);
-						
-						eval.evaluateModel(classifier, testing);
-								
-						
-						
-					}
+					classifier = chooseClassifier(classifierName);
 					
-					//con balancing
-					else {
-						
-						FilteredClassifier fc = evaluationBalancing(part, training, classifierName, balancingMode);
-						fc.buildClassifier(training);
-						eval = new Evaluation(testing);	
-						eval.evaluateModel(fc, testing);
-						
+					classifier.buildClassifier(training);
+					eval = new Evaluation(testing);	
+					eval.evaluateModel(classifier, testing);
+					
+				}
+				//con balancing
+				else {
+					
+					FilteredClassifier fc = evaluationBalancing(part, training, classifierName, balancingMode);
+					fc.buildClassifier(training);
+					eval = new Evaluation(testing);	
+					eval.evaluateModel(fc, testing);
+					
 
-						
-					}
-					
 					
 				}
 				
-				// evaluation CON feature selection
-				else if (featureSelection.equals(FILTERED_EVAL)) {
-					
-					eval = featureSelection(part, training, testing, classifierName, balancingMode);		
-					
-				}
 				
-				else {	
-					
-					//Log.errorLog("Errore nella scelta della Feature Selection");
-					System.exit(-1);
-				}
-				
-				//setto in part (DatasetPart) i valori dell' evaluation 
-				setValues(part, eval, classifierName, featureSelection, balancingMode, dbEntryList);
-				 
-				
-			} catch (NullPointerException e) {
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 			
-					
- 		}
+			// evaluation CON feature selection
+			else if (featureSelection.equals(FILTERED_EVAL)) {
+				
+				eval = featureSelection(part, training, testing, classifierName, balancingMode);		
+				
+			}
+			
+			else {	
+				
+				Log.errorLog("Errore nella scelta della Feature Selection");
+				System.exit(-1);
+			}
+			
+			
+			//setto in part (DatasetPart) i valori dell' evaluation 
+			setValues(part, eval, classifierName, featureSelection, balancingMode, dbEntryList);		
+		}
 		
 		
-		public static Evaluation featureSelection (DatasetPart part, Instances training, Instances testing, String classifierName, String balancingMode)  {
+		public static Evaluation featureSelection (DatasetPart part, Instances training, Instances testing, String classifierName, String balancingMode) throws Exception {
 			
 			AttributeSelection filter = new AttributeSelection();
 			
 			CfsSubsetEval subsetEval = new CfsSubsetEval();		//evaluator
 			GreedyStepwise search = new GreedyStepwise();		//search algorithm
 			search.setSearchBackwards(true);
+
+			filter.setEvaluator(subsetEval);
+			filter.setSearch(search);
+			filter.setInputFormat(training);
+
+			Instances filteredTraining = Filter.useFilter(training, filter);
+			filteredTraining.setClassIndex(filteredTraining.numAttributes() - 1);
 			
-			Evaluation eval = null;
+			Instances filteredTesting = Filter.useFilter(testing, filter);	
+			filteredTesting.setClassIndex(filteredTesting.numAttributes() - 1);
 			
-			try {
-
-
-				filter.setEvaluator(subsetEval);
-				filter.setSearch(search);
-				filter.setInputFormat(training);
-				
-
-				Instances filteredTraining = Filter.useFilter(training, filter);
-				filteredTraining.setClassIndex(filteredTraining.numAttributes() - 1);
-				
-				Instances filteredTesting = Filter.useFilter(testing, filter);	
-				filteredTesting.setClassIndex(filteredTesting.numAttributes() - 1);
-				
-							
-				
-				if (balancingMode.isEmpty()) {			
-					//Log.errorLog("Errore nella Feature Selection");
-					System.exit(-1);		
-				}
-				
-				
-				
-				//senza balancing
-				else if (balancingMode.equals(NO_SAMPLING)){
-					
-					Classifier classifier = chooseClassifier(classifierName);
-								
-					classifier.buildClassifier(filteredTraining);
-					eval = new Evaluation(testing);
-					eval.evaluateModel(classifier, filteredTesting);
-					
-				}
-				
-				//con balancing
-				else {
-					
-					FilteredClassifier fc = evaluationBalancing(part,filteredTraining, classifierName, balancingMode);
-
-					fc.buildClassifier(filteredTraining);
-					eval = new Evaluation(testing);
-					eval.evaluateModel(fc, filteredTesting);
-					
-					
-					
-				}
-				
-				
-			} catch (Exception e) {
-				e.printStackTrace();
+			Evaluation eval = null;			
+			
+			if (balancingMode.isEmpty()) {			
+				Log.errorLog("Errore nella Feature Selection");
+				System.exit(-1);		
 			}
+			
+			
+			
+			//senza balancing
+			else if (balancingMode.equals(NO_SAMPLING)){
+				
+				Classifier classifier = chooseClassifier(classifierName);
+							
+				classifier.buildClassifier(filteredTraining);
+				eval = new Evaluation(testing);
+				eval.evaluateModel(classifier, filteredTesting);
+				
+			}
+			
+			//con balancing
+			else {
+				
+				FilteredClassifier fc = evaluationBalancing(part,filteredTraining, classifierName, balancingMode);
 
+				fc.buildClassifier(filteredTraining);
+				eval = new Evaluation(testing);
+				eval.evaluateModel(fc, filteredTesting);
+				
+			}
+			
+			
 			return eval;
-		
-			
-			
-			
 
 
 			
 		}
 		
 		
-		public static FilteredClassifier evaluationBalancing(DatasetPart part, Instances training, String classifierName, String balancingMode) throws Exception {
+		public static FilteredClassifier evaluationBalancing(DatasetPart part, Instances training, String classifierName, String balancingMode)  {
 			
 
 			FilteredClassifier fc = new FilteredClassifier();
@@ -266,67 +250,76 @@ public class Classification {
 			
 			else {	
 				
-				//Log.errorLog("Errore nel nome del classificatore");
+				Log.errorLog("Errore nel nome del classificatore");
 				System.exit(-1);
 			}
 
-			
-			//---- over sampling ----
-			if (balancingMode.equals(OVER_SAMPLING)){
+			try {
 				
-				Resample resample = new Resample();
-				
-				resample.setInputFormat(training);
-				resample.setNoReplacement(false);
-				resample.setBiasToUniformClass(0.1);
-				
-				double sizePerc = 2 * ( getSampleSizePerc(part,dim) );
+				//---- over sampling ----
+				if (balancingMode.equals(OVER_SAMPLING)){
+					
+					Resample resample = new Resample();
+					
+					
+						resample.setInputFormat(training);
+						
+					
+					
+					resample.setNoReplacement(false);
+					resample.setBiasToUniformClass(0.1);
+					
+					double sizePerc = 2 * ( getSampleSizePerc(part,dim) );
 
-				resample.setSampleSizePercent(sizePerc); //y/2 = %data appartenente a majority class
-				//majority class : numero d'istanze 
-				
-				String[] overOpts = new String[]{ "-B", "1.0", "-Z", "130.3"};
-				resample.setOptions(overOpts);
-				
-				fc.setFilter(resample);
-			}
-			
-			//---- under sampling ----
-			else if (balancingMode.equals(UNDER_SAMPLING)){
-							
-				SpreadSubsample  spreadSubsample = new SpreadSubsample();
-				String[] opts = new String[]{ "-M", "1.0"};
-				spreadSubsample.setOptions(opts);
-				
-				fc.setFilter(spreadSubsample);
-				
-			}
-			
-			//---- SMOTE ----
-			else if (balancingMode.equals(SMOTE)){
-				
-				weka.filters.supervised.instance.SMOTE smote = new weka.filters.supervised.instance.SMOTE();
-				smote.setInputFormat(training);
-				fc.setFilter(smote);
-
-<<<<<<< HEAD
+					resample.setSampleSizePercent(sizePerc); //y/2 = %data appartenente a majority class
+					//majority class : numero d'istanze 
+					
+					String[] overOpts = new String[]{ "-B", "1.0", "-Z", "130.3"};
+					
+						
+						resample.setOptions(overOpts);
+						
+					
+					fc.setFilter(resample);
 				}
-				//param input errato
+				
+				//---- under sampling ----
+				else if (balancingMode.equals(UNDER_SAMPLING)){
+								
+					SpreadSubsample  spreadSubsample = new SpreadSubsample();
+					String[] opts = new String[]{ "-M", "1.0"};
+					
+						
+						spreadSubsample.setOptions(opts);
+					
+					
+					fc.setFilter(spreadSubsample);
+					
+				}
+				
+				//---- SMOTE ----
+				else if (balancingMode.equals(SMOTE)){
+					
+					weka.filters.supervised.instance.SMOTE smote = new weka.filters.supervised.instance.SMOTE();
+					
+						
+						smote.setInputFormat(training);
+						
+					
+					fc.setFilter(smote);
+
+				}
+				//param input è errato
 				else {
 					
-					//Log.errorLog("Errore nella tecnica di balancing");
+					Log.errorLog("Errore nella tecnica di balancing");
 					System.exit(-1);
 					
 				}
-=======
-			}
-			//param input è errato
-			else {
->>>>>>> parent of f1f77f2... code smells
 				
-				Log.errorLog("Errore nella tecnica di balancing");
-				System.exit(-1);
+			} catch (Exception e) {
 				
+				e.printStackTrace();
 			}
 			
 			
@@ -384,7 +377,7 @@ public class Classification {
 			
 			else {	
 				
-				//Log.errorLog("Errore nel nome del classificatore");
+				Log.errorLog("Errore nel nome del classificatore");
 				System.exit(-1);
 			}
 			
@@ -448,7 +441,7 @@ public class Classification {
 				dbEntry.setBalancing(SMOTE);
 			}
 			
-			
+			System.out.println("\n"+classifierName+":");
 			dbEntry.setPrecision(p);
 			dbEntry.setPrecision(p);
 			dbEntry.setRecall(r);
@@ -461,7 +454,18 @@ public class Classification {
 			dbEntry.setFn(fn);
 			
 			
-		
+			System.out.println("balancing = "+dbEntry.getBalancing());
+			System.out.println("fs = "+dbEntry.getFeatureSelection());
+			System.out.println("precision = "+dbEntry.getPrecision());
+			System.out.println("recall = "+dbEntry.getRecall());
+			System.out.println("AUC = "+ dbEntry.getAuc());
+			System.out.println("kappa = "+dbEntry.getKappa());
+			System.out.println("TP = "+dbEntry.getTp());
+			System.out.println("FP = "+dbEntry.getFp());
+			System.out.println("TN = "+dbEntry.getTn());
+			System.out.println("FN = "+dbEntry.getFn());
+			
+			
 			dbEntryList.add(dbEntry);
 
 

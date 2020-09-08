@@ -10,6 +10,7 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -140,7 +141,7 @@ public class Metrics {
 		
 		RevWalk rw = new RevWalk(repository);
 		
-		// prendo tutti i commit nella release e calcolo le metriche per ogni file della release			
+		//mi prendo tutti i commit nella release e mi calcolo le metriche per ogni file della release			
 		nr = 0;
 		locAdded = 0;
 		locDeleted = 0;
@@ -211,7 +212,7 @@ public class Metrics {
 			//committati con file x . Quest lo devo fare per tutti i commit della release
 
 			
-			//numFiles e lista stringhe con nomi dei files toccati dal commit
+			//numFiles è lista stringhe con nomi dei files toccati dal commit
 			if (filesNamesList.contains(dbEntry.getFilename())) {
 				chgSetSizeOnce = filesNamesList.size()-1;			//per fare MAX e AVG
 				
@@ -256,6 +257,16 @@ public class Metrics {
 		dbEntry.setMaxChurn(max);
 		dbEntry.setAvgChurn(avg);
 
+		/*
+		
+		System.out.println("\n"+dbEntry.getFilename()+"   nr= "+dbEntry.getNr()+
+							"  churn= "+dbEntry.getChurn()+
+							"  max= "+dbEntry.getMaxChurn()+
+							"  avg= "+dbEntry.getAvgChurn()+
+							"  sizeLista= "+churnList.size()+
+							"  "+churnList);
+		 */
+		
 
 		
 		// ============= chgSetSize, MAX&AVG
@@ -268,6 +279,16 @@ public class Metrics {
 		dbEntry.setMaxChgSetSize(max);
 		dbEntry.setAvgChgSetSize(avg);
 		
+		/*
+		System.out.println("\n"+dbEntry.getFilename()+"   nr= "+dbEntry.getNr()+
+				"  chgSetSize= "+dbEntry.getChgSetSize()+
+				"  max= "+dbEntry.getMaxChgSetSize()+
+				"  avg= "+dbEntry.getAvgChgSetSize()+
+				"  sizeLista= "+chgSetSizeList.size()+
+				"  "+chgSetSizeList);
+		
+		System.out.println("----------------------------------------------------");
+		*/
 
 		
 		// ============= CLEAR LISTS =============

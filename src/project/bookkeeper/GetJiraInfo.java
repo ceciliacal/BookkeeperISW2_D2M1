@@ -22,11 +22,8 @@ import org.json.JSONArray;
 public class GetJiraInfo {
 
 		private static final String FIELDS = "fields";
-		private static final String projName = "ZOOKEEPER";
-<<<<<<< HEAD
-		//private static final String projName = "BOOKKEEPER";
-=======
->>>>>>> parent of f1f77f2... code smells
+		//private static final String projName = "ZOOKEEPER";
+		private static final String projName = "BOOKKEEPER";
 		
 		
 	
@@ -35,8 +32,8 @@ public class GetJiraInfo {
 		}
 
 	
-		//get Release Info: popola liste su release 
-
+		//get Release Info: popola liste su release (attributi di questa classe)
+		//ex createCsvReleaseInfo
 		public static List<Release> getReleaseInfo()  throws IOException, JSONException {
 			
 			Map<LocalDateTime, String> releaseNames;
@@ -44,7 +41,6 @@ public class GetJiraInfo {
 			List<LocalDateTime> releases;
 			
 			List<Release> myReleases = new ArrayList<>();
-			//String projName ="BOOKKEEPER ";
 			int j;
 			int i;
 			
@@ -107,6 +103,7 @@ public class GetJiraInfo {
 
 		   List<Ticket> ticketList = new ArrayList<>();
 		   
+	  	   //String projName ="BOOKKEEPER";	  	   
 		   Integer i=0; //inizio index da cui prendo file json
 		   Integer j=0; //fine index del file json
 		   Integer total=1; 
@@ -208,7 +205,7 @@ public class GetJiraInfo {
 			   }
 		   }
 		   
-		   res=-1;		//in questo caso, AV di Jira NON e VALIDA! controllo lo faccio in metodo setIvOvFv
+		   res=-1;		//in questo caso, AV di Jira NON è VALIDA! controllo lo faccio in metodo setIvOvFv
 		   return res;
 	   
 	   }
