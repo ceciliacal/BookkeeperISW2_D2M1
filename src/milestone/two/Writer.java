@@ -28,8 +28,12 @@ public class Writer {
 	
 	public static void write (List<EvaluationData> list) throws FileNotFoundException {
 		
+<<<<<<< HEAD
 		//try (PrintWriter writer = new PrintWriter(new File("outputFinali\\bookkeeper_WekaDataset_m2d2output.csv"))) {
 		try (PrintWriter writer = new PrintWriter(new File("outputFinali\\zookeeper_WekaDataset_m2d2output.csv"))) {
+=======
+		try (PrintWriter writer = new PrintWriter(new File("csv\\m2d2outputFINALE.csv"))) {
+>>>>>>> parent of f1f77f2... code smells
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("Dataset");

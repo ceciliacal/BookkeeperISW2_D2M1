@@ -23,7 +23,10 @@ public class GetJiraInfo {
 
 		private static final String FIELDS = "fields";
 		private static final String projName = "ZOOKEEPER";
+<<<<<<< HEAD
 		//private static final String projName = "BOOKKEEPER";
+=======
+>>>>>>> parent of f1f77f2... code smells
 		
 		
 	
@@ -41,6 +44,7 @@ public class GetJiraInfo {
 			List<LocalDateTime> releases;
 			
 			List<Release> myReleases = new ArrayList<>();
+			//String projName ="BOOKKEEPER ";
 			int j;
 			int i;
 			

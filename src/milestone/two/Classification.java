@@ -13,7 +13,6 @@ import weka.classifiers.lazy.IBk;
 import weka.classifiers.meta.FilteredClassifier;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Instances;
-import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.AttributeSelection;
 import weka.filters.supervised.instance.Resample;
@@ -40,25 +39,10 @@ public class Classification {
 	}
 	
 	//metodo per classificazione di ogni parte del dataset (parti definite da walk forward)
-	public static List<EvaluationData> startEvaluation(List <DatasetPart> parts, String arffPath) throws Exception {
+	public static List<EvaluationData> startEvaluation(List <DatasetPart> parts, int numInstances) throws Exception {
 		
 		dbEntryList = new ArrayList<>();
-		
-		Instances data = null;
-		   
-	    DataSource source;
-		
-	    try {
-			
-			source = new DataSource(arffPath);
-			data = source.getDataSet();
-			dim= data.numInstances();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
+		dim=numInstances;
 		
 		List<String> classifierNames = new ArrayList<>();
 		classifierNames.add(RF);		//RANDOM FOREST
@@ -254,7 +238,7 @@ public class Classification {
 		}
 		
 		
-		public static FilteredClassifier evaluationBalancing(DatasetPart part, Instances training, String classifierName, String balancingMode)  {
+		public static FilteredClassifier evaluationBalancing(DatasetPart part, Instances training, String classifierName, String balancingMode) throws Exception {
 			
 
 			FilteredClassifier fc = new FilteredClassifier();
@@ -286,60 +270,46 @@ public class Classification {
 				System.exit(-1);
 			}
 
-			try {
+			
+			//---- over sampling ----
+			if (balancingMode.equals(OVER_SAMPLING)){
 				
-				//---- over sampling ----
-				if (balancingMode.equals(OVER_SAMPLING)){
-					
-					Resample resample = new Resample();
-					
-					
-						resample.setInputFormat(training);
-						
-					
-					
-					resample.setNoReplacement(false);
-					resample.setBiasToUniformClass(0.1);
-					
-					double sizePerc = 2 * ( getSampleSizePerc(part,dim) );
+				Resample resample = new Resample();
+				
+				resample.setInputFormat(training);
+				resample.setNoReplacement(false);
+				resample.setBiasToUniformClass(0.1);
+				
+				double sizePerc = 2 * ( getSampleSizePerc(part,dim) );
 
-					resample.setSampleSizePercent(sizePerc); //y/2 = %data appartenente a majority class
-					//majority class : numero d'istanze 
-					
-					String[] overOpts = new String[]{ "-B", "1.0", "-Z", "130.3"};
-					
-						
-						resample.setOptions(overOpts);
-						
-					
-					fc.setFilter(resample);
-				}
+				resample.setSampleSizePercent(sizePerc); //y/2 = %data appartenente a majority class
+				//majority class : numero d'istanze 
 				
-				//---- under sampling ----
-				else if (balancingMode.equals(UNDER_SAMPLING)){
-								
-					SpreadSubsample  spreadSubsample = new SpreadSubsample();
-					String[] opts = new String[]{ "-M", "1.0"};
-					
-						
-						spreadSubsample.setOptions(opts);
-					
-					
-					fc.setFilter(spreadSubsample);
-					
-				}
+				String[] overOpts = new String[]{ "-B", "1.0", "-Z", "130.3"};
+				resample.setOptions(overOpts);
 				
-				//---- SMOTE ----
-				else if (balancingMode.equals(SMOTE)){
-					
-					weka.filters.supervised.instance.SMOTE smote = new weka.filters.supervised.instance.SMOTE();
-					
-						
-						smote.setInputFormat(training);
-						
-					
-					fc.setFilter(smote);
+				fc.setFilter(resample);
+			}
+			
+			//---- under sampling ----
+			else if (balancingMode.equals(UNDER_SAMPLING)){
+							
+				SpreadSubsample  spreadSubsample = new SpreadSubsample();
+				String[] opts = new String[]{ "-M", "1.0"};
+				spreadSubsample.setOptions(opts);
+				
+				fc.setFilter(spreadSubsample);
+				
+			}
+			
+			//---- SMOTE ----
+			else if (balancingMode.equals(SMOTE)){
+				
+				weka.filters.supervised.instance.SMOTE smote = new weka.filters.supervised.instance.SMOTE();
+				smote.setInputFormat(training);
+				fc.setFilter(smote);
 
+<<<<<<< HEAD
 				}
 				//param input errato
 				else {
@@ -348,10 +318,15 @@ public class Classification {
 					System.exit(-1);
 					
 				}
+=======
+			}
+			//param input è errato
+			else {
+>>>>>>> parent of f1f77f2... code smells
 				
-			} catch (Exception e) {
+				Log.errorLog("Errore nella tecnica di balancing");
+				System.exit(-1);
 				
-				e.printStackTrace();
 			}
 			
 			
