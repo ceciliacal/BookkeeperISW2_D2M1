@@ -19,7 +19,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 
-public class GetJiraInfoBoundary {
+public class GetJiraInfo {
 
 		private static final String FIELDS = "fields";
 		private static final String projName = "ZOOKEEPER";
@@ -27,7 +27,7 @@ public class GetJiraInfoBoundary {
 		
 		
 	
-		private GetJiraInfoBoundary() {
+		private GetJiraInfo() {
 	     throw new IllegalStateException("Utility class");
 		}
 

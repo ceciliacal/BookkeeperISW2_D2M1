@@ -19,7 +19,7 @@ import weka.filters.supervised.attribute.AttributeSelection;
 import weka.filters.supervised.instance.Resample;
 import weka.filters.supervised.instance.SpreadSubsample;
 
-public class ClassificationControl {
+public class Classification {
 	
 	public static final String RF="Random Forest";
 	public static final String NB="Naive Bayes";
@@ -36,7 +36,7 @@ public class ClassificationControl {
 	protected static List<EvaluationData> dbEntryList;
 	protected static int dim;
 	
-	private ClassificationControl() {	
+	private Classification() {	
 	}
 	
 	//metodo per classificazione di ogni parte del dataset (parti definite da walk forward)
@@ -105,7 +105,7 @@ public class ClassificationControl {
 		
 	}
 		
-		public static void evaluation(DatasetPart part, String featureSelection, String balancingMode, String classifierName, List<EvaluationData> dbEntryList) throws Exception {
+		public static void evaluation(DatasetPart part, String featureSelection, String balancingMode, String classifierName, List<EvaluationData> dbEntryList)  {
 			
 			Classifier classifier = null;
 			Evaluation eval = null;
@@ -118,54 +118,65 @@ public class ClassificationControl {
 			testing.setClassIndex(numAttr - 1);
 			
 			
-			// evaluation SENZA feature selection
-			if (featureSelection.equals(UNFILTERED_EVAL)) {		
-				
-				//no balancing
-				if (balancingMode.equals(NO_SAMPLING)) {
-					
-					classifier = chooseClassifier(classifierName);
-					
-					classifier.buildClassifier(training);
-					eval = new Evaluation(testing);	
-					eval.evaluateModel(classifier, testing);
-					
-				}
-				//con balancing
-				else {
-					
-					FilteredClassifier fc = evaluationBalancing(part, training, classifierName, balancingMode);
-					fc.buildClassifier(training);
-					eval = new Evaluation(testing);	
-					eval.evaluateModel(fc, testing);
-					
-
-					
-				}
-				
-				
-			}
-			
-			// evaluation CON feature selection
-			else if (featureSelection.equals(FILTERED_EVAL)) {
-				
-				eval = featureSelection(part, training, testing, classifierName, balancingMode);		
-				
-			}
-			
-			else {	
-				
-				Log.errorLog("Errore nella scelta della Feature Selection");
-				System.exit(-1);
-			}
-			
-			
-			//setto in part (DatasetPart) i valori dell' evaluation 
 			try {
+				// evaluation SENZA feature selection
+				if (featureSelection.equals(UNFILTERED_EVAL)) {		
+					
+					//no balancing
+					if (balancingMode.equals(NO_SAMPLING)) {
+						
+						
+								
+						classifier = chooseClassifier(classifierName);
+						
+						classifier.buildClassifier(training);
+						
+						eval = new Evaluation(testing);
+						
+						eval.evaluateModel(classifier, testing);
+								
+						
+						
+					}
+					
+					//con balancing
+					else {
+						
+						FilteredClassifier fc = evaluationBalancing(part, training, classifierName, balancingMode);
+						fc.buildClassifier(training);
+						eval = new Evaluation(testing);	
+						eval.evaluateModel(fc, testing);
+						
+
+						
+					}
+					
+					
+				}
+				
+				// evaluation CON feature selection
+				else if (featureSelection.equals(FILTERED_EVAL)) {
+					
+					eval = featureSelection(part, training, testing, classifierName, balancingMode);		
+					
+				}
+				
+				else {	
+					
+					Log.errorLog("Errore nella scelta della Feature Selection");
+					System.exit(-1);
+				}
+				
+				//setto in part (DatasetPart) i valori dell' evaluation 
 				setValues(part, eval, classifierName, featureSelection, balancingMode, dbEntryList);
+				 
+				
 			} catch (NullPointerException e) {
 				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			
 					
  		}
 		

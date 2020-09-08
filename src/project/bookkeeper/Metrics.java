@@ -10,19 +10,18 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
-public class MetricsCalculatorControl {
+public class Metrics {
 
 	public static final List<RevCommit> commitList= MainControl.myCommitsList;
 	protected static final List<String> classesList= MainControl.classesList;
 	
-	private MetricsCalculatorControl() {
+	private Metrics() {
 	    throw new IllegalStateException("Utility class");
 	 }
 	
@@ -130,7 +129,7 @@ public class MetricsCalculatorControl {
 		Integer max;
 		int avg;
 		
-		ProportionControl computeAvg = new ProportionControl();	//lo uso successivamente per il calcolo delle medie (AVG)
+		ProportionMethod computeAvg = new ProportionMethod();	//lo uso successivamente per il calcolo delle medie (AVG)
 		
 		List<RevCommit> comList;
 		List<Integer> churnList=  new ArrayList <>();

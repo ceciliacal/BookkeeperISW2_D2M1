@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ProportionControl {
+public class ProportionMethod {
 	
 	public static final List<Ticket> ticketlist= MainControl.ticketlist;
 	private static final String INCONSISTENT_VERSIONS = "ERRORE: versioni inconsistenti.";
@@ -193,9 +193,8 @@ public class ProportionControl {
 					 calculatePredictedIV(noIv.get(i));
 					 
 					 if(!checkVersions(noIv.get(i).getIV(), noIv.get(i).getOV(), noIv.get(i).getFV())){
-						 System.out.println("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
+						 Log.errorLog("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
 
-						 //return;
 						 
 					 }
 					 				 
@@ -216,9 +215,9 @@ public class ProportionControl {
 				 calculatePredictedIV(noIv.get(i));
 				 
 				 if(!checkVersions(noIv.get(i).getIV(), noIv.get(i).getOV(), noIv.get(i).getFV())){
-					 System.out.println("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
+					 Log.errorLog("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
 
-					 //return;
+					 
 					 
 				 }
 				

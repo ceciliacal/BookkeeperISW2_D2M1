@@ -3,12 +3,11 @@ package project.bookkeeper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
 import java.util.List;
 
-public class CsvWriterBoundary {	
+public class CsvWriter {	
 	
-	private CsvWriterBoundary() {
+	private CsvWriter() {
 	    throw new IllegalStateException("Utility class");
 	  }
 	
@@ -76,9 +75,7 @@ public class CsvWriterBoundary {
 		    		  break;		    		  
 		    	  }
 		    	  else {
-		    	  
-		    	  //if(list.get(i).getRelease().getIndex()<halfRelease) {
-		      
+		    	  		      
 				      sb.append(list.get(i).getRelease().getIndex());	//release index
 				      sb.append(',');
 				      sb.append(list.get(i).getFilename());	//filename
