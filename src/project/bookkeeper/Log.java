@@ -6,6 +6,7 @@ import java.util.logging.*;
 
 public class Log {
 
+	//Class which creates  2 log (console e file) 
 	
 	private Log() {
 		throw new IllegalStateException("Log class");

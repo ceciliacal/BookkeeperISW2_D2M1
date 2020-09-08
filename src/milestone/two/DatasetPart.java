@@ -19,8 +19,15 @@ public class DatasetPart {
 	private double percBugTesting;
 
 	
+	public DatasetPart(int run, Instances train, Instances test) {
+		this.run=run;
+		this.training=train;
+		this.testing=test;
+		this.initTrainingRel();
+	}
 	
 	public DatasetPart( Instances train, Instances test) {
+		this.run=run;
 		this.training=train;
 		this.testing=test;
 		this.initTrainingRel();

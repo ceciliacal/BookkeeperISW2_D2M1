@@ -3,6 +3,7 @@ package project.bookkeeper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class CsvWriter {	
@@ -11,14 +12,13 @@ public class CsvWriter {
 	    throw new IllegalStateException("Utility class");
 	  }
 	
-	private static final int HALFRELEASE = MainControl.halfRelease;
-	private static final String PROJECTNAME = MainControl.PROJECTNAME;
+	public static final int halfRelease = MainControl.halfRelease;
 
 
 	
 	public static void write (List<Data> list) {
 		
-		try (PrintWriter writer = new PrintWriter(new File("outputFinali\\"+PROJECTNAME+"_BuggyDataset_outputD2M1.csv"))) {
+		try (PrintWriter writer = new PrintWriter(new File("D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetVirgole VERSIONE FINALE.csv"))) {
 
 		      StringBuilder sb = new StringBuilder();
 		      sb.append("Release");
@@ -71,11 +71,13 @@ public class CsvWriter {
 
 		      for (int i=0;i<list.size();i++) {	  
 		    	  
-		    	  if (list.get(i).getRelease().getIndex()>HALFRELEASE){
+		    	  if (list.get(i).getRelease().getIndex()>halfRelease){
 		    		  break;		    		  
 		    	  }
 		    	  else {
-		    	  		      
+		    	  
+		    	  //if(list.get(i).getRelease().getIndex()<halfRelease) {
+		      
 				      sb.append(list.get(i).getRelease().getIndex());	//release index
 				      sb.append(',');
 				      sb.append(list.get(i).getFilename());	//filename

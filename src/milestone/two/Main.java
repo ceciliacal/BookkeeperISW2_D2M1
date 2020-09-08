@@ -28,28 +28,24 @@ public class Main {
 		   List<DatasetPart> parts;
 		  
 		   releases=MainControl.getReleases();
-		 
 		   
-		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\csv\\zookeeper_BuggyDataset_outputD2M1.csv";
-		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\arff\\datasetWekaZook.arff";
+		   csvPath= "D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetVirgole VERSIONE FINALE.csv";
+		   arffPath= "D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetWeka.arff";
 		   
-		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\bookkeeper_BuggyDataset_outputD2M1.csv";
-		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\datasetWekaBookk.arff";
+		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetVirgole VERSIONE FINALE.csv";
+		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\datasetWeka.arff";
 
 		   csv2arff(csvPath,arffPath);
 		   
 		   parts = walkForward(arffPath);
-		   System.out.println("prova");
-		  
+		  //ciao
 		   
 		   List<EvaluationData> dbEntryList = Classification.startEvaluation(parts,arffPath);
-		   System.out.println("prova");
-		   //Writer.write(dbEntryList);
+		   Writer.write(dbEntryList);
 		   
 		   
 	   }
 	   
-
 	   public static void run() throws Exception {
 		   
 		   String csvPath;
@@ -58,15 +54,17 @@ public class Main {
 		   List<DatasetPart> parts;
 		  
 		   releases=MainControl.getReleases();
-		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\csv\\zookeeper_BuggyDataset_outputD2M1.csv";
-		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\arff\\datasetWekaZook.arff";
 		   
-		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\bookkeeper_BuggyDataset_outputD2M1.csv";
-		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\datasetWekaBookk.arff";
+		   csvPath= "D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetVirgole VERSIONE FINALE.csv";
+		   arffPath= "D:\\Cecilia\\Desktop\\zookeeper\\csv\\ZOOKEEPER_datasetWeka.arff";
+		   
+		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\csv\\datasetVirgole VERSIONE FINALE.csv";
+		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\csv\\datasetWeka.arff";
 				   
 		   csv2arff(csvPath,arffPath);
 		   
 		   parts = walkForward(arffPath);
+		   
 		   
 		   List<EvaluationData> dbEntryList = Classification.startEvaluation(parts,arffPath);
 		   Writer.write(dbEntryList);
@@ -92,7 +90,46 @@ public class Main {
 	 
 	
 	   
-	  
+	   public static void getInstances(Instance instance, List<DatasetPart> parts, Instances data, int run) {
+		   
+		   int endTraining = run-1;		//l'ultima release su cui faccio training è la nRun-1
+		   int testingRelease = run;	//la release su cui faccio testing coincide con il nRun
+		   
+		   int numTraining=0;			//conta quante istanze devo prendere per costruire training set
+		   int numTesting=0;			//conta quante istante devo prendere per costruire testing set 
+		   
+		   for (int i=0; i<testingRelease; i++) {	//scorro le release
+			  
+			   //training
+			   if (i<=endTraining) {	
+				   
+				   if (instance.value(0)==releases.get(i)) {
+						
+						numTraining++;
+					}
+				   
+			   }
+			   
+			   //testing
+			   else {
+				
+				if (instance.value(0)==releases.get(i)) {
+					
+					numTesting++;
+				}
+			   
+			   
+			   }
+		   }
+		   
+		   Instances training = new Instances(data, 0, numTraining);
+		   Instances testing = new Instances(data, numTraining, numTesting);
+		   
+		   parts.add(new DatasetPart (run, training, testing));
+		   
+		   
+		   
+	   }
 	   
 	 
 	   
@@ -111,12 +148,13 @@ public class Main {
 				e.printStackTrace();
 			}
 			
-			if (data.classIndex() == -1) {
-			       data.setClassIndex(data.numAttributes() - 1);
-			    }
+		    if (data.classIndex() == -1) {
+		       data.setClassIndex(data.numAttributes() - 1);
+		    }
 		    
-		  
 		    
+		    Instances training=null;
+		    Instances test=null;
 		    
 		    int numTraining;
 		    int numTesting;
@@ -127,45 +165,60 @@ public class Main {
 		    
 		    
 		    for(int j=2; j <=releases.size(); j++) {
-	    	
-	    	  numTraining=0;
-		      numTesting=0;
-	    	
-		    
-			   for(int i=0; i<data.size();i++) {
+		    	
+		    	 numTraining=0;
+			     numTesting=0;
+		    	
+		    	
 				   
-				   int release = Integer.parseInt(data.get(i).toString(0));
-				   
-				   if(release<j) {
+				    training = new Instances(data,0);
+				    test = new Instances(data,0);
+				    
+				    
+				   for(int i=0; i<data.size();i++) {
 					   
-					   numTraining++;
+					   int release = Integer.parseInt(data.get(i).toString(0));
 					   
-				
-					   
-				   }else if(release == j) {
-					   
-					   numTesting++;
-					
+					   if(release<j) {
+						   
+						   numTraining++;
+						   
+						   training.add(data.get(i));
+						 
+						   
+					   }else if(release == j) {
+						   
+						   numTesting++;
+						   test.add(data.get(i));
+					   }
 				   }
-			   }
 				   
 				   
 				   
-					   
-			    training2 = new Instances(data, 0, numTraining);
-			    testing2 = new Instances(data, numTraining, numTesting);
-			    part = new DatasetPart (training2, testing2);
-			    parts.add(part);
-		    
+				   
+				    training2 = new Instances(data, 0, numTraining);
+				    testing2 = new Instances(data, numTraining, numTesting);
+				    part = new DatasetPart (training2, testing2);
+				    parts.add(part);
 		    }
 		    
+		    System.out.println("\n\n=== training2: "+part.getTraining());
+		    System.out.println("\n\n=== testing2: "+part.getTesting());
+		    System.out.println("\n\n=== parts size: "+parts.size());
+		    
+		    
+		  
 		
 	   
 		    getNumTrainingRelease(parts );
 		    calculatenumDefectsInTraining(parts,  data );
 		    calculatenumDefectsInTesting(parts,  data );
 		    
-		  
+		    for (int i=0; i<parts.size();i++) {
+				   System.out.println("\n\n=== part"+i+"  tr=  "+parts.get(i).getTrainingRel()+"   test= "+parts.get(i).getTestingRel());
+				   System.out.println("\n\n=== part"+i+"    percTraining= "+parts.get(i).getPercTraining()+"  bugsTraining=  "+parts.get(i).getPercBugTraining()+"   test= "+parts.get(i).getPercBugTesting());
+			   }
+		    
 	   
 	   return parts;
 	   
