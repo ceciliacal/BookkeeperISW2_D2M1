@@ -1,0 +1,174 @@
+﻿Open(
+	"D:\Cecilia\Desktop\bookkeeperISW2_D2M1\bookkeeperISW2_D2M1\grafici\bookkeeper_WekaDataset_m2d2output.jmp"
+);
+Graph Builder(
+	Size( 1799, 920 ),
+	Show Control Panel( 0 ),
+	Grid Color( "Medium Light Gray" ),
+	Variables(
+		X( :FeatureSelection ),
+		Y( :Precision ),
+		Group X( :Classifier ),
+		Group Y( :Balancing )
+	),
+	Elements( Box Plot( X, Y, Legend( 2 ), Name( "5 Number Summary" )(1) ) ),
+	SendToReport(
+		Dispatch(
+			{},
+			"400",
+			ScaleBox,
+			{Legend Model( 2, Base( 1, 0, 0, Item ID( "Precision", 2 ) ) )}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox,
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				{Line Color( "Medium Dark Red" ), Line Width( 2 )}
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				{Line Color( "Medium Dark Blue" ), Line Width( 2 )}
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 2 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				{Line Color( "Medium Dark Red" ), Line Width( 2 )}
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				{Line Color( "Medium Dark Blue" ), Line Width( 2 )}
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 3 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				{Line Color( "Medium Dark Red" ), Line Width( 2 )}
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				{Line Color( "Medium Dark Blue" ), Line Width( 2 )}
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 4 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				{Line Color( "Medium Dark Red" ), Line Width( 2 )}
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				{Line Color( "Medium Dark Blue" ), Line Width( 2 )}
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 5 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				{Shortest Half Color( "Black" ), Line Color( "Medium Dark Red" ),
+				Line Width( 2 )}
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				{Line Color( "Medium Dark Blue" ), Line Width( 2 )}
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 6 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				{Line Color( "Medium Dark Red" ), Line Width( 2 )}
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				{Line Color( "Medium Dark Blue" ), Line Width( 2 )}
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 7 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				{Line Color( "Medium Dark Red" ), Line Width( 2 )}
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				{Line Color( "Medium Dark Blue" ), Line Width( 2 )}
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 8 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				{Line Color( "Medium Dark Red" ), Line Width( 2 )}
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				{Line Color( "Medium Dark Blue" ), Line Width( 2 )}
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 9 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				Line Color( "Medium Dark Red" )
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				Line Color( "Medium Dark Blue" )
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 10 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				Line Color( "Medium Dark Red" )
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				Line Color( "Medium Dark Blue" )
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 11 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				Line Color( "Medium Dark Red" )
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				Line Color( "Medium Dark Blue" )
+			)}
+		),
+		Dispatch(
+			{},
+			"Graph Builder",
+			FrameBox( 12 ),
+			{DispatchSeg(
+				Box Plot Seg( "Box Plot (Best First)" ),
+				Line Color( "Medium Dark Red" )
+			), DispatchSeg(
+				Box Plot Seg( "Box Plot (No)" ),
+				Line Color( "Medium Dark Blue" )
+			)}
+		),
+		Dispatch(
+			{},
+			"400",
+			LegendBox,
+			{Legend Position( {2, [0, -1]} ), Position( {0, -1} )}
+		)
+	)
+);

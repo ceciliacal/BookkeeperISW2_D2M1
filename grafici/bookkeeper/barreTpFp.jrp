@@ -1,0 +1,27 @@
+﻿Open(
+	"D:\Cecilia\Desktop\bookkeeperISW2_D2M1\bookkeeperISW2_D2M1\grafici\bookkeeper_WekaDataset_m2d2output.jmp"
+);
+Graph Builder(
+	Size( 1538, 917 ),
+	Variables(
+		X( :FeatureSelection ),
+		Y( :TP ),
+		Y( :TP, Position( 1 ) ),
+		Y( :FP, Position( 1 ) ),
+		Y( :TN, Position( 1 ) ),
+		Y( :FN, Position( 1 ) ),
+		Group X( :Classifier ),
+		Group Y( :Balancing )
+	),
+	Elements( Bar( X, Y( 1 ), Y( 3 ), Y( 4 ), Y( 5 ), Legend( 2 ) ) ),
+	SendToReport(
+		Dispatch( {"Bar"}, "", OutlineBox, {Close( 0 )} ),
+		Dispatch(
+			{},
+			"graph title",
+			TextEditBox,
+			{Set Text( "TP, FP, TN, FN rispetto a FeatureSelection" )}
+		),
+		Dispatch( {}, "Y title", TextEditBox, {Set Text( "TP, FP, TN, FN " )} )
+	)
+);

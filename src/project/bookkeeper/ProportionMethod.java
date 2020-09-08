@@ -35,7 +35,7 @@ public class ProportionMethod {
 					
 			}
 			
-			//questi hanno l'AV	(???)
+			//questi hanno l'AV	
 			else {	
 				
 				//se ticket ha IV>OV o IV>FV, significa che AV presa da Jira non e affidabile e quindi la ricalcolo usando proportion
@@ -90,7 +90,7 @@ public class ProportionMethod {
 			
 			if (ticketlist.get(i).getIV()!=0) {
 
-				//FV!=IV && FV!=OV -> senno P=0
+				//FV!=IV && FV!=OV -> altrimenti P=0
 				if ((ticketlist.get(i).getFV()!=ticketlist.get(i).getIV()) && (ticketlist.get(i).getFV()!=ticketlist.get(i).getOV())&&(ticketlist.get(i).getIV()<=ticketlist.get(i).getOV())){
 					
 						goodProp.add(ticketlist.get(i));
@@ -127,8 +127,6 @@ public class ProportionMethod {
 
 		dim= (int) Math.round(perc);	//dimensione della moving window: arrotondamento di perc (puo essere sia x difetto, sia x eccesso)
 		
-		 System.out.println("\n\n ========= DIM moving window= "+dim+"\n");
-
 		Collections.reverse(mytickets);
 		Collections.reverse(noIv);
 		
@@ -195,9 +193,8 @@ public class ProportionMethod {
 					 calculatePredictedIV(noIv.get(i));
 					 
 					 if(!checkVersions(noIv.get(i).getIV(), noIv.get(i).getOV(), noIv.get(i).getFV())){
-						 System.out.println("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
+						 Log.errorLog("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
 
-						 //return;
 						 
 					 }
 					 				 
@@ -218,9 +215,9 @@ public class ProportionMethod {
 				 calculatePredictedIV(noIv.get(i));
 				 
 				 if(!checkVersions(noIv.get(i).getIV(), noIv.get(i).getOV(), noIv.get(i).getFV())){
-					 System.out.println("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
+					 Log.errorLog("--------ticket versioni incons: "+noIv.get(i).getTicketID()+"  IV= "+noIv.get(i).getIV() +"    OV="+noIv.get(i).getOV() +"   FV="+noIv.get(i).getFV()+"   p= "+noIv.get(i).getP());
 
-					 //return;
+					 
 					 
 				 }
 				

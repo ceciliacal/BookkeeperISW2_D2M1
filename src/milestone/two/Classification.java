@@ -3,7 +3,7 @@ package milestone.two;
 import java.util.ArrayList;
 import java.util.List;
 
-import project.bookkeeper.Log;
+//import project.bookkeeper.Log;
 import weka.attributeSelection.CfsSubsetEval;
 import weka.attributeSelection.GreedyStepwise;
 import weka.classifiers.Classifier;
@@ -105,7 +105,7 @@ public class Classification {
 		
 	}
 		
-		public static void evaluation(DatasetPart part, String featureSelection, String balancingMode, String classifierName, List<EvaluationData> dbEntryList) throws Exception {
+		public static void evaluation(DatasetPart part, String featureSelection, String balancingMode, String classifierName, List<EvaluationData> dbEntryList)  {
 			
 			Classifier classifier = null;
 			Evaluation eval = null;
@@ -118,104 +118,136 @@ public class Classification {
 			testing.setClassIndex(numAttr - 1);
 			
 			
-			// evaluation SENZA feature selection
-			if (featureSelection.equals(UNFILTERED_EVAL)) {		
-				
-				//no balancing
-				if (balancingMode.equals(NO_SAMPLING)) {
+			try {
+				// evaluation SENZA feature selection
+				if (featureSelection.equals(UNFILTERED_EVAL)) {		
 					
-					classifier = chooseClassifier(classifierName);
+					//no balancing
+					if (balancingMode.equals(NO_SAMPLING)) {
+						
+						
+								
+						classifier = chooseClassifier(classifierName);
+						
+						classifier.buildClassifier(training);
+						
+						eval = new Evaluation(testing);
+						
+						eval.evaluateModel(classifier, testing);
+								
+						
+						
+					}
 					
-					classifier.buildClassifier(training);
-					eval = new Evaluation(testing);	
-					eval.evaluateModel(classifier, testing);
-					
-				}
-				//con balancing
-				else {
-					
-					FilteredClassifier fc = evaluationBalancing(part, training, classifierName, balancingMode);
-					fc.buildClassifier(training);
-					eval = new Evaluation(testing);	
-					eval.evaluateModel(fc, testing);
-					
+					//con balancing
+					else {
+						
+						FilteredClassifier fc = evaluationBalancing(part, training, classifierName, balancingMode);
+						fc.buildClassifier(training);
+						eval = new Evaluation(testing);	
+						eval.evaluateModel(fc, testing);
+						
 
+						
+					}
+					
 					
 				}
 				
+				// evaluation CON feature selection
+				else if (featureSelection.equals(FILTERED_EVAL)) {
+					
+					eval = featureSelection(part, training, testing, classifierName, balancingMode);		
+					
+				}
 				
+				else {	
+					
+					//Log.errorLog("Errore nella scelta della Feature Selection");
+					System.exit(-1);
+				}
+				
+				//setto in part (DatasetPart) i valori dell' evaluation 
+				setValues(part, eval, classifierName, featureSelection, balancingMode, dbEntryList);
+				 
+				
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
-			// evaluation CON feature selection
-			else if (featureSelection.equals(FILTERED_EVAL)) {
-				
-				eval = featureSelection(part, training, testing, classifierName, balancingMode);		
-				
-			}
-			
-			else {	
-				
-				Log.errorLog("Errore nella scelta della Feature Selection");
-				System.exit(-1);
-			}
-			
-			
-			//setto in part (DatasetPart) i valori dell' evaluation 
-			setValues(part, eval, classifierName, featureSelection, balancingMode, dbEntryList);		
-		}
+					
+ 		}
 		
 		
-		public static Evaluation featureSelection (DatasetPart part, Instances training, Instances testing, String classifierName, String balancingMode) throws Exception {
+		public static Evaluation featureSelection (DatasetPart part, Instances training, Instances testing, String classifierName, String balancingMode)  {
 			
 			AttributeSelection filter = new AttributeSelection();
 			
 			CfsSubsetEval subsetEval = new CfsSubsetEval();		//evaluator
 			GreedyStepwise search = new GreedyStepwise();		//search algorithm
 			search.setSearchBackwards(true);
+			
+			Evaluation eval = null;
+			
+			try {
 
-			filter.setEvaluator(subsetEval);
-			filter.setSearch(search);
-			filter.setInputFormat(training);
 
-			Instances filteredTraining = Filter.useFilter(training, filter);
-			filteredTraining.setClassIndex(filteredTraining.numAttributes() - 1);
-			
-			Instances filteredTesting = Filter.useFilter(testing, filter);	
-			filteredTesting.setClassIndex(filteredTesting.numAttributes() - 1);
-			
-			Evaluation eval = null;			
-			
-			if (balancingMode.isEmpty()) {			
-				Log.errorLog("Errore nella Feature Selection");
-				System.exit(-1);		
-			}
-			
-			
-			
-			//senza balancing
-			else if (balancingMode.equals(NO_SAMPLING)){
+				filter.setEvaluator(subsetEval);
+				filter.setSearch(search);
+				filter.setInputFormat(training);
 				
-				Classifier classifier = chooseClassifier(classifierName);
+
+				Instances filteredTraining = Filter.useFilter(training, filter);
+				filteredTraining.setClassIndex(filteredTraining.numAttributes() - 1);
+				
+				Instances filteredTesting = Filter.useFilter(testing, filter);	
+				filteredTesting.setClassIndex(filteredTesting.numAttributes() - 1);
+				
 							
-				classifier.buildClassifier(filteredTraining);
-				eval = new Evaluation(testing);
-				eval.evaluateModel(classifier, filteredTesting);
 				
-			}
-			
-			//con balancing
-			else {
+				if (balancingMode.isEmpty()) {			
+					//Log.errorLog("Errore nella Feature Selection");
+					System.exit(-1);		
+				}
 				
-				FilteredClassifier fc = evaluationBalancing(part,filteredTraining, classifierName, balancingMode);
+				
+				
+				//senza balancing
+				else if (balancingMode.equals(NO_SAMPLING)){
+					
+					Classifier classifier = chooseClassifier(classifierName);
+								
+					classifier.buildClassifier(filteredTraining);
+					eval = new Evaluation(testing);
+					eval.evaluateModel(classifier, filteredTesting);
+					
+				}
+				
+				//con balancing
+				else {
+					
+					FilteredClassifier fc = evaluationBalancing(part,filteredTraining, classifierName, balancingMode);
 
-				fc.buildClassifier(filteredTraining);
-				eval = new Evaluation(testing);
-				eval.evaluateModel(fc, filteredTesting);
+					fc.buildClassifier(filteredTraining);
+					eval = new Evaluation(testing);
+					eval.evaluateModel(fc, filteredTesting);
+					
+					
+					
+				}
 				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			
-			
+
 			return eval;
+		
+			
+			
+			
 
 
 			
@@ -250,7 +282,7 @@ public class Classification {
 			
 			else {	
 				
-				Log.errorLog("Errore nel nome del classificatore");
+				//Log.errorLog("Errore nel nome del classificatore");
 				System.exit(-1);
 			}
 
@@ -309,10 +341,10 @@ public class Classification {
 					fc.setFilter(smote);
 
 				}
-				//param input è errato
+				//param input errato
 				else {
 					
-					Log.errorLog("Errore nella tecnica di balancing");
+					//Log.errorLog("Errore nella tecnica di balancing");
 					System.exit(-1);
 					
 				}
@@ -377,7 +409,7 @@ public class Classification {
 			
 			else {	
 				
-				Log.errorLog("Errore nel nome del classificatore");
+				//Log.errorLog("Errore nel nome del classificatore");
 				System.exit(-1);
 			}
 			
@@ -441,7 +473,7 @@ public class Classification {
 				dbEntry.setBalancing(SMOTE);
 			}
 			
-			System.out.println("\n"+classifierName+":");
+			
 			dbEntry.setPrecision(p);
 			dbEntry.setPrecision(p);
 			dbEntry.setRecall(r);
@@ -454,18 +486,7 @@ public class Classification {
 			dbEntry.setFn(fn);
 			
 			
-			System.out.println("balancing = "+dbEntry.getBalancing());
-			System.out.println("fs = "+dbEntry.getFeatureSelection());
-			System.out.println("precision = "+dbEntry.getPrecision());
-			System.out.println("recall = "+dbEntry.getRecall());
-			System.out.println("AUC = "+ dbEntry.getAuc());
-			System.out.println("kappa = "+dbEntry.getKappa());
-			System.out.println("TP = "+dbEntry.getTp());
-			System.out.println("FP = "+dbEntry.getFp());
-			System.out.println("TN = "+dbEntry.getTn());
-			System.out.println("FN = "+dbEntry.getFn());
-			
-			
+		
 			dbEntryList.add(dbEntry);
 
 

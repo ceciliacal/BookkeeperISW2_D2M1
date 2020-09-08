@@ -83,7 +83,7 @@ public class GetGitInfo {
 			
 			if (commitDate.compareTo(releaseDate)<0) {
 				
-				//il commit viene prima della data della release res, quindi e dopo la release che ha superato e me lo ritrovo in quella successiva
+				//il commit viene prima della data della release res, quindi sta dopo la release che ha superato e me lo ritrovo in quella successiva
 				
 				releases.get(i).getCommitsOfRelease().add(commit);
 
@@ -113,7 +113,7 @@ public class GetGitInfo {
 				releases.get(i).setLastCommit(releases.get(i-1).getLastCommit());
 			}
 			else {
-				// Collections.sort(commitList, (o1, o2) ->  o1.compareTo(o2)); ---------> QUI MI SBAGLIA IL DATASET
+
 				Collections.sort(commitList, (c1, c2) -> Instant.ofEpochSecond(c1.getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDateTime().compareTo(Instant.ofEpochSecond(c2.getCommitTime()).atZone(ZoneId.of("UTC")).toLocalDateTime()));
 				
 				for (int j=0;j<commitList.size();j++){

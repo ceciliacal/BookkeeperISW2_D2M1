@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 import project.bookkeeper.MainControl;
 
@@ -17,7 +19,7 @@ public class Writer {
 	
 	public static String formatter(double val) {
 		
-		DecimalFormat df = new DecimalFormat("#.##");
+		DecimalFormat df = new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.US));
 		return df.format(val);
 				
 	}
@@ -26,7 +28,8 @@ public class Writer {
 	
 	public static void write (List<EvaluationData> list) throws FileNotFoundException {
 		
-		try (PrintWriter writer = new PrintWriter(new File("csv\\m2d2outputFINALE2.csv"))) {
+		//try (PrintWriter writer = new PrintWriter(new File("outputFinali\\bookkeeper_WekaDataset_m2d2output.csv"))) {
+		try (PrintWriter writer = new PrintWriter(new File("outputFinali\\zookeeper_WekaDataset_m2d2output.csv"))) {
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("Dataset");
@@ -82,7 +85,7 @@ public class Writer {
 				
 				sb.append(MainControl.PROJECTNAME);
 				sb.append(',');
-				sb.append(list.get(i).getTrainingRel());
+				sb.append(list.get(i).getTrainingRel().size());
 				sb.append(',');
 				
 				sb.append(formatter(list.get(i).getPercTraining()));
