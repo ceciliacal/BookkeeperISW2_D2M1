@@ -212,7 +212,7 @@ public class Metrics {
 			//committati con file x . Quest lo devo fare per tutti i commit della release
 
 			
-			//numFiles è lista stringhe con nomi dei files toccati dal commit
+			//numFiles e lista stringhe con nomi dei files toccati dal commit
 			if (filesNamesList.contains(dbEntry.getFilename())) {
 				chgSetSizeOnce = filesNamesList.size()-1;			//per fare MAX e AVG
 				
