@@ -83,7 +83,7 @@ public class MainControl {
     	//calcolo buggyness
     	bugsPerRelease();
  
-    	//calcolo metriche
+    	//calcolo metricheE
     	MetricsControl.calculate(repository);
     	
     	CsvWriterBoundary.write(entries);
