@@ -20,8 +20,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 public class GetGitInfoBoundary {
 	
-	public static final List <Release> releases= MainControl.releases;
-	public static final List <String> classesList= MainControl.classesList;
+	protected static final List <Release> releases= MainControl.releases;
+	protected static final List <String> classesList= MainControl.classesList;
 
 	
 	 
