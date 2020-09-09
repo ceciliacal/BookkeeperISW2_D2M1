@@ -31,15 +31,6 @@ public class DatasetPart {
 	private double auc;
 	private double kappa;
 
-	/*
-	public EvaluationData( Instances train, Instances test) {
-		this.training=train;
-		this.testing=test;
-		this.initTrainingRel();
-	}
-	
-	public EvaluationData() {}
-	*/
 
 	public DatasetPart( Instances train, Instances test) {
 		this.training=train;
@@ -49,9 +40,7 @@ public class DatasetPart {
 
 
 
-	public DatasetPart() {
-		// TODO Auto-generated constructor stub
-	}
+	public DatasetPart() {}
 
 
 

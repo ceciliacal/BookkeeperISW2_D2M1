@@ -96,14 +96,8 @@ public class MainControl {
 	public static String uppercaseProjName() {
 		String res = null;
 		
-		if (PROJECTNAME.equals("zookeeper")) {
-			res="ZOOKEEPER";
-			
-		}
-		else if (PROJECTNAME.equals("bookkeeper")) {
-			res="BOOKKEEPER";
-		} 
-		return res;
+		return PROJECTNAME.toUpperCase();
+		
 	}
 	
 	
