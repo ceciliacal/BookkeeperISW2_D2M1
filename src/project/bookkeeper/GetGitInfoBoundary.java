@@ -18,14 +18,14 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
 
-public class GetGitInfo {
+public class GetGitInfoBoundary {
 	
 	public static final List <Release> releases= MainControl.releases;
 	public static final List <String> classesList= MainControl.classesList;
 
 	
 	 
-	private GetGitInfo() {
+	private GetGitInfoBoundary() {
 		    throw new IllegalStateException("Utility class");
 	 }
 	
@@ -157,7 +157,7 @@ public class GetGitInfo {
             		count++;
             		
             		Data dbEntry=new Data(releases.get(i), treeWalk.getPathString());
-            		fileLoc= Metrics.loc(treeWalk, repository);
+            		fileLoc= MetricsControl.loc(treeWalk, repository);
             		dbEntry.setLoc(fileLoc);
             		dbEntries.add(dbEntry);
          

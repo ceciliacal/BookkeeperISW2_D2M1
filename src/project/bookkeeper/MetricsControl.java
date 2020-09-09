@@ -16,12 +16,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
-public class Metrics {
+public class MetricsControl {
 
 	public static final List<RevCommit> commitList= MainControl.myCommitsList;
 	protected static final List<String> classesList= MainControl.classesList;
 	
-	private Metrics() {
+	private MetricsControl() {
 	    throw new IllegalStateException("Utility class");
 	 }
 	
@@ -129,7 +129,7 @@ public class Metrics {
 		Integer max;
 		int avg;
 		
-		ProportionMethod computeAvg = new ProportionMethod();	//lo uso successivamente per il calcolo delle medie (AVG)
+		ProportionControl computeAvg = new ProportionControl();	//lo uso successivamente per il calcolo delle medie (AVG)
 		
 		List<RevCommit> comList;
 		List<Integer> churnList=  new ArrayList <>();

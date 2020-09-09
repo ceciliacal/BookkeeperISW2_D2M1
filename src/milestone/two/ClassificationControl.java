@@ -19,7 +19,7 @@ import weka.filters.supervised.attribute.AttributeSelection;
 import weka.filters.supervised.instance.Resample;
 import weka.filters.supervised.instance.SpreadSubsample;
 
-public class Classification {
+public class ClassificationControl {
 	
 	public static final String RF="Random Forest";
 	public static final String NB="Naive Bayes";
@@ -36,7 +36,7 @@ public class Classification {
 	protected static List<DatasetPart> dbEntryList;
 	protected static int dim;
 	
-	private Classification() {	
+	private ClassificationControl() {	
 	}
 	
 	//metodo per classificazione di ogni parte del dataset (parti definite da walk forward)

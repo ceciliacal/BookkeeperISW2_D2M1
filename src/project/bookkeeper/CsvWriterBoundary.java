@@ -5,9 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class CsvWriter {	
+public class CsvWriterBoundary {	
 	
-	private CsvWriter() {
+	private CsvWriterBoundary() {
 	    throw new IllegalStateException("Utility class");
 	  }
 	

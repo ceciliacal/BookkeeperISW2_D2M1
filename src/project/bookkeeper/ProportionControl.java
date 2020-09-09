@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ProportionMethod {
+public class ProportionControl {
 	
 	public static final List<Ticket> ticketlist= MainControl.ticketlist;
 	private static final String INCONSISTENT_VERSIONS = "ERRORE: versioni inconsistenti.";

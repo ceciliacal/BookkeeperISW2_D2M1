@@ -18,14 +18,14 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 
-public class GetJiraInfo {
+public class GetJiraInfoBoundary {
 
 		private static final String FIELDS = "fields";
 		private static final String PROJECTNAME = MainControl.uppercaseProjName();
 		
 		
 	
-		private GetJiraInfo() {
+		private GetJiraInfoBoundary() {
 	     throw new IllegalStateException("Utility class");
 		}
 

@@ -38,8 +38,8 @@ public class Main {
 		   parts = walkForward(arffPath);
 		  
 
-		   List<DatasetPart> dbEntryList = Classification.startEvaluation(parts,arffPath);
-		   Writer.write(dbEntryList);
+		   List<DatasetPart> dbEntryList = ClassificationControl.startEvaluation(parts,arffPath);
+		   WriterBoundary.write(dbEntryList);
 		   
 		   
 	   }

@@ -10,10 +10,10 @@ import java.util.Locale;
 
 import project.bookkeeper.MainControl;
 
-public class Writer {
+public class WriterBoundary {
 
 	private static final String PROJECTNAME=project.bookkeeper.MainControl.PROJECTNAME;
-	private Writer() {
+	private WriterBoundary() {
 	    throw new IllegalStateException("Utility class");
 	  }
 	

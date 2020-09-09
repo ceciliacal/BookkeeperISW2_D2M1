@@ -54,20 +54,20 @@ public class MainControl {
     	repository=git.getRepository();
     	
     	//recupero release
-    	releases=GetJiraInfo.getReleaseInfo(); 	
+    	releases=GetJiraInfoBoundary.getReleaseInfo(); 	
     	lastRelease=releases.get(releases.size()-1).getIndex();
     	  	
     	//recupero tickets
-    	ticketlist= GetJiraInfo.getTicketInfo( releases);	//ticketList viene inizializzata in getTicketInfo
+    	ticketlist= GetJiraInfoBoundary.getTicketInfo( releases);	//ticketList viene inizializzata in getTicketInfo
     	numDefects=ticketlist.size();
     	setOvFvIv();
     	
     	//prendo tutti i file presenti in ogni release
-    	GetGitInfo.getFilesPerRelease(git, entries, repository);
+    	GetGitInfoBoundary.getFilesPerRelease(git, entries, repository);
     	
     	
     	//mi salvo tutti i commits del log di bookkeeper in commitsIDlist e intanto li aggiungo ai relativi ticket
-    	myCommitsList=GetGitInfo.getCommitsID(git, ticketlist );	//va dopo getTicketInfo perché senno non conosco ticketID
+    	myCommitsList=GetGitInfoBoundary.getCommitsID(git, ticketlist );	//va dopo getTicketInfo perché senno non conosco ticketID
  	
     	renameList=checkRename(entries, git, repository);
     	addJavaFiles (repository);
@@ -75,7 +75,7 @@ public class MainControl {
     	halfRelease=releases.size()/2;
    
     	//calcolo Proportion
-    	ProportionMethod proportionMethod = new ProportionMethod();
+    	ProportionControl proportionMethod = new ProportionControl();
     	proportionMethod.checkDates(ticketsWithAV, ticketsNoAV); 	
     	proportionMethod.proportion(ticketsWithAV, ticketsNoAV, numDefects);
     	proportionMethod.defineAV(halfRelease);
@@ -84,17 +84,16 @@ public class MainControl {
     	bugsPerRelease();
  
     	//calcolo metriche
-    	Metrics.calculate(repository);
+    	MetricsControl.calculate(repository);
     	
-    	CsvWriter.write(entries);
+    	CsvWriterBoundary.write(entries);
     	
     	
 
 	
 	}
 	
-	public static String uppercaseProjName() {
-		String res = null;
+	public static String uppercaseProjName() {		
 		
 		return PROJECTNAME.toUpperCase();
 		
@@ -303,7 +302,7 @@ public class MainControl {
 
     public static List<Integer> getReleases() throws IOException, JSONException {
 
-    	List<Release> releases= GetJiraInfo.getReleaseInfo();
+    	List<Release> releases= GetJiraInfoBoundary.getReleaseInfo();
     	List<Integer> myReleases = new ArrayList<>();
     	
     	for (int i=0;i<releases.size()/2;i++) {
