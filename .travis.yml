@@ -5,7 +5,8 @@ jdk:
 addons:
   sonarcloud:
     organization: "ceciliacal"
-    token: "9dec0af2e72859868064557aad6dfe58c169a577" 
+    token: "8b9141e053256fcfac4b7502ab063fea72fec407"
+    #token: "9dec0af2e72859868064557aad6dfe58c169a577" 
 
     
 
