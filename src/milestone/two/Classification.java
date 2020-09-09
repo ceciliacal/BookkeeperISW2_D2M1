@@ -33,14 +33,14 @@ public class Classification {
 	public static final String UNDER_SAMPLING="Under Sampling";
 	public static final String SMOTE="SMOTE";
 	
-	protected static List<EvaluationData> dbEntryList;
+	protected static List<DatasetPart> dbEntryList;
 	protected static int dim;
 	
 	private Classification() {	
 	}
 	
 	//metodo per classificazione di ogni parte del dataset (parti definite da walk forward)
-	public static List<EvaluationData> startEvaluation(List <DatasetPart> parts, String arffPath) throws Exception {
+	public static List<DatasetPart> startEvaluation(List <DatasetPart> parts, String arffPath)  {
 		
 		dbEntryList = new ArrayList<>();
 		
@@ -79,7 +79,7 @@ public class Classification {
 		return dbEntryList;
 	}
 	
-	public static void setEvalOptions(DatasetPart part, String classifierName, List<EvaluationData> dbEntryList)  {
+	public static void setEvalOptions(DatasetPart part, String classifierName, List<DatasetPart> dbEntryList)  {
 		
 
 		List<String> featureSelOptions = new ArrayList<>();
@@ -105,7 +105,7 @@ public class Classification {
 		
 	}
 		
-		public static void evaluation(DatasetPart part, String featureSelection, String balancingMode, String classifierName, List<EvaluationData> dbEntryList)  {
+		public static void evaluation(DatasetPart part, String featureSelection, String balancingMode, String classifierName, List<DatasetPart> dbEntryList)  {
 			
 			Classifier classifier = null;
 			Evaluation eval = null;
@@ -415,7 +415,7 @@ public class Classification {
 
 		}
 		
-		public static void setValues( DatasetPart part, Evaluation eval, String classifierName, String featureSelection, String balancingMode, List<EvaluationData> dbEntryList) {
+		public static void setValues( DatasetPart part, Evaluation eval, String classifierName, String featureSelection, String balancingMode, List<DatasetPart> dbEntryList) {
 			
 			double p =0;
 			double r =0;
@@ -436,7 +436,8 @@ public class Classification {
 			tn=(int)eval.numTrueNegatives(1);
 			fn=(int)eval.numFalseNegatives(1);
 			
-			EvaluationData dbEntry = new EvaluationData();
+			
+			DatasetPart dbEntry = new DatasetPart();
 			
 			dbEntry.setTrainingRel(part.getTrainingRel());
 			dbEntry.setTestingRel(part.getTestingRel());

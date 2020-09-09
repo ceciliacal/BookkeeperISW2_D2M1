@@ -28,8 +28,7 @@ public class MainControl {
 	protected static List<Data> entries;			//lista di output
 	protected static List<Rename> renameList;
 	
-	//public static final String PROJECTNAME="bookkeeper";
-	public static final String PROJECTNAME="zookeeper";
+	public static final String PROJECTNAME="bookkeeper";
 	protected static final String RENAME="RENAME";
 	protected static int lastRelease;
 	protected static int halfRelease;
@@ -94,6 +93,18 @@ public class MainControl {
 	
 	}
 	
+	public static String uppercaseProjName() {
+		String res = null;
+		
+		if (PROJECTNAME.equals("zookeeper")) {
+			res="ZOOKEEPER";
+			
+		}
+		else if (PROJECTNAME.equals("bookkeeper")) {
+			res="BOOKKEEPER";
+		} 
+		return res;
+	}
 	
 	
 	public static List<RevCommit> getCommitList (Git git) throws GitAPIException {

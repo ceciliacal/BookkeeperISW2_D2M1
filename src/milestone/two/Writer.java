@@ -26,7 +26,7 @@ public class Writer {
 
 
 	
-	public static void write (List<EvaluationData> list) throws FileNotFoundException {
+	public static void write (List<DatasetPart> list) throws FileNotFoundException {
 		
 		
 		try (PrintWriter writer = new PrintWriter(new File("outputFinali\\"+PROJECTNAME+"_WekaDataset_m2d2output.csv"))) {

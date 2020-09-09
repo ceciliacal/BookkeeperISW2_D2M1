@@ -1,6 +1,5 @@
 package project.bookkeeper;
 import java.io.BufferedReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,8 +21,7 @@ import org.json.JSONArray;
 public class GetJiraInfo {
 
 		private static final String FIELDS = "fields";
-		private static final String projName = "ZOOKEEPER";
-		//private static final String projName = "BOOKKEEPER";
+		private static final String PROJECTNAME = MainControl.uppercaseProjName();
 		
 		
 	
@@ -47,7 +45,7 @@ public class GetJiraInfo {
 			//Fills the arraylist with releases dates and orders them
 			//Ignores releases with missing dates
 			releases = new ArrayList<>();
-	        String url = "https://issues.apache.org/jira/rest/api/2/project/" + projName;
+	        String url = "https://issues.apache.org/jira/rest/api/2/project/" + PROJECTNAME;
 	        JSONObject json = readJsonFromUrl(url);
 	        JSONArray versions = json.getJSONArray("versions");
 	        releaseNames = new HashMap<>();
@@ -114,7 +112,7 @@ public class GetJiraInfo {
 	    	  j = i + 1000;
 	        
 	         String url = "https://issues.apache.org/jira/rest/api/2/search?jql=project=%22"
-	  		         + projName + "%22AND%22issueType%22=%22Bug%22AND(%22status%22=%22closed%22OR"
+	  		         + PROJECTNAME + "%22AND%22issueType%22=%22Bug%22AND(%22status%22=%22closed%22OR"
 	  		         + "%22status%22=%22resolved%22)AND%22resolution%22=%22fixed%22&fields=key,resolutiondate,versions,created&startAt="
 	  		         + i.toString() + "&maxResults=" + j.toString();
 	         

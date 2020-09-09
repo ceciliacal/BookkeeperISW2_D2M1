@@ -17,7 +17,7 @@ import java.util.List;
 public class Main {
 	
 	protected static List<Integer> releases;
-	
+	private static final String PROJECTNAME = MainControl.PROJECTNAME;
 		
 	
 	   public static void main(String[] args) throws Exception {
@@ -30,18 +30,15 @@ public class Main {
 		   releases=MainControl.getReleases();
 		 
 		   
-		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\zookeeper_BuggyDataset_outputD2M1.csv";
-		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\datasetWekaZook.arff";
+		   csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\csv\\"+PROJECTNAME+"_BuggyDataset_outputD2M1.csv";
+		   arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\arff\\"+PROJECTNAME+"datasetWeka.arff";
 		   
-		   //csvPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\bookkeeper_BuggyDataset_outputD2M1.csv";
-		   //arffPath= "D:\\Cecilia\\Desktop\\bookkeeperISW2_D2M1\\bookkeeperISW2_D2M1\\outputFinali\\datasetWekaBookk.arff";
-
 		   csv2arff(csvPath,arffPath);
 		   
 		   parts = walkForward(arffPath);
 		  
-		   
-		   List<EvaluationData> dbEntryList = Classification.startEvaluation(parts,arffPath);
+
+		   List<DatasetPart> dbEntryList = Classification.startEvaluation(parts,arffPath);
 		   Writer.write(dbEntryList);
 		   
 		   
